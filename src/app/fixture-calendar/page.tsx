@@ -4,6 +4,7 @@ import { CalendarMonthOutlined } from '@mui/icons-material'
 import { Divider, Typography } from '@mui/material'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
+import listPlugin from '@fullcalendar/list'
 
 const FixtureCalendarPage = () => {
     const COLORS = {
@@ -16,7 +17,34 @@ const FixtureCalendarPage = () => {
     const DUMMY_ANNIVERSARIES = [
         {
             name: 'Coruja',
-            date: '2024-08-25',
+            date: '2024-08-25 08:00:00',
+        },
+    ]
+
+    const DUMMY_TRAINING_SESSIONS = [
+        {
+            name: 'Treino #31',
+            date: '2024-08-05',
+        },
+        {
+            name: 'Treino #32',
+            date: '2024-08-07',
+        },
+        {
+            name: 'Treino #33',
+            date: '2024-08-09',
+        },
+        {
+            name: 'Treino #34',
+            date: '2024-08-12',
+        },
+        {
+            name: 'Treino #35',
+            date: '2024-08-14',
+        },
+        {
+            name: 'Treino #36',
+            date: '2024-08-16',
         },
     ]
 
@@ -32,6 +60,12 @@ const FixtureCalendarPage = () => {
             place: 'away',
         },
     ]
+
+    const mappedTrainingSessions = DUMMY_TRAINING_SESSIONS.map((session) => ({
+        title: `${session.name}`,
+        start: session.date,
+        color: COLORS.training,
+    }))
 
     const mappedAnniversaries = DUMMY_ANNIVERSARIES.map((anniversary) => ({
         title: `🎂 ${anniversary.name} faz anos`,
@@ -70,11 +104,19 @@ const FixtureCalendarPage = () => {
             <Divider className="my-8" />
             <section>
                 <FullCalendar
-                    plugins={[dayGridPlugin]}
-                    initialView="dayGridMonth"
+                    plugins={[dayGridPlugin, listPlugin]}
+                    initialView="listWeek"
                     locale="pt"
                     firstDay={1}
-                    events={[...mappedAnniversaries, ...mappedMatches]}
+                    events={[
+                        ...mappedAnniversaries,
+                        ...mappedMatches,
+                        ...mappedTrainingSessions,
+                        {
+                            title: 'Test',
+                            date: '2024-08-01',
+                        },
+                    ]}
                 />
             </section>
             <Divider className="mt-16" />
