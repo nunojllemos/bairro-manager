@@ -10,3 +10,44 @@
 .MuiAccordionSummary-content.Mui-expanded {
     margin: 12px 0;
 }
+
+.fc .fc-view-harness-active > .fc-view {
+    position: relative !important;
+}
+
+.fc .fc-view-harness {
+    height: auto !important;
+}
+
+.fc-toolbar-title {
+    font-size: 1.25em !important;
+    font-weight: 300 !important;
+}
+
+.fc .fc-button-primary {
+    background-color: #f1f5f9 !important;
+    color: #27272a !important;
+}
+
+.swipe-animation {
+    animation: swipe;
+    animation-duration: 1600ms;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+}
+
+@keyframes swipe {
+    0% {
+        transform: translateX(0);
+        opacity: 0;
+    }
+    10% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(24px);
+    }
+}

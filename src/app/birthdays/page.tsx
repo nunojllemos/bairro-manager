@@ -10,7 +10,11 @@ import {
     TableRow,
     Typography,
 } from '@mui/material'
-import { CakeOutlined } from '@mui/icons-material'
+import {
+    CakeOutlined,
+    PanToolAltOutlined,
+    SwipeOutlined,
+} from '@mui/icons-material'
 import React from 'react'
 
 const createData = (
@@ -69,12 +73,25 @@ const BirthdaysPage = () => {
     return (
         <>
             <section>
-                <div className="flex items-baseline gap-x-4 text-blue-500">
-                    <CakeOutlined fontSize="large" />
-                    <Typography variant="h3" className="font-semibold">
+                <div className="flex text-4xl lg:text-5xl items-center gap-x-4 text-blue-500">
+                    <CakeOutlined fontSize="inherit" />
+                    <Typography
+                        variant="inherit"
+                        className="font-semibold leading-none"
+                    >
                         Aniversários
                     </Typography>
                 </div>
+
+                {/* <div className="flex text-4xl lg:text-5xl items-center gap-x-4 text-blue-500">
+                    <CalendarMonthOutlined fontSize="inherit" />
+                    <Typography
+                        variant="inherit"
+                        className="font-semibold leading-none"
+                    >
+                        Calendário
+                    </Typography>
+                </div> */}
                 <div className="mt-4">
                     <Typography>
                         Os aniversários são mais uma chance de convivermos
@@ -89,7 +106,7 @@ const BirthdaysPage = () => {
             <Divider className="my-8" />
             <section>
                 <TableContainer>
-                    <Table sx={{ minWidth: 450 }}>
+                    <Table sx={{ minWidth: 440 }}>
                         <TableHead>
                             <TableRow>
                                 <TableCell className="font-semibold text-blue-500">
@@ -130,6 +147,9 @@ const BirthdaysPage = () => {
                         </TableBody>
                     </Table>
                 </TableContainer>
+                <div className="swipe-animation sm:hidden mt-4 text-zinc-500 text-2xl">
+                    <PanToolAltOutlined fontSize="inherit" />
+                </div>
             </section>
         </>
     )

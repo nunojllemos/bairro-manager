@@ -5,6 +5,7 @@ import { Divider, Typography } from '@mui/material'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import listPlugin from '@fullcalendar/list'
+import { ListView } from '@fullcalendar/list/internal.js'
 
 const FixtureCalendarPage = () => {
     const COLORS = {
@@ -85,9 +86,12 @@ const FixtureCalendarPage = () => {
     return (
         <>
             <section>
-                <div className="flex items-baseline gap-x-4 text-blue-500">
-                    <CalendarMonthOutlined fontSize="large" />
-                    <Typography variant="h3" className="font-semibold">
+                <div className="flex text-4xl lg:text-5xl items-center gap-x-4 text-blue-500">
+                    <CalendarMonthOutlined fontSize="inherit" />
+                    <Typography
+                        variant="inherit"
+                        className="font-semibold leading-none"
+                    >
                         Calendário
                     </Typography>
                 </div>
@@ -104,8 +108,15 @@ const FixtureCalendarPage = () => {
             <Divider className="my-8" />
             <section>
                 <FullCalendar
-                    plugins={[dayGridPlugin, listPlugin]}
                     initialView="listWeek"
+                    plugins={[dayGridPlugin, listPlugin]}
+                    headerToolbar={{ start: 'title', end: 'prev,next' }}
+                    views={{
+                        listWeek: {
+                            titleFormat: { day: '2-digit', month: 'short' },
+                            titleRangeSeparator: ' a ',
+                        },
+                    }}
                     locale="pt"
                     firstDay={1}
                     events={[
@@ -122,21 +133,21 @@ const FixtureCalendarPage = () => {
             <Divider className="mt-16" />
             <section className="mt-4 text-sm">
                 <span className="text-blue-500">Legenda</span>
-                <ul className="flex gap-x-8 mt-6">
+                <ul className="flex flex-col lg:flex-row gap-2 lg:gap-8 mt-6">
                     <li className="flex items-center gap-x-2">
-                        <span className="inline-block grow-0 w-3 h-3 rounded-full bg-yellow-400"></span>
+                        <span className="inline-block grow-0 w-2 h-2 lg:w-3 lg:h-3 rounded-full bg-yellow-400"></span>
                         <span>Aniversários</span>
                     </li>
                     <li className="flex items-center gap-x-2">
-                        <span className="inline-block grow-0 w-3 h-3 rounded-full bg-blue-400"></span>
+                        <span className="inline-block grow-0 w-2 h-2 lg:w-3 lg:h-3 rounded-full bg-blue-400"></span>
                         <span>Treinos</span>
                     </li>
                     <li className="flex items-center gap-x-2">
-                        <span className="inline-block grow-0 w-3 h-3 rounded-full bg-green-600"></span>
+                        <span className="inline-block grow-0 w-2 h-2 lg:w-3 lg:h-3 rounded-full bg-green-600"></span>
                         <span>Jogos</span>
                     </li>
                     <li className="flex items-center gap-x-2">
-                        <span className="inline-block grow-0 w-3 h-3 rounded-full bg-slate-600"></span>
+                        <span className="inline-block grow-0 w-2 h-2 lg:w-3 lg:h-3 rounded-full bg-slate-600 bg-slate-100"></span>
                         <span>Outros</span>
                     </li>
                 </ul>
