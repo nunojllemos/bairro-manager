@@ -82,16 +82,6 @@ const BirthdaysPage = () => {
                         Aniversários
                     </Typography>
                 </div>
-
-                {/* <div className="flex text-4xl lg:text-5xl items-center gap-x-4 text-blue-500">
-                    <CalendarMonthOutlined fontSize="inherit" />
-                    <Typography
-                        variant="inherit"
-                        className="font-semibold leading-none"
-                    >
-                        Calendário
-                    </Typography>
-                </div> */}
                 <div className="mt-4">
                     <Typography>
                         Os aniversários são mais uma chance de convivermos

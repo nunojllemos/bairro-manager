@@ -18,6 +18,7 @@ import { Button, Menu, MenuItem } from '@mui/material'
 const Header = () => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
     const [isMenuOpen, setIsMenuOpen] = useState(false)
+
     const open = Boolean(anchorEl)
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -113,6 +114,11 @@ const Header = () => {
                                                 return (
                                                     <MenuItem key={subLink.url}>
                                                         <Link
+                                                            onClick={() =>
+                                                                setIsMenuOpen(
+                                                                    false
+                                                                )
+                                                            }
                                                             className="hover:text-blue-500 transition-colors capitalize text-2xl lg:text-sm"
                                                             href={subLink.url}
                                                         >
@@ -128,6 +134,7 @@ const Header = () => {
                                     </>
                                 ) : (
                                     <Link
+                                        onClick={() => setIsMenuOpen(false)}
                                         className="hover:text-blue-500 transition-colors capitalize text-2xl lg:text-sm"
                                         href={link.url}
                                     >

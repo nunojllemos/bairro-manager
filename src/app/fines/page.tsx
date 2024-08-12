@@ -44,9 +44,12 @@ const FinesPage = () => {
     return (
         <>
             <section>
-                <div className="flex items-baseline gap-x-4 text-blue-500">
-                    <SavingsOutlined fontSize="large" />
-                    <Typography variant="h3" className="font-semibold">
+                <div className="flex text-4xl lg:text-5xl items-center gap-x-4 text-blue-500">
+                    <SavingsOutlined fontSize="inherit" />
+                    <Typography
+                        variant="inherit"
+                        className="font-semibold leading-none"
+                    >
                         Multas
                     </Typography>
                 </div>
@@ -62,17 +65,21 @@ const FinesPage = () => {
             </section>
             <Divider className="my-8" />
             <section>
-                <div className="flex py-6 pl-4 pr-10 justify-between text-blue-500 font-semibold">
+                <div className="flex py-6 pl-4 pr-6 lg:pl-4 lg:pr-10 justify-between text-blue-500 font-semibold">
                     <span>Nome</span>
                     <div className="flex gap-x-6">
-                        <span className="block w-24 text-center">Total</span>
-                        <span className="block w-24 text-center">Pago</span>
-                        <span className="block w-24 text-center">
+                        <span className="block w-12 lg:w-24 text-center">
+                            Total
+                        </span>
+                        <span className="block w-12 lg:w-24 text-center">
+                            Pago
+                        </span>
+                        <span className="block lg:w-24 text-center">
                             Em dívida
                         </span>
                     </div>
                 </div>
-                <ul className="flex flex-col gap-y-2">
+                <ul className="flex flex-col gap-y-4 lg:gap-y-2">
                     {DUMMY_ROWS.map((player, index) => {
                         return (
                             <li
@@ -83,22 +90,23 @@ const FinesPage = () => {
                             >
                                 <Accordion className="!m-0 !rounded-none1 !shadow-none">
                                     <AccordionSummary
+                                        className="pr-2"
                                         expandIcon={<ExpandMore />}
                                     >
                                         <div>
-                                            <div className="flex items-center gap-x-4">
+                                            <div className="flex flex-col lg:flex-row items-center gap-x-4">
                                                 <Avatar src={player.url} />
                                                 {player.name}
                                             </div>
                                         </div>
                                         <ul className="flex gap-x-6">
-                                            <li className="w-24 text-center">
+                                            <li className="w-12 lg:w-24 text-center">
                                                 {player.total} &euro;
                                             </li>
-                                            <li className="w-24 text-center text-green-700">
+                                            <li className="w-12 lg:w-24 text-center text-green-700">
                                                 {player.payed} &euro;
                                             </li>
-                                            <li className="w-24 text-center text-red-700">
+                                            <li className="w-16 lg:w-24 text-center text-red-700">
                                                 &minus; {player.debt} &euro;
                                             </li>
                                         </ul>
@@ -108,7 +116,7 @@ const FinesPage = () => {
                                         <span className="text-lg text-blue-500">
                                             Multas detalhadas
                                         </span>
-                                        <ul className="mt-4 flex flex-col gap-y-1 text-sm pr-6">
+                                        <ul className="mt-4 flex flex-col gap-y-1 text-sm lg:pr-6">
                                             <li className="flex justify-between py-2 border-b border-b-slate-100">
                                                 <div>
                                                     <span className="font-semibold">
@@ -118,7 +126,7 @@ const FinesPage = () => {
                                                         1
                                                     </span>
                                                 </div>
-                                                <div className="w-24 text-center">
+                                                <div className="w-16 lg:w-24 text-center">
                                                     &minus; 15 &euro;
                                                 </div>
                                             </li>
@@ -131,7 +139,7 @@ const FinesPage = () => {
                                                         3
                                                     </span>
                                                 </div>
-                                                <div className="w-24 text-center">
+                                                <div className="w-16 lg:w-24 text-center">
                                                     &minus; 10 &euro;
                                                 </div>
                                             </li>
@@ -144,7 +152,7 @@ const FinesPage = () => {
                                                         2
                                                     </span>
                                                 </div>
-                                                <div className="w-24 text-center">
+                                                <div className="w-16 lg:w-24 text-center">
                                                     &minus; 20 &euro;
                                                 </div>
                                             </li>
