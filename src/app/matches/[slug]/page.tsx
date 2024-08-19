@@ -5,8 +5,11 @@ import {
     BlockOutlined,
     CalendarTodayOutlined,
     CloudOutlined,
+    ContentPasteOutlined,
     HourglassBottomOutlined,
     HourglassFullOutlined,
+    InfoOutlined,
+    PeopleOutline,
     RestartAltOutlined,
     ScheduleOutlined,
     SportsSoccerOutlined,
@@ -165,8 +168,13 @@ const MatchPage = () => {
                     {DUMMY_GAME.team}
                 </Typography>
             </div>
-            <section className="grid md:grid-cols-2 gap-x-2 lg:gap-x-24 xl:gap-x-64 gap-y-2 mt-8 w-full">
-                <div className="w-full grid grid-cols-[1fr_auto] gap-x-4">
+            <div className="mt-8">
+                <span className="flex items-center gap-x-1 text-sm text-blue-500">
+                    <InfoOutlined fontSize="inherit" /> Detalhes
+                </span>
+            </div>
+            <section className="grid md:grid-cols-2 gap-x-2 lg:gap-x-24 xl:gap-x-64 gap-y-2 w-full">
+                <div className="w-full grid grid-cols-[1fr_auto] gap-x-4 mt-4">
                     <span className="font-semibold flex items-center gap-x-2">
                         <CalendarTodayOutlined fontSize="inherit" /> Data:
                     </span>
@@ -222,9 +230,12 @@ const MatchPage = () => {
                     <span>{DUMMY_GAME.weather.status}</span>
                 </div>
             </section>
-            <Divider className="my-8" />
+            <Divider className="my-12" />
             <section>
-                <div className="grid md:grid-cols-2 gap-y-24 md:gap-x-8">
+                <span className="flex items-center gap-x-1 text-sm text-blue-500">
+                    <PeopleOutline fontSize="inherit" /> Equipas
+                </span>
+                <div className="grid md:grid-cols-2 gap-y-24 md:gap-x-8 mt-4">
                     <ul className="flex flex-col gap-y-2">
                         <li className="px-1 mb-4 flex items-center gap-x-4">
                             <span>Bairro</span>
@@ -403,6 +414,44 @@ const MatchPage = () => {
                             </div>
                         )}
                     </ul>
+                </div>
+            </section>
+            <Divider className="my-12" />
+            <section>
+                <span className="flex items-center gap-x-1 text-sm text-blue-500">
+                    <ContentPasteOutlined fontSize="inherit" /> Pre jogo
+                </span>
+                <div className="mt-4 py-4 px-6 border border-slate-300 rounded-md">
+                    <p className="text-sm">
+                        Lorem ipsum, dolor sit amet consectetur adipisicing
+                        elit. Culpa, quo accusamus. Porro consequuntur ullam
+                        dolorum veritatis earum neque vero quibusdam facilis ad,
+                        temporibus saepe atque ipsa, nostrum enim voluptatem
+                        ducimus! Culpa obcaecati incidunt veniam repellat magni
+                        delectus sit numquam itaque repellendus omnis quas, fuga
+                        excepturi consequuntur, accusantium ex, ipsam nostrum
+                        possimus. Numquam blanditiis id quis alias! Quos non qui
+                        assumenda.
+                    </p>
+                </div>
+            </section>
+            <Divider className="my-12" />
+            <section>
+                <span className="flex items-center gap-x-1 text-sm text-blue-500">
+                    <ContentPasteOutlined fontSize="inherit" /> Pos jogo
+                </span>
+                <div className="mt-4 py-4 px-6 border border-slate-300 rounded-md">
+                    <p className="text-sm">
+                        Lorem ipsum, dolor sit amet consectetur adipisicing
+                        elit. Culpa, quo accusamus. Porro consequuntur ullam
+                        dolorum veritatis earum neque vero quibusdam facilis ad,
+                        temporibus saepe atque ipsa, nostrum enim voluptatem
+                        ducimus! Culpa obcaecati incidunt veniam repellat magni
+                        delectus sit numquam itaque repellendus omnis quas, fuga
+                        excepturi consequuntur, accusantium ex, ipsam nostrum
+                        possimus. Numquam blanditiis id quis alias! Quos non qui
+                        assumenda.
+                    </p>
                 </div>
             </section>
         </>

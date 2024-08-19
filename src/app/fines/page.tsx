@@ -94,7 +94,7 @@ const FinesPage = () => {
                                         expandIcon={<ExpandMore />}
                                     >
                                         <div>
-                                            <div className="flex flex-col lg:flex-row items-center gap-x-4">
+                                            <div className="flex flex-col lg:flex-row items-center gap-y-1 lg:gap-x-4 text-xs lg:text-sm">
                                                 <Avatar src={player.url} />
                                                 {player.name}
                                             </div>

@@ -1,6 +1,5 @@
-import Image from 'next/image'
-import Button from '@mui/material/Button'
+import Login from '@/components/pages/Login'
 
 export default function Home() {
-    return <main>HELLO WORLD</main>
+    return <Login />
 }
