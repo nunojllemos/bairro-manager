@@ -10,11 +10,7 @@ import {
     TableRow,
     Typography,
 } from '@mui/material'
-import {
-    CakeOutlined,
-    PanToolAltOutlined,
-    SwipeOutlined,
-} from '@mui/icons-material'
+import { CakeOutlined, PanToolAltOutlined } from '@mui/icons-material'
 import React from 'react'
 
 const createData = (
@@ -31,7 +27,11 @@ const createData = (
     url,
 })
 
-const BirthdaysPage = () => {
+const BirthdaysPage = async () => {
+    const request = await fetch('http://localhost:3000/api/players/')
+    const players = await request.json()
+    console.log(players)
+
     const DUMMY_ROWS = [
         createData(
             '14',

@@ -32,7 +32,7 @@ const Login = () => {
                     variant="inherit"
                     className="font-semibold leading-none w-full text-center"
                 >
-                    Login
+                    Entrar
                 </Typography>
             </section>
             <section className="mt-12 md:max-w-md md:mx-auto">
