@@ -1,7 +1,9 @@
+'use client'
+import React from 'react'
 import {
     Avatar,
+    Button,
     Divider,
-    Stack,
     Table,
     TableBody,
     TableCell,
@@ -11,7 +13,6 @@ import {
     Typography,
 } from '@mui/material'
 import { CakeOutlined, PanToolAltOutlined } from '@mui/icons-material'
-import React from 'react'
 
 const createData = (
     number: string,
@@ -27,10 +28,10 @@ const createData = (
     url,
 })
 
-const BirthdaysPage = async () => {
-    const request = await fetch('http://localhost:3000/api/players/')
-    const players = await request.json()
-    console.log(players)
+const BirthdaysPage = () => {
+    // const request = await fetch('http://localhost:3000/api/players/')
+    // const players = await request.json()
+    // console.log(players)
 
     const DUMMY_ROWS = [
         createData(
@@ -69,6 +70,14 @@ const BirthdaysPage = async () => {
             'https://avatar.iran.liara.run/public/5'
         ),
     ]
+
+    const dummyCall = async () => {
+        const req = await fetch('http://localhost:3000/api/players', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({ message: 'Hello' }),
+        })
+    }
 
     return (
         <>
@@ -140,6 +149,7 @@ const BirthdaysPage = async () => {
                 <div className="swipe-animation sm:hidden mt-4 text-zinc-500 text-2xl">
                     <PanToolAltOutlined fontSize="inherit" />
                 </div>
+                <Button onClick={dummyCall}>Call</Button>
             </section>
         </>
     )
