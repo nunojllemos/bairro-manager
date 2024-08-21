@@ -1,28 +1,61 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
+import { redirect, useRouter } from 'next/navigation'
 import useAuth from '@/hooks/useAuth'
 import { Button, TextField, Typography } from '@mui/material'
+import { VisibilityOffOutlined, VisibilityOutlined } from '@mui/icons-material'
+import { setCookie } from '@/utils/cookies'
 
 const Login = () => {
     const [password, setPassword] = useState('')
     const [user, setUser] = useState('')
-    const { checkAuthStatus, setIsAuthenticated, isAuthenticated } = useAuth()
+    const { setAuthentication, isAuthenticated, setRole } = useAuth()
+    const [isPasswordVisible, setIsPasswordVisible] = useState(false)
+    const [isSubmitting, setIsSubmitting] = useState(false)
+    const [errorMessage, setErrorMessage] = useState('')
+    const router = useRouter()
 
-    useEffect(() => {
-        // checkAuthStatus()
-    }, [isAuthenticated])
+    if (isAuthenticated) redirect('/')
 
-    const onSubmit = async () => {
-        // CHECK FORM AUTH DATA
-        setTimeout(() => {}, 3000)
+    const toggleVisibility = () => setIsPasswordVisible((prev) => !prev)
 
-        if (password === '1234' && user === 'mister') {
-            setIsAuthenticated(true)
-            console.log('is authenticated')
-            return
+    const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        setIsSubmitting(true)
+        e.preventDefault()
+
+        try {
+            const request = await fetch('/api/auth', {
+                method: 'POST',
+                body: JSON.stringify({
+                    username: user,
+                    password,
+                }),
+            })
+            const requestJson = await request.json()
+            const { status } = requestJson
+            console.log(requestJson)
+
+            if (status === 307) {
+                setAuthentication(true)
+                setIsSubmitting(false)
+                setRole(requestJson.role)
+                setCookie('isAuth', 't')
+            }
+
+            if (status === 401) {
+                setErrorMessage(requestJson.message)
+                setIsSubmitting(false)
+            }
+        } catch (error) {
+            console.log(error)
         }
+    }
 
-        console.log('is NOT authenticated')
+    const checkError = (matchWords: string) => {
+        if (errorMessage.toLowerCase().includes(matchWords.toLowerCase()))
+            return true
+
+        return false
     }
 
     return (
@@ -46,16 +79,36 @@ const Login = () => {
                         label="Utilizador"
                         variant="outlined"
                         className="w-full"
+                        error={checkError('username')}
+                        helperText={checkError('username') && errorMessage}
                     />
-                    <TextField
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                        type="password"
-                        label="Password"
-                        variant="outlined"
-                        className="w-full"
-                    />
-                    <Button type="submit" variant="contained">
+                    <div className="relative">
+                        <TextField
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                            type={isPasswordVisible ? 'text' : 'password'}
+                            label="Password"
+                            variant="outlined"
+                            className="w-full"
+                            error={checkError('password')}
+                            helperText={checkError('password') && errorMessage}
+                        />
+                        <Button
+                            onClick={toggleVisibility}
+                            className="absolute right-0 top-1/2 -translate-y-1/2"
+                        >
+                            {isPasswordVisible ? (
+                                <VisibilityOffOutlined fontSize="medium" />
+                            ) : (
+                                <VisibilityOutlined fontSize="medium" />
+                            )}
+                        </Button>
+                    </div>
+                    <Button
+                        disabled={isSubmitting ? true : false}
+                        type="submit"
+                        variant="contained"
+                    >
                         Entrar
                     </Button>
                 </form>

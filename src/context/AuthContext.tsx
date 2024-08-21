@@ -1,3 +1,5 @@
+import { getCookie } from '@/utils/cookies'
+import { redirect, usePathname } from 'next/navigation'
 import {
     createContext,
     Dispatch,
@@ -6,7 +8,7 @@ import {
     useState,
 } from 'react'
 
-type Role = 'user' | 'mister' | 'captain'
+type Role = 'player' | 'mister' | 'captain' | null
 
 interface IAuthContextProps {
     children: any
@@ -14,25 +16,38 @@ interface IAuthContextProps {
 
 interface IAuthContext {
     isAuthenticated: boolean
-    setIsAuthenticated: Dispatch<SetStateAction<boolean>>
+    setAuthentication: (bool: boolean) => void
     role: Role
     setRole: Dispatch<SetStateAction<Role>>
 }
 
 export const AuthContext = createContext<IAuthContext>({
     isAuthenticated: false,
-    setIsAuthenticated: () => console.log(''),
-    role: 'user',
+    setAuthentication: () => console.log(''),
+    role: 'player',
     setRole: () => console.log(''),
 })
 
 const AuthContextProvider = ({ children }: IAuthContextProps) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false)
-    const [role, setRole] = useState<Role>('user')
+    const [role, setRole] = useState<Role>(null)
+    const pathname = usePathname()
+
+    const setAuthentication = (boolean: boolean) => {
+        setIsAuthenticated(boolean)
+    }
+
+    useEffect(() => {
+        const isAlreadyAuth = getCookie('isAuth') === 't'
+
+        if (isAlreadyAuth) {
+            setIsAuthenticated(true)
+        }
+    }, [])
 
     return (
         <AuthContext.Provider
-            value={{ isAuthenticated, setIsAuthenticated, role, setRole }}
+            value={{ isAuthenticated, setAuthentication, role, setRole }}
         >
             {children}
         </AuthContext.Provider>

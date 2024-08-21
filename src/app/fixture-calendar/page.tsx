@@ -5,9 +5,14 @@ import { Divider, Typography } from '@mui/material'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import listPlugin from '@fullcalendar/list'
-import { ListView } from '@fullcalendar/list/internal.js'
+import useAuth from '@/hooks/useAuth'
+import { redirect } from 'next/navigation'
 
 const FixtureCalendarPage = () => {
+    const { isAuthenticated } = useAuth()
+
+    if (!isAuthenticated) redirect('/login')
+
     const COLORS = {
         others: '#475569',
         matches: '#16a34a',

@@ -1,3 +1,5 @@
+'use client'
+import React from 'react'
 import {
     Accordion,
     AccordionDetails,
@@ -7,7 +9,8 @@ import {
     Typography,
 } from '@mui/material'
 import { ExpandMore, SavingsOutlined } from '@mui/icons-material'
-import React from 'react'
+import useAuth from '@/hooks/useAuth'
+import { redirect, useRouter } from 'next/navigation'
 
 const createData = (
     name: string,
@@ -24,6 +27,7 @@ const createData = (
 })
 
 const FinesPage = () => {
+    const { isAuthenticated, role } = useAuth()
     const DUMMY_ROWS = [
         createData(
             'Coruja',
@@ -40,6 +44,10 @@ const FinesPage = () => {
             '95'
         ),
     ]
+
+    if (!isAuthenticated) redirect('/login')
+
+    console.log('in fines page')
 
     return (
         <>

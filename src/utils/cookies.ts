@@ -3,11 +3,14 @@ export const getCookie = (name: string) => {
         const cookies = document.cookie
 
         const splittedCookies = cookies.split(';')
-        const cookie = splittedCookies
-            .filter((c) => c.includes(name))[0]
-            .split('=')[1]
+        const cookie = splittedCookies.filter((c) => c.includes(name))[0]
 
-        return cookie
+        if (cookie) {
+            const value = cookie.split('=')[1]
+            return value
+        }
+
+        return null
     }
 }
 

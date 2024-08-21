@@ -1,3 +1,5 @@
+'use client'
+import useAuth from '@/hooks/useAuth'
 import {
     AddOutlined,
     PanToolAltOutlined,
@@ -14,9 +16,14 @@ import {
     Typography,
 } from '@mui/material'
 import Link from 'next/link'
+import { redirect } from 'next/navigation'
 import React from 'react'
 
 const MatchesPage = () => {
+    const { isAuthenticated } = useAuth()
+
+    if (!isAuthenticated) redirect('/login')
+
     const DUMMY_GAMES = [
         {
             team: 'Ruivães',

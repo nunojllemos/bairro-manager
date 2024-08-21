@@ -13,6 +13,8 @@ import {
     Typography,
 } from '@mui/material'
 import { CakeOutlined, PanToolAltOutlined } from '@mui/icons-material'
+import useAuth from '@/hooks/useAuth'
+import { redirect } from 'next/navigation'
 
 const createData = (
     number: string,
@@ -32,6 +34,9 @@ const BirthdaysPage = () => {
     // const request = await fetch('http://localhost:3000/api/players/')
     // const players = await request.json()
     // console.log(players)
+    const { isAuthenticated } = useAuth()
+
+    if (!isAuthenticated) redirect('/login')
 
     const DUMMY_ROWS = [
         createData(
@@ -70,14 +75,6 @@ const BirthdaysPage = () => {
             'https://avatar.iran.liara.run/public/5'
         ),
     ]
-
-    const dummyCall = async () => {
-        const req = await fetch('http://localhost:3000/api/players', {
-            method: 'POST',
-            headers: { 'content-type': 'application/json' },
-            body: JSON.stringify({ message: 'Hello' }),
-        })
-    }
 
     return (
         <>
@@ -149,7 +146,6 @@ const BirthdaysPage = () => {
                 <div className="swipe-animation sm:hidden mt-4 text-zinc-500 text-2xl">
                     <PanToolAltOutlined fontSize="inherit" />
                 </div>
-                <Button onClick={dummyCall}>Call</Button>
             </section>
         </>
     )
