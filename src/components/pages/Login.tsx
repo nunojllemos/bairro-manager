@@ -34,19 +34,20 @@ const Login = () => {
                     password,
                 }),
             })
-            const requestJson = await request.json()
-            const { status } = requestJson
-            console.log(requestJson)
+            console.log(request)
+            const response = await request.json()
+            const { status } = response
+            console.log(response)
 
             if (status === 307) {
                 setAuthentication(true)
                 setIsSubmitting(false)
-                setRole(requestJson.role)
+                setRole(response.role)
                 setCookie('isAuth', 't')
             }
 
             if (status === 401) {
-                setErrorMessage(requestJson.message)
+                setErrorMessage(response.message)
                 setIsSubmitting(false)
             }
         } catch (error) {
