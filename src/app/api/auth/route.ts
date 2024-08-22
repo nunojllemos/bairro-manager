@@ -19,7 +19,6 @@ export async function POST(request: NextRequest) {
         }
 
         if (password === user.password) {
-            // return NextResponse.redirect('http://localhost:3000/fines')
             return NextResponse.json(
                 { role: user.role, status: 307, message: 'Redirect' },
                 { status: 307 }
