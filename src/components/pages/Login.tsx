@@ -80,6 +80,7 @@ const Login = () => {
                     <TextField
                         onChange={(e) => setUser(e.target.value)}
                         required
+                        name="username"
                         label="Utilizador"
                         variant="outlined"
                         className="w-full"
@@ -90,6 +91,7 @@ const Login = () => {
                         <TextField
                             onChange={(e) => setPassword(e.target.value)}
                             required
+                            name="password"
                             type={isPasswordVisible ? 'text' : 'password'}
                             label="Password"
                             variant="outlined"
@@ -115,6 +117,11 @@ const Login = () => {
                     >
                         Entrar
                     </Button>
+                    <div className="mt-2 text-center">
+                        <Typography variant="caption" className="text-blue-500">
+                            Pede os dados de acesso ao administrador.
+                        </Typography>
+                    </div>
                 </form>
             </section>
         </main>

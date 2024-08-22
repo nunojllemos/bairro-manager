@@ -12,6 +12,7 @@ import {
     ExpandMore,
     MenuOutlined,
     CloseOutlined,
+    EmojiEventsOutlined,
 } from '@mui/icons-material'
 import { Button, Menu, MenuItem } from '@mui/material'
 import useAuth from '@/hooks/useAuth'
@@ -46,6 +47,11 @@ const Header = () => {
             name: 'equipa',
             icon: <Diversity3Outlined fontSize="inherit" />,
             submenu: [
+                {
+                    name: 'tabela',
+                    url: '/table',
+                    icon: <EmojiEventsOutlined fontSize="inherit" />,
+                },
                 {
                     name: 'estatísticas',
                     url: '/stats',

@@ -9,7 +9,7 @@ export async function POST(request: NextRequest) {
 
         await dbConnect()
 
-        const user = await User.findOne({ role: username })
+        const user = await User.findOne({ username })
 
         if (!user) {
             return NextResponse.json(

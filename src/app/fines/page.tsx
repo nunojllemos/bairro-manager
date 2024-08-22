@@ -8,7 +8,13 @@ import {
     Divider,
     Typography,
 } from '@mui/material'
-import { ExpandMore, SavingsOutlined } from '@mui/icons-material'
+import {
+    ExpandMore,
+    InfoOutlined,
+    SavingsOutlined,
+    TrendingDownOutlined,
+    TrendingUpOutlined,
+} from '@mui/icons-material'
 import useAuth from '@/hooks/useAuth'
 import { redirect, useRouter } from 'next/navigation'
 
@@ -47,8 +53,6 @@ const FinesPage = () => {
 
     if (!isAuthenticated) redirect('/login')
 
-    console.log('in fines page')
-
     return (
         <>
             <section>
@@ -72,6 +76,7 @@ const FinesPage = () => {
                 </div>
             </section>
             <Divider className="my-8" />
+
             <section>
                 <div className="flex py-6 pl-4 pr-6 lg:pl-4 lg:pr-10 justify-between text-blue-500 font-semibold">
                     <span>Nome</span>
@@ -121,8 +126,9 @@ const FinesPage = () => {
                                     </AccordionSummary>
                                     <AccordionDetails>
                                         <Divider className="mb-4" />
-                                        <span className="text-lg text-blue-500">
-                                            Multas detalhadas
+                                        <span className="flex items-center gap-x-1 text-sm text-blue-500">
+                                            <InfoOutlined fontSize="inherit" />{' '}
+                                            Detalhes
                                         </span>
                                         <ul className="mt-4 flex flex-col gap-y-1 text-sm lg:pr-6">
                                             <li className="flex justify-between py-2 border-b border-b-slate-100">
@@ -172,6 +178,26 @@ const FinesPage = () => {
                     })}
                 </ul>
             </section>
+            {role === 'captain' && (
+                <section className="mt-8">
+                    <div className="flex flex-col md:flex-row md:justify-between gap-y-8">
+                        <div className="flex gap-x-4 text-green-600">
+                            <Typography variant="h6">
+                                <TrendingUpOutlined fontSize="inherit" /> Em
+                                caixa
+                            </Typography>
+                            <Typography variant="h6">200,00€</Typography>
+                        </div>
+                        <div className="flex gap-x-4 text-red-500">
+                            <Typography variant="h6">
+                                <TrendingDownOutlined fontSize="inherit" /> Em
+                                dívida
+                            </Typography>
+                            <Typography variant="h6">300,00€</Typography>
+                        </div>
+                    </div>
+                </section>
+            )}
         </>
     )
 }
