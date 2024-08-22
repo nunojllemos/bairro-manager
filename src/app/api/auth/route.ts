@@ -1,15 +1,18 @@
+import { NextRequest, NextResponse } from 'next/server'
 import dbConnect from '@/lib/db'
 import User from '@/models/user'
-import { NextRequest, NextResponse } from 'next/server'
+import jwt from 'jsonwebtoken'
 
 export async function POST(request: NextRequest) {
     try {
         const body = await request.json()
         const { username, password } = body
+        console.log(username, password)
 
         await dbConnect()
 
-        const user = await User.findOne({ username })
+        const user = await User.findOne({ username: username })
+        console.log(user)
 
         if (!user) {
             return NextResponse.json(
@@ -19,8 +22,16 @@ export async function POST(request: NextRequest) {
         }
 
         if (password === user.password) {
+            const token = jwt.sign(
+                { userId: user._id.toHexString() },
+                process.env.NEXT_PUBLIC_JWT_SECRET as string,
+                {
+                    expiresIn: '1m',
+                }
+            )
+
             return NextResponse.json(
-                { role: user.role, status: 307, message: 'Redirect' },
+                { role: user.role, token, status: 307 },
                 { status: 307 }
             )
         }

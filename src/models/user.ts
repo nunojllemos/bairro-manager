@@ -2,7 +2,7 @@ import mongoose, { Document, Schema } from 'mongoose'
 
 export interface IUser extends Document {
     username: string
-    role: string
+    role: 'mister' | 'cap' | 'player'
     password: string
 }
 
