@@ -1,19 +1,3 @@
-// import mongoose from 'mongoose'
-
-// const connection: { isConnected?: number } = {}
-
-// async function dbConnect() {
-//     if (connection.isConnected) return
-
-//     const db = await mongoose.connect(process.env.NEXT_PUBLIC_DATABASE_URL!, {
-//         dbName: 'bairro-manager',
-//     })
-
-//     connection.isConnected = db.connections[0].readyState
-// }
-
-// export default dbConnect
-
 import mongoose from 'mongoose'
 
 const { NEXT_PUBLIC_DATABASE_URL } = process.env
@@ -25,6 +9,7 @@ const connectDB = async () => {
             { dbName: 'bairro-manager' }
         )
         if (connection.readyState === 1) {
+            console.log('🚀 mongodb connected')
             return Promise.resolve(true)
         }
     } catch (error) {

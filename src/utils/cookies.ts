@@ -20,6 +20,7 @@ export const setCookie = (
     options?: { expires: string }
 ) => {
     if (window) {
+        console.log(name, value, options)
         const today = new Date()
         const expire = new Date()
         // 14 days
@@ -34,3 +35,7 @@ export const setCookie = (
         document.cookie = newCookie
     }
 }
+
+// NEXT_PUBLIC_CAP_SECRET="6wex70qBkOwxrvh4QccVsOXmFjInWi77qZjLFv6A0Bw="
+// NEXT_PUBLIC_MISTER_SECRET="Pv8saRIsG41p+hMT+QvkLdPPUIpnRZlhozIF4sQ1h+Y="
+// NEXT_PUBLIC_PLAYER_SECRET="4M/mixGwmcsRRIzc3CXF3vmIb0wuZYNU6URpGbLnAd4="
