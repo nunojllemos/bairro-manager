@@ -4,6 +4,7 @@ export interface IUser extends Document {
     username: string
     role: 'mister' | 'cap' | 'player'
     password: string
+    sessionId: string
 }
 
 const userSchema: Schema = new mongoose.Schema(
@@ -17,6 +18,10 @@ const userSchema: Schema = new mongoose.Schema(
             required: true,
         },
         password: {
+            type: String,
+            required: true,
+        },
+        sessionId: {
             type: String,
             required: true,
         },

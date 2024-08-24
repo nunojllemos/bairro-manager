@@ -34,7 +34,7 @@ const Header = () => {
     const logout = () => {
         setAuthentication(false)
         setRole(null)
-        setCookie('isAuth', 'f')
+        setCookie('session-id', '')
     }
 
     const navigationLinks = [

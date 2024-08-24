@@ -38,17 +38,11 @@ const Login = () => {
             const { status } = response
 
             if (status === 307) {
+                console.log(response)
                 setAuthentication(true)
                 setIsSubmitting(false)
-                setRole(response.role)
-                setCookie(
-                    'session-id',
-                    process.env[
-                        `NEXT_PUBLIC_${response.role.toUpperCase()}_SECRET`
-                    ] as string
-                )
-                console.log(process.env)
-                console.log(`NEXT_PUBLIC_${response.role.toUpperCase()}_SECRET`)
+                setRole(response.user.role)
+                setCookie('session-id', response.user.session_id)
             }
 
             if (status === 401) {

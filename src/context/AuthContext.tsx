@@ -1,5 +1,3 @@
-import { getCookie } from '@/utils/cookies'
-import { redirect, usePathname } from 'next/navigation'
 import {
     createContext,
     Dispatch,
@@ -7,8 +5,10 @@ import {
     useEffect,
     useState,
 } from 'react'
+import { setRoleBySessionId } from '@/utils'
+import { getCookie } from '@/utils/cookies'
 
-type Role = 'player' | 'mister' | 'captain' | null
+export type Role = 'player' | 'mister' | 'cap' | null
 
 interface IAuthContextProps {
     children: any
@@ -31,17 +31,18 @@ export const AuthContext = createContext<IAuthContext>({
 const AuthContextProvider = ({ children }: IAuthContextProps) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false)
     const [role, setRole] = useState<Role>(null)
-    const pathname = usePathname()
 
     const setAuthentication = (boolean: boolean) => {
         setIsAuthenticated(boolean)
     }
 
     useEffect(() => {
-        const isAlreadyAuth = getCookie('isAuth') === 't'
+        const sessionId = getCookie('session-id')
 
-        if (isAlreadyAuth) {
+        if (sessionId) {
             setIsAuthenticated(true)
+            setRole(setRoleBySessionId(sessionId))
+            console.log(setRoleBySessionId(sessionId))
         }
     }, [])
 

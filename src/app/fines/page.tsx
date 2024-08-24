@@ -5,10 +5,14 @@ import {
     AccordionDetails,
     AccordionSummary,
     Avatar,
+    Button,
     Divider,
+    Modal,
     Typography,
 } from '@mui/material'
 import {
+    EditAttributesOutlined,
+    EditOutlined,
     ExpandMore,
     InfoOutlined,
     SavingsOutlined,
@@ -126,10 +130,22 @@ const FinesPage = () => {
                                     </AccordionSummary>
                                     <AccordionDetails>
                                         <Divider className="mb-4" />
-                                        <span className="flex items-center gap-x-1 text-sm text-blue-500">
-                                            <InfoOutlined fontSize="inherit" />{' '}
-                                            Detalhes
-                                        </span>
+                                        <div className="flex items-center justify-between">
+                                            <span className="flex items-center gap-x-1 text-sm text-blue-500">
+                                                <InfoOutlined fontSize="inherit" />
+                                                Detalhes
+                                            </span>
+                                            {role === 'cap' && (
+                                                <Button
+                                                    variant="outlined"
+                                                    startIcon={
+                                                        <EditOutlined fontSize="small" />
+                                                    }
+                                                >
+                                                    Editar
+                                                </Button>
+                                            )}
+                                        </div>
                                         <ul className="mt-4 flex flex-col gap-y-1 text-sm lg:pr-6">
                                             <li className="flex justify-between py-2 border-b border-b-slate-100">
                                                 <div>
@@ -178,7 +194,7 @@ const FinesPage = () => {
                     })}
                 </ul>
             </section>
-            {role === 'captain' && (
+            {role === 'cap' && (
                 <section className="mt-8">
                     <div className="flex flex-col md:flex-row md:justify-between gap-y-8">
                         <div className="flex gap-x-4 text-green-600">
@@ -197,6 +213,32 @@ const FinesPage = () => {
                         </div>
                     </div>
                 </section>
+            )}
+            {role === 'cap' && (
+                <Modal
+                    className="flex items-center justify-center"
+                    open={true}
+                    onClose={() => {
+                        console.log('close')
+                    }}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                >
+                    <div className="bg-slate-100 p-8 w-max h-max rounded-md">
+                        
+                        <Typography
+                            id="modal-modal-title"
+                            variant="h6"
+                            component="h2"
+                        >
+                            Text in a modal
+                        </Typography>
+                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                            Duis mollis, est non commodo luctus, nisi erat
+                            porttitor ligula.
+                        </Typography>
+                    </div>
+                </Modal>
             )}
         </>
     )

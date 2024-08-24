@@ -12,25 +12,21 @@ import {
     TableRow,
     Typography,
 } from '@mui/material'
-import { CakeOutlined, PanToolAltOutlined } from '@mui/icons-material'
+import {
+    CakeOutlined,
+    EmojiEventsOutlined,
+    PanToolAltOutlined,
+} from '@mui/icons-material'
 import useAuth from '@/hooks/useAuth'
 import { redirect } from 'next/navigation'
 
-const createData = (
-    number: string,
-    name: string,
-    date: string,
-    age: string,
-    url: string
-) => ({
-    number,
-    name,
-    date,
-    age,
+const createData = (url: string, name: string, points: number) => ({
     url,
+    name,
+    points,
 })
 
-const BirthdaysPage = () => {
+const TablePage = () => {
     // const request = await fetch('http://localhost:3000/api/players/')
     // const players = await request.json()
     // console.log(players)
@@ -39,53 +35,23 @@ const BirthdaysPage = () => {
     if (!isAuthenticated) redirect('/login')
 
     const DUMMY_ROWS = [
-        createData(
-            '14',
-            'Coruja',
-            '01/10/1998',
-            '27',
-            'https://avatar.iran.liara.run/public/1'
-        ),
-        createData(
-            '4',
-            'Antunes',
-            '02/08/1994',
-            '30',
-            'https://avatar.iran.liara.run/public/2'
-        ),
-        createData(
-            '10',
-            'Serra',
-            '16/07/1999',
-            '25',
-            'https://avatar.iran.liara.run/public/3'
-        ),
-        createData(
-            '1',
-            'Cris',
-            '10/06/1994',
-            '31',
-            'https://avatar.iran.liara.run/public/4'
-        ),
-        createData(
-            '18',
-            'Joãozinho',
-            '06/08/1998',
-            '27',
-            'https://avatar.iran.liara.run/public/5'
-        ),
+        createData('https://avatar.iran.liara.run/public/1', 'Coruja', 14),
+        createData('https://avatar.iran.liara.run/public/2', 'Antunes', 4),
+        createData('https://avatar.iran.liara.run/public/3', 'Serra', 10),
+        createData('https://avatar.iran.liara.run/public/4', 'Cris', 1),
+        createData('https://avatar.iran.liara.run/public/5', 'Joãozinho', 18),
     ]
 
     return (
         <>
             <section>
                 <div className="flex text-4xl lg:text-5xl items-center gap-x-4 text-blue-500">
-                    <CakeOutlined fontSize="inherit" />
+                    <EmojiEventsOutlined fontSize="inherit" />
                     <Typography
                         variant="inherit"
                         className="font-semibold leading-none"
                     >
-                        Aniversários
+                        Tabela
                     </Typography>
                 </div>
                 <div className="mt-4">
@@ -112,13 +78,7 @@ const BirthdaysPage = () => {
                                     align="right"
                                     className="font-semibold text-blue-500"
                                 >
-                                    Data
-                                </TableCell>
-                                <TableCell
-                                    align="right"
-                                    className="font-semibold text-blue-500"
-                                >
-                                    Idade
+                                    Pontos
                                 </TableCell>
                             </TableRow>
                         </TableHead>
@@ -138,10 +98,7 @@ const BirthdaysPage = () => {
                                             </div>
                                         </TableCell>
                                         <TableCell align="right" size="small">
-                                            {player.date}
-                                        </TableCell>
-                                        <TableCell align="right" size="small">
-                                            {player.age}
+                                            {player.points}
                                         </TableCell>
                                     </TableRow>
                                 )
@@ -157,4 +114,4 @@ const BirthdaysPage = () => {
     )
 }
 
-export default BirthdaysPage
+export default TablePage
