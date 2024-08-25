@@ -11,7 +11,6 @@ import {
     Typography,
 } from '@mui/material'
 import {
-    EditAttributesOutlined,
     EditOutlined,
     ExpandMore,
     InfoOutlined,
@@ -26,20 +25,11 @@ import useFines from '@/hooks/useFines'
 import FinesModal from '@/components/Modals/FinesModal'
 import { localeStringOptions } from '@/utils'
 
-const createData = (id: string, name: string, url: string, total: string, payed: string, debt: string) => ({
-    id,
-    name,
-    url,
-    total,
-    payed,
-    debt,
-})
-
 const FinesPage = () => {
     const { isAuthenticated, role } = useAuth()
     const [playerId, setPlayerId] = useState('')
     const [isModalOpen, setIsModalOpen] = useState(false)
-    const { players } = usePlayers()
+    const { players, setPlayers } = usePlayers()
     const { fines } = useFines()
 
     const handleClose = () => setIsModalOpen(false)
@@ -122,7 +112,6 @@ const FinesPage = () => {
                                                         onClick={() => {
                                                             setIsModalOpen(true)
                                                             handleEdit(player._id)
-                                                            console.log(player._id)
                                                         }}
                                                         variant="outlined"
                                                         startIcon={<EditOutlined fontSize="small" />}
@@ -148,7 +137,7 @@ const FinesPage = () => {
                                                                                     (detailedFine) =>
                                                                                         detailedFine._id === fine._id
                                                                                 )
-                                                                                .map((value) => value)[0].value
+                                                                                .map((value) => value)[0]?.value
                                                                         }
                                                                     </span>
                                                                 </div>
@@ -159,7 +148,7 @@ const FinesPage = () => {
                                                                                 (detailedFine) =>
                                                                                     detailedFine._id === fine._id
                                                                             )
-                                                                            .map((value) => value)[0].value *
+                                                                            .map((value) => value)[0]?.value *
                                                                         (fine?.value || 1)
                                                                     ).toLocaleString('pt-PT', localeStringOptions)}{' '}
                                                                     &euro;

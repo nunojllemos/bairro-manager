@@ -23,18 +23,13 @@ const FinesContextProvider = ({ children }: IFinesContextProps) => {
             const request = await fetch('/api/fines')
             const fines = await request.json()
 
-            console.log(fines)
             setFines(fines)
         }
 
         getFines()
     }, [])
 
-    return (
-        <FinesContext.Provider value={{ fines }}>
-            {children}
-        </FinesContext.Provider>
-    )
+    return <FinesContext.Provider value={{ fines }}>{children}</FinesContext.Provider>
 }
 
 export default FinesContextProvider
