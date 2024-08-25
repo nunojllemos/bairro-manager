@@ -82,7 +82,7 @@ const Header = () => {
     ]
 
     return (
-        <header className="py-4 border-b border-slate-200 flex justify-between items-center bg-slate-100 sticky top-0 w-full z-[1]">
+        <header className="py-4 border-b border-slate-200 flex justify-between items-center bg-slate-100 sticky top-0 w-full z-[2]">
             <Link href="/" className="flex flex-col">
                 <span className="uppercase font-bold text-xl text-blue-500 leading-none">bairro futebol clube</span>
                 <span className="text-sm font-light leading-none">manager</span>
@@ -179,7 +179,9 @@ const Header = () => {
                     <li className="mx-5 mt-auto lg:mt-0 lg:ml-4">
                         {!isAuthenticated ? (
                             <Link href="/login">
-                                <Button variant="contained">Entrar</Button>
+                                <Button className="w-full lg:w-auto" variant="contained">
+                                    Entrar
+                                </Button>
                             </Link>
                         ) : (
                             <Button onClick={logout} className="w-full lg:w-auto" variant="outlined">
