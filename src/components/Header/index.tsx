@@ -93,33 +93,47 @@ const Header = () => {
                     isMenuOpen ? 'translate-x-0 lg:translate-x-0' : 'translate-x-full lg:translate-x-0'
                 }`}
             >
-                <menu className="flex flex-col gap-y-4 lg:flex-row items-center">
+                <menu className="flex flex-col gap-y-2 w-full h-full py-16 px-4 lg:w-auto lg:h-auto lg:p-0 lg:flex-row lg:items-center text-blue-500 lg:text-black">
                     {isAuthenticated &&
                         navigationLinks.map((link) => {
                             return (
-                                <li key={link.name} className="py-2 px-4 lg:border-r lg:border-r-slate-300">
+                                <li key={link.name} className="py-1 lg:py-2 px-4 lg:border-r lg:border-r-slate-300">
                                     {link.submenu ? (
                                         <>
                                             <Button
                                                 id="basic-button"
-                                                className="relative text-inherit flex items-center gap-x-1 p-0 leading-normal !text-2xl lg:!text-sm !capitalize"
+                                                className="relative text-inherit hidden lg:flex items-center gap-x-1 p-0 leading-normal !text-xl lg:!text-sm !capitalize"
                                                 onClick={handleClick}
                                             >
-                                                {link.icon} {link.name}{' '}
-                                                <div className="text-slate-700 ml-4">
+                                                {link.icon} {link.name}
+                                                <div className="hidden lg:block text-slate-700 ml-4">
                                                     <ExpandMore
                                                         fontSize="inherit"
                                                         className={`${open ? 'rotate-180' : ''}`}
                                                     />
                                                 </div>
                                             </Button>
-                                            <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
+                                            <div className="flex items-center gap-x-4 lg:hidden leading-normal text-xl capitalize">
+                                                {link.icon} {link.name}
+                                                <div className="hidden lg:block text-slate-700 ml-4">
+                                                    <ExpandMore
+                                                        fontSize="inherit"
+                                                        className={`${open ? 'rotate-180' : ''}`}
+                                                    />
+                                                </div>
+                                            </div>
+                                            <Menu
+                                                className="hidden lg:block"
+                                                anchorEl={anchorEl}
+                                                open={open}
+                                                onClose={handleClose}
+                                            >
                                                 {link.submenu.map((subLink) => {
                                                     return (
                                                         <MenuItem key={subLink.url}>
                                                             <Link
                                                                 onClick={() => setIsMenuOpen(false)}
-                                                                className="hover:text-blue-500 transition-colors capitalize text-2xl lg:text-sm"
+                                                                className="hover:text-blue-500 transition-colors capitalize text-xl lg:text-sm"
                                                                 href={subLink.url}
                                                             >
                                                                 <span className="flex items-center gap-x-1">
@@ -130,14 +144,31 @@ const Header = () => {
                                                     )
                                                 })}
                                             </Menu>
+                                            <ul className="block lg:hidden pl-8 pt-2 pb-4">
+                                                {link.submenu.map((subLink) => {
+                                                    return (
+                                                        <MenuItem key={subLink.url}>
+                                                            <Link
+                                                                onClick={() => setIsMenuOpen(false)}
+                                                                className="hover:text-blue-500 transition-colors capitalize text-xl lg:text-sm"
+                                                                href={subLink.url}
+                                                            >
+                                                                <span className="flex items-center gap-x-4">
+                                                                    {subLink.icon} {subLink.name}
+                                                                </span>
+                                                            </Link>
+                                                        </MenuItem>
+                                                    )
+                                                })}
+                                            </ul>
                                         </>
                                     ) : (
                                         <Link
                                             onClick={() => setIsMenuOpen(false)}
-                                            className="hover:text-blue-500 transition-colors capitalize text-2xl lg:text-sm"
+                                            className="hover:text-blue-500 transition-colors capitalize text-xl lg:text-sm"
                                             href={link.url}
                                         >
-                                            <span className="flex items-center gap-x-1">
+                                            <span className="flex items-center gap-x-4 lg:gap-x-1">
                                                 {link.icon} {link.name}
                                             </span>
                                         </Link>
@@ -145,14 +176,13 @@ const Header = () => {
                                 </li>
                             )
                         })}
-                    <li className="ml-4">
+                    <li className="mx-5 mt-auto lg:mt-0 lg:ml-4">
                         {!isAuthenticated ? (
                             <Link href="/login">
                                 <Button variant="contained">Entrar</Button>
                             </Link>
                         ) : (
-                            <Button onClick={logout} variant="outlined">
-                                {' '}
+                            <Button onClick={logout} className="w-full lg:w-auto" variant="outlined">
                                 Sair
                             </Button>
                         )}
