@@ -111,7 +111,7 @@ const FinesPage = () => {
                                             </ul>
                                         </AccordionSummary>
                                         <AccordionDetails>
-                                            <Divider className="mb-4" />
+                                            <Divider className="mb-8 md:mb-4" />
                                             <div className="flex items-center justify-between">
                                                 <span className="flex items-center gap-x-1 text-sm text-blue-500">
                                                     <InfoOutlined fontSize="inherit" />
@@ -131,7 +131,7 @@ const FinesPage = () => {
                                                     </Button>
                                                 )}
                                             </div>
-                                            <ul className="mt-4 flex flex-col gap-y-1 text-sm lg:pr-6">
+                                            <ul className="mt-8 md:mt-4 flex flex-col gap-y-1 text-sm lg:pr-6">
                                                 {fines &&
                                                     fines.map((fine) => {
                                                         return !Object.keys(fine).includes('values') ? (

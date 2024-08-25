@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import { redirect, useRouter } from 'next/navigation'
 import useAuth from '@/hooks/useAuth'
-import { Button, TextField, Typography } from '@mui/material'
+import { Button, InputAdornment, TextField, Typography } from '@mui/material'
 import { VisibilityOffOutlined, VisibilityOutlined } from '@mui/icons-material'
 import { setCookie } from '@/utils/cookies'
 
@@ -17,7 +17,7 @@ const Login = () => {
 
     if (isAuthenticated) redirect('/')
 
-    const toggleVisibility = () => setIsPasswordVisible((prev) => !prev)
+    const toggleVisibility = () => setIsPasswordVisible(!isPasswordVisible)
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         setIsSubmitting(true)
@@ -54,8 +54,7 @@ const Login = () => {
     }
 
     const checkError = (matchWords: string) => {
-        if (errorMessage.toLowerCase().includes(matchWords.toLowerCase()))
-            return true
+        if (errorMessage.toLowerCase().includes(matchWords.toLowerCase())) return true
 
         return false
     }
@@ -63,18 +62,12 @@ const Login = () => {
     return (
         <main>
             <section className="flex text-4xl lg:text-5xl items-center gap-x-4 text-blue-500">
-                <Typography
-                    variant="inherit"
-                    className="font-semibold leading-none w-full text-center"
-                >
+                <Typography variant="inherit" className="font-semibold leading-none w-full text-center">
                     Entrar
                 </Typography>
             </section>
             <section className="mt-12 md:max-w-md md:mx-auto">
-                <form
-                    onSubmit={onSubmit}
-                    className="w-full flex flex-col gap-y-8"
-                >
+                <form onSubmit={onSubmit} className="w-full flex flex-col gap-y-8">
                     <TextField
                         onChange={(e) => setUser(e.target.value)}
                         required
@@ -85,7 +78,7 @@ const Login = () => {
                         error={checkError('username')}
                         helperText={checkError('username') && errorMessage}
                     />
-                    <div className="relative">
+                    <div>
                         <TextField
                             onChange={(e) => setPassword(e.target.value)}
                             required
@@ -96,8 +89,23 @@ const Login = () => {
                             className="w-full"
                             error={checkError('password')}
                             helperText={checkError('password') && errorMessage}
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment
+                                        onClick={toggleVisibility}
+                                        className="cursor-pointer text-blue-400"
+                                        position="start"
+                                    >
+                                        {isPasswordVisible ? (
+                                            <VisibilityOffOutlined fontSize="medium" />
+                                        ) : (
+                                            <VisibilityOutlined fontSize="medium" />
+                                        )}
+                                    </InputAdornment>
+                                ),
+                            }}
                         />
-                        <Button
+                        {/* <Button
                             onClick={toggleVisibility}
                             className="absolute right-0 top-1/2 -translate-y-1/2"
                         >
@@ -106,13 +114,9 @@ const Login = () => {
                             ) : (
                                 <VisibilityOutlined fontSize="medium" />
                             )}
-                        </Button>
+                        </Button> */}
                     </div>
-                    <Button
-                        disabled={isSubmitting ? true : false}
-                        type="submit"
-                        variant="contained"
-                    >
+                    <Button disabled={isSubmitting ? true : false} type="submit" variant="contained">
                         Entrar
                     </Button>
                     <div className="mt-2 text-center">
