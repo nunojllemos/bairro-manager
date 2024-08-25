@@ -1,20 +1,7 @@
 'use client'
 import useAuth from '@/hooks/useAuth'
-import {
-    AddOutlined,
-    PanToolAltOutlined,
-    SportsSoccerOutlined,
-} from '@mui/icons-material'
-import {
-    Divider,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Typography,
-} from '@mui/material'
+import { AddOutlined, PanToolAltOutlined, SportsSoccerOutlined } from '@mui/icons-material'
+import { Divider, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import React from 'react'
@@ -60,43 +47,29 @@ const MatchesPage = () => {
             <section>
                 <div className="flex text-4xl lg:text-5xl items-center gap-x-4 text-blue-500">
                     <SportsSoccerOutlined fontSize="inherit" />
-                    <Typography
-                        variant="inherit"
-                        className="font-semibold leading-none"
-                    >
+                    <Typography variant="inherit" className="font-semibold leading-none">
                         Jogos
                     </Typography>
                 </div>
                 <div className="mt-4">
                     <Typography>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing
-                        elit. Modi et consequatur aperiam, alias repellat totam!
-                        Iure quisquam, sequi possimus nesciunt explicabo
-                        reiciendis sunt distinctio, maiores recusandae repellat
-                        libero ut hic.
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Modi et consequatur aperiam, alias
+                        repellat totam! Iure quisquam, sequi possimus nesciunt explicabo reiciendis sunt distinctio,
+                        maiores recusandae repellat libero ut hic.
                     </Typography>
                 </div>
             </section>
-            <Divider className="my-8" />
+            <Divider className="!my-8" />
             <section>
                 <TableContainer>
                     <Table sx={{ minWidth: 440 }}>
                         <TableHead>
                             <TableRow>
                                 <TableCell className="font-semibold text-blue-500 w-12"></TableCell>
-                                <TableCell className="font-semibold text-blue-500">
-                                    Data
-                                </TableCell>
-                                <TableCell className="font-semibold text-blue-500">
-                                    Equipa
-                                </TableCell>
-                                <TableCell
-                                    align="right"
-                                    className="font-semibold text-blue-500"
-                                >
-                                    <span className="inline-block mr-3 lg:mr-2">
-                                        Resultado
-                                    </span>
+                                <TableCell className="font-semibold text-blue-500">Data</TableCell>
+                                <TableCell className="font-semibold text-blue-500">Equipa</TableCell>
+                                <TableCell align="right" className="font-semibold text-blue-500">
+                                    <span className="inline-block mr-3 lg:mr-2">Resultado</span>
                                 </TableCell>
                             </TableRow>
                         </TableHead>
@@ -107,12 +80,7 @@ const MatchesPage = () => {
                                 const isDraw = goalsScored === goalsConceded
 
                                 return (
-                                    <TableRow
-                                        className={`${
-                                            index % 2 === 0 ? 'bg-white' : ''
-                                        }`}
-                                        key={game.date}
-                                    >
+                                    <TableRow className={`${index % 2 === 0 ? 'bg-white' : ''}`} key={game.date}>
                                         <TableCell size="small">
                                             <div className="flex items-center gap-2">
                                                 <span
@@ -130,12 +98,8 @@ const MatchesPage = () => {
                                                 </span>
                                             </div>
                                         </TableCell>
-                                        <TableCell size="small">
-                                            {game.date}
-                                        </TableCell>
-                                        <TableCell size="small">
-                                            {game.team}
-                                        </TableCell>
+                                        <TableCell size="small">{game.date}</TableCell>
+                                        <TableCell size="small">{game.team}</TableCell>
                                         <TableCell align="right" size="small">
                                             <Link href="/matches/bairro-ruivaes">
                                                 <span className="inline-block pl-2 text-blue-500">

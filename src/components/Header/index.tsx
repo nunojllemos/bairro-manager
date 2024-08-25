@@ -102,7 +102,7 @@ const Header = () => {
                                         <>
                                             <Button
                                                 id="basic-button"
-                                                className="relative text-inherit hidden lg:flex items-center gap-x-1 p-0 leading-normal !text-xl lg:!text-sm !capitalize"
+                                                className="relative text-inherit !hidden lg:!flex items-center gap-x-1 p-0 leading-normal !text-xl lg:!text-sm !capitalize"
                                                 onClick={handleClick}
                                             >
                                                 {link.icon} {link.name}
@@ -176,7 +176,7 @@ const Header = () => {
                                 </li>
                             )
                         })}
-                    <li className="mx-5 mt-auto lg:mt-0 lg:ml-4">
+                    <li className="mx-5 mt-auto mb-8 lg:mb-0 lg:mt-0 lg:ml-4">
                         {!isAuthenticated ? (
                             <Link href="/login">
                                 <Button className="w-full lg:w-auto" variant="contained">

@@ -80,10 +80,7 @@ const FixtureCalendarPage = () => {
     }))
 
     const mappedMatches = DUMMY_GAMES.map((match) => ({
-        title:
-            match.place === 'home'
-                ? `⚽️ Bairro x ${match.team}`
-                : `⚽️ ${match.team} x Bairro`,
+        title: match.place === 'home' ? `⚽️ Bairro x ${match.team}` : `⚽️ ${match.team} x Bairro`,
         start: match.date,
         color: COLORS.matches,
     }))
@@ -93,24 +90,19 @@ const FixtureCalendarPage = () => {
             <section>
                 <div className="flex text-4xl lg:text-5xl items-center gap-x-4 text-blue-500">
                     <CalendarMonthOutlined fontSize="inherit" />
-                    <Typography
-                        variant="inherit"
-                        className="font-semibold leading-none"
-                    >
+                    <Typography variant="inherit" className="font-semibold leading-none">
                         Calendário
                     </Typography>
                 </div>
                 <div className="mt-4">
                     <Typography>
-                        Lorem ipsum, dolor sit amet consectetur adipisicing
-                        elit. Neque voluptatem vero praesentium molestiae ipsa
-                        optio dolor ea labore debitis consectetur necessitatibus
-                        nobis voluptates, hic quasi animi adipisci repudiandae
-                        corporis dicta?
+                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Neque voluptatem vero praesentium
+                        molestiae ipsa optio dolor ea labore debitis consectetur necessitatibus nobis voluptates, hic
+                        quasi animi adipisci repudiandae corporis dicta?
                     </Typography>
                 </div>
             </section>
-            <Divider className="my-8" />
+            <Divider className="!my-8" />
             <section>
                 <FullCalendar
                     initialView="listWeek"
@@ -135,7 +127,7 @@ const FixtureCalendarPage = () => {
                     ]}
                 />
             </section>
-            <Divider className="mt-16" />
+            <Divider className="!mt-16" />
             <section className="mt-4 text-sm">
                 <span className="text-blue-500">Legenda</span>
                 <ul className="flex flex-col lg:flex-row gap-2 lg:gap-8 mt-6">

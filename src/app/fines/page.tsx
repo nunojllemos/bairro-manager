@@ -74,7 +74,7 @@ const FinesPage = () => {
                     </Typography>
                 </div>
             </section>
-            <Divider className="my-8" />
+            <Divider className="!my-8" />
 
             <section>
                 <div className="flex py-6 pl-4 pr-6 lg:pl-4 lg:pr-10 justify-between text-blue-500 font-semibold">
@@ -111,7 +111,7 @@ const FinesPage = () => {
                                             </ul>
                                         </AccordionSummary>
                                         <AccordionDetails>
-                                            <Divider className="mb-8 md:mb-4" />
+                                            <Divider className="!mb-8 md:!mb-4" />
                                             <div className="flex items-center justify-between">
                                                 <span className="flex items-center gap-x-1 text-sm text-blue-500">
                                                     <InfoOutlined fontSize="inherit" />
