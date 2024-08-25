@@ -188,7 +188,7 @@ const FinesPage = () => {
             </section>
             {role === 'cap' && (
                 <section className="mt-8">
-                    <div className="flex flex-col justify-between gap-y-8">
+                    <div className="flex justify-between gap-y-8">
                         <div className="flex items-center gap-x-2 text-green-600">
                             <TrendingUpOutlined fontSize="inherit" />
                             <Typography>200,00€</Typography>

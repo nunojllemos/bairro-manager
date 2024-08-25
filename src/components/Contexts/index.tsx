@@ -7,13 +7,13 @@ import FinesContextProvider from '@/context/FinesContext'
 
 const Contexts = ({ children }: { children: React.ReactNode }) => {
     return (
-        <AppRouterCacheProvider>
-            <AuthContextProvider>
-                <PlayersContextProvider>
-                    <FinesContextProvider>{children}</FinesContextProvider>
-                </PlayersContextProvider>
-            </AuthContextProvider>
-        </AppRouterCacheProvider>
+        // <AppRouterCacheProvider>
+        <AuthContextProvider>
+            <PlayersContextProvider>
+                <FinesContextProvider>{children}</FinesContextProvider>
+            </PlayersContextProvider>
+        </AuthContextProvider>
+        // </AppRouterCacheProvider>
     )
 }
 
