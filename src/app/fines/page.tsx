@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     Accordion,
     AccordionDetails,
@@ -21,14 +21,17 @@ import {
 } from '@mui/icons-material'
 import useAuth from '@/hooks/useAuth'
 import { redirect, useRouter } from 'next/navigation'
+import { User } from '@/types'
 
 const createData = (
+    id: string,
     name: string,
     url: string,
     total: string,
     payed: string,
     debt: string
 ) => ({
+    id,
     name,
     url,
     total,
@@ -38,8 +41,22 @@ const createData = (
 
 const FinesPage = () => {
     const { isAuthenticated, role } = useAuth()
+    const [userSelected, setUserSelected] = useState('')
+
+    useEffect(() => {
+        const getPlayer = async () => {
+            const request = await fetch('/api/players')
+            const json = await request.json()
+
+            console.log('JSON:', json)
+        }
+
+        getPlayer()
+    }, [userSelected])
+
     const DUMMY_ROWS = [
         createData(
+            '66c9935c555a5192c1afb7e7',
             'Coruja',
             'https://avatar.iran.liara.run/public/1',
             '100',
@@ -47,6 +64,7 @@ const FinesPage = () => {
             '20'
         ),
         createData(
+            '66c9935c555a5192c1afb7e7',
             'Serra',
             'https://avatar.iran.liara.run/public/2',
             '100',
@@ -56,6 +74,8 @@ const FinesPage = () => {
     ]
 
     if (!isAuthenticated) redirect('/login')
+
+    const handleEdit = (userId: string) => setUserSelected(userId)
 
     return (
         <>
@@ -137,6 +157,9 @@ const FinesPage = () => {
                                             </span>
                                             {role === 'cap' && (
                                                 <Button
+                                                    onClick={() =>
+                                                        handleEdit(player.id)
+                                                    }
                                                     variant="outlined"
                                                     startIcon={
                                                         <EditOutlined fontSize="small" />
@@ -217,7 +240,7 @@ const FinesPage = () => {
             {role === 'cap' && (
                 <Modal
                     className="flex items-center justify-center"
-                    open={true}
+                    open={false}
                     onClose={() => {
                         console.log('close')
                     }}
@@ -225,14 +248,11 @@ const FinesPage = () => {
                     aria-describedby="modal-modal-description"
                 >
                     <div className="bg-slate-100 p-8 w-max h-max rounded-md">
-                        
                         <Typography
                             id="modal-modal-title"
                             variant="h6"
                             component="h2"
-                        >
-                            Text in a modal
-                        </Typography>
+                        ></Typography>
                         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                             Duis mollis, est non commodo luctus, nisi erat
                             porttitor ligula.
