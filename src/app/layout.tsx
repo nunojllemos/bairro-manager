@@ -22,7 +22,7 @@ export default function RootLayout({
         <html lang="en">
             <body className={`${inter.className} bg-slate-100 text-zinc-800`}>
                 <Contexts>
-                    <Container className="min-h-screen flex flex-col w-full">
+                    <Container className="min-h-screen !flex flex-col w-full">
                         <Header />
                         <main className="py-12">{children}</main>
                         <Footer />
