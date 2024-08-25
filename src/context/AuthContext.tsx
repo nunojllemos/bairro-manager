@@ -42,7 +42,6 @@ const AuthContextProvider = ({ children }: IAuthContextProps) => {
         if (sessionId) {
             setIsAuthenticated(true)
             setRole(setRoleBySessionId(sessionId))
-            console.log(setRoleBySessionId(sessionId))
         }
     }, [])
 

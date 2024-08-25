@@ -38,7 +38,6 @@ const Login = () => {
             const { status } = response
 
             if (status === 307) {
-                console.log(response)
                 setAuthentication(true)
                 setIsSubmitting(false)
                 setRole(response.user.role)

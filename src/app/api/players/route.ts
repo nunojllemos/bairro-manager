@@ -10,7 +10,7 @@ export async function GET() {
     return NextResponse.json(players)
 }
 
-export async function POST(request: NextRequest) {
+export async function PATCH(request: NextRequest) {
     const data = await request.json()
     console.log(data)
 
