@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import {
     Accordion,
     AccordionDetails,
@@ -7,14 +7,18 @@ import {
     Avatar,
     Button,
     Divider,
+    InputAdornment,
     Modal,
+    TextField,
     Typography,
 } from '@mui/material'
 import {
     EditOutlined,
     ExpandMore,
     InfoOutlined,
+    Inventory2Outlined,
     SavingsOutlined,
+    SearchOutlined,
     TrendingDownOutlined,
     TrendingUpOutlined,
 } from '@mui/icons-material'
@@ -26,9 +30,10 @@ import FinesModal from '@/components/Modals/FinesModal'
 import { localeStringOptions } from '@/utils'
 
 const FinesPage = () => {
-    const { isAuthenticated, role } = useAuth()
+    const [searchValue, setSearchValue] = useState('')
     const [playerId, setPlayerId] = useState('')
     const [isModalOpen, setIsModalOpen] = useState(false)
+    const { isAuthenticated, role } = useAuth()
     const { players, setPlayers } = usePlayers()
     const { fines, totalPaid, totalDebt, totalValue } = useFines()
 
@@ -46,6 +51,12 @@ const FinesPage = () => {
     if (!isAuthenticated) redirect('/login')
 
     const handleEdit = (userId: string) => setPlayerId(userId)
+
+    const handleSearchInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const { value } = event.target
+
+        setSearchValue(value)
+    }
 
     return (
         <>
@@ -66,6 +77,23 @@ const FinesPage = () => {
             </section>
             <Divider className="!my-8" />
 
+            <div className="pb-12">
+                <TextField
+                    className="w-full"
+                    size="small"
+                    value={searchValue}
+                    placeholder="Pesquisar"
+                    onChange={handleSearchInputChange}
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment className="pl-4 opacity-40" position="start">
+                                <SearchOutlined fontSize="medium" />
+                            </InputAdornment>
+                        ),
+                    }}
+                />
+            </div>
+
             <section>
                 <div className="flex py-6 pl-4 pr-6 lg:pl-4 lg:pr-10 justify-between text-blue-500 font-semibold">
                     <span>Nome</span>
@@ -77,107 +105,124 @@ const FinesPage = () => {
                 </div>
                 <ul className="flex flex-col gap-y-4 lg:gap-y-2">
                     {players &&
-                        players.map((player, index) => {
-                            return (
-                                <li key={player.name} className={`${index % 2 === 0 ? 'bg-white' : ''}`}>
-                                    <Accordion className="!m-0 !rounded-none1 !shadow-none">
-                                        <AccordionSummary className="pr-2" expandIcon={<ExpandMore />}>
-                                            <div>
-                                                <div className="flex flex-col lg:flex-row items-center gap-y-1 lg:gap-x-4 text-xs lg:text-sm">
-                                                    <Avatar src={player.avatar} />
-                                                    <span className="capitalize">{player.name}</span>
+                    players.filter((player) => player.name.toLowerCase().startsWith(searchValue.toLowerCase())).length >
+                        0 ? (
+                        players
+                            .filter((player) => player.name.toLowerCase().startsWith(searchValue.toLowerCase()))
+                            .map((player, index) => {
+                                return (
+                                    <li key={player.name} className={`${index % 2 === 0 ? 'bg-white' : ''}`}>
+                                        <Accordion className="!m-0 !rounded-none1 !shadow-none">
+                                            <AccordionSummary className="pr-2" expandIcon={<ExpandMore />}>
+                                                <div>
+                                                    <div className="flex flex-col lg:flex-row items-center gap-y-1 lg:gap-x-4 text-xs lg:text-sm">
+                                                        <Avatar src={player.avatar} />
+                                                        <span className="capitalize">{player.name}</span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <ul className="flex gap-x-6">
-                                                <li className="w-12 lg:w-24 text-center">
-                                                    {player.fines.total} &euro;
-                                                </li>
-                                                <li className="w-12 lg:w-24 text-center">{player.fines.paid} &euro;</li>
-                                                <li className="w-16 lg:w-24 text-center text-red-700">
-                                                    {player.fines.total - player.fines.paid > 0 ? (
-                                                        <span>
-                                                            &minus; {player.fines.total - player.fines.paid} &euro;
-                                                        </span>
-                                                    ) : (
-                                                        <span className="text-green-700">
-                                                            &#43; {(player.fines.total - player.fines.paid) * -1} &euro;
-                                                        </span>
-                                                    )}
-                                                </li>
-                                            </ul>
-                                        </AccordionSummary>
-                                        <AccordionDetails>
-                                            <Divider className="!mb-8 md:!mb-4" />
-                                            <div className="flex items-center justify-between lg:px-6">
-                                                <span className="flex items-center gap-x-1 text-sm text-blue-500">
-                                                    <InfoOutlined fontSize="inherit" />
-                                                    Detalhes
-                                                </span>
-                                                {role === 'cap' && (
-                                                    <Button
-                                                        onClick={() => {
-                                                            setIsModalOpen(true)
-                                                            handleEdit(player._id)
-                                                        }}
-                                                        size="small"
-                                                        variant="outlined"
-                                                        startIcon={<EditOutlined fontSize="small" />}
-                                                    >
-                                                        Editar
-                                                    </Button>
-                                                )}
-                                            </div>
-                                            <ul className="mt-8 md:mt-4 flex flex-col gap-y-1 text-sm lg:px-6">
-                                                {fines &&
-                                                    fines.map((fine) => {
-                                                        return !Object.keys(fine).includes('values') ? (
-                                                            <li
-                                                                key={fine._id}
-                                                                className="flex justify-between py-2 border-b border-b-slate-100"
-                                                            >
-                                                                <div>
-                                                                    <span className="font-semibold">{fine.name}</span>
-                                                                    <span className="inline-block px-2">
-                                                                        {player.fines.details
-                                                                            .filter(
-                                                                                (detailedFine) =>
-                                                                                    detailedFine._id === fine._id
-                                                                            )
-                                                                            .map((value) => value)[0]?.value || 0}
-                                                                    </span>
-                                                                </div>
-                                                                <div className="w-16 lg:w-24 text-center">
-                                                                    {(
-                                                                        player.fines.details
-                                                                            .filter(
-                                                                                (detailedFine) =>
-                                                                                    detailedFine._id === fine._id
-                                                                            )
-                                                                            .map((value) => value)[0]?.value *
-                                                                            (fine?.value || 1) || 0
-                                                                    ).toLocaleString('pt-PT', localeStringOptions)}{' '}
-                                                                    &euro;
-                                                                </div>
-                                                            </li>
+                                                <ul className="flex gap-x-6">
+                                                    <li className="w-12 lg:w-24 text-center">
+                                                        {player.fines.total} &euro;
+                                                    </li>
+                                                    <li className="w-12 lg:w-24 text-center">
+                                                        {player.fines.paid} &euro;
+                                                    </li>
+                                                    <li className="w-16 lg:w-24 text-center text-red-700">
+                                                        {player.fines.total - player.fines.paid > 0 ? (
+                                                            <span>
+                                                                &minus; {player.fines.total - player.fines.paid} &euro;
+                                                            </span>
                                                         ) : (
-                                                            <li
-                                                                key={fine._id}
-                                                                className="flex justify-between py-2 border-b border-b-slate-100"
-                                                            >
-                                                                <span className="font-semibold">{fine.name}</span>
-                                                                <div className="w-16 lg:w-24 text-center">
-                                                                    {/* TODO: utility function to calculate total value from defeats based on matches history */}
-                                                                    {/* {player.fines.total} &euro; */}
-                                                                </div>
-                                                            </li>
-                                                        )
-                                                    })}
-                                            </ul>
-                                        </AccordionDetails>
-                                    </Accordion>
-                                </li>
-                            )
-                        })}
+                                                            <span className="text-green-700">
+                                                                &#43; {(player.fines.total - player.fines.paid) * -1}{' '}
+                                                                &euro;
+                                                            </span>
+                                                        )}
+                                                    </li>
+                                                </ul>
+                                            </AccordionSummary>
+                                            <AccordionDetails>
+                                                <Divider className="!mb-8 md:!mb-4" />
+                                                <div className="flex items-center justify-between lg:px-6">
+                                                    <span className="flex items-center gap-x-1 text-sm text-blue-500">
+                                                        <InfoOutlined fontSize="inherit" />
+                                                        Detalhes
+                                                    </span>
+                                                    {role === 'cap' && (
+                                                        <Button
+                                                            onClick={() => {
+                                                                setIsModalOpen(true)
+                                                                handleEdit(player._id)
+                                                            }}
+                                                            size="small"
+                                                            variant="outlined"
+                                                            startIcon={<EditOutlined fontSize="small" />}
+                                                        >
+                                                            Editar
+                                                        </Button>
+                                                    )}
+                                                </div>
+                                                <ul className="mt-8 md:mt-4 flex flex-col gap-y-1 text-sm lg:px-6">
+                                                    {fines &&
+                                                        fines.map((fine) => {
+                                                            return !Object.keys(fine).includes('values') ? (
+                                                                <li
+                                                                    key={fine._id}
+                                                                    className="flex justify-between py-2 border-b border-b-slate-100"
+                                                                >
+                                                                    <div>
+                                                                        <span className="font-semibold">
+                                                                            {fine.name}
+                                                                        </span>
+                                                                        <span className="inline-block px-2">
+                                                                            {player.fines.details
+                                                                                .filter(
+                                                                                    (detailedFine) =>
+                                                                                        detailedFine._id === fine._id
+                                                                                )
+                                                                                .map((value) => value)[0]?.value || 0}
+                                                                        </span>
+                                                                    </div>
+                                                                    <div className="w-16 lg:w-24 text-center">
+                                                                        {(
+                                                                            player.fines.details
+                                                                                .filter(
+                                                                                    (detailedFine) =>
+                                                                                        detailedFine._id === fine._id
+                                                                                )
+                                                                                .map((value) => value)[0]?.value *
+                                                                                (fine?.value || 1) || 0
+                                                                        ).toLocaleString(
+                                                                            'pt-PT',
+                                                                            localeStringOptions
+                                                                        )}{' '}
+                                                                        &euro;
+                                                                    </div>
+                                                                </li>
+                                                            ) : (
+                                                                <li
+                                                                    key={fine._id}
+                                                                    className="flex justify-between py-2 border-b border-b-slate-100"
+                                                                >
+                                                                    <span className="font-semibold">{fine.name}</span>
+                                                                    <div className="w-16 lg:w-24 text-center">
+                                                                        {/* TODO: utility function to calculate total value from defeats based on matches history */}
+                                                                        {/* {player.fines.total} &euro; */}
+                                                                    </div>
+                                                                </li>
+                                                            )
+                                                        })}
+                                                </ul>
+                                            </AccordionDetails>
+                                        </Accordion>
+                                    </li>
+                                )
+                            })
+                    ) : (
+                        <li className="py-8 flex items-center justify-center gap-x-2 text-lg bg-slate-200 rounded-md">
+                            <Inventory2Outlined fontSize="small" /> Sem resultados para a pesquisa "{searchValue}"
+                        </li>
+                    )}
                 </ul>
             </section>
             {role === 'cap' && (
