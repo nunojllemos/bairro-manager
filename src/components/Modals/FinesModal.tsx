@@ -73,9 +73,11 @@ const FinesModal = ({ id, handleClose }: FinesModalProps) => {
                                         variant="outlined"
                                         size="small"
                                         label={fine.name}
-                                        placeholder={player.fines.details
-                                            .filter((playerFine) => fine._id === playerFine._id)[0]
-                                            .value.toString()}
+                                        placeholder={
+                                            player.fines.details
+                                                .filter((playerFine) => fine._id === playerFine._id)[0]
+                                                ?.value.toString() || '0'
+                                        }
                                         InputLabelProps={{
                                             shrink: true,
                                         }}

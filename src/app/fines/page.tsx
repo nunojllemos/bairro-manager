@@ -92,11 +92,17 @@ const FinesPage = () => {
                                                 <li className="w-12 lg:w-24 text-center">
                                                     {player.fines.total} &euro;
                                                 </li>
-                                                <li className="w-12 lg:w-24 text-center text-green-700">
-                                                    {player.fines.paid} &euro;
-                                                </li>
+                                                <li className="w-12 lg:w-24 text-center">{player.fines.paid} &euro;</li>
                                                 <li className="w-16 lg:w-24 text-center text-red-700">
-                                                    &minus; {player.fines.total - player.fines.paid} &euro;
+                                                    {player.fines.total - player.fines.paid > 0 ? (
+                                                        <span>
+                                                            &minus; {player.fines.total - player.fines.paid} &euro;
+                                                        </span>
+                                                    ) : (
+                                                        <span className="text-green-700">
+                                                            &#43; {(player.fines.total - player.fines.paid) * -1} &euro;
+                                                        </span>
+                                                    )}
                                                 </li>
                                             </ul>
                                         </AccordionSummary>
@@ -132,14 +138,12 @@ const FinesPage = () => {
                                                                 <div>
                                                                     <span className="font-semibold">{fine.name}</span>
                                                                     <span className="inline-block px-2">
-                                                                        {
-                                                                            player.fines.details
-                                                                                .filter(
-                                                                                    (detailedFine) =>
-                                                                                        detailedFine._id === fine._id
-                                                                                )
-                                                                                .map((value) => value)[0]?.value
-                                                                        }
+                                                                        {player.fines.details
+                                                                            .filter(
+                                                                                (detailedFine) =>
+                                                                                    detailedFine._id === fine._id
+                                                                            )
+                                                                            .map((value) => value)[0]?.value || 0}
                                                                     </span>
                                                                 </div>
                                                                 <div className="w-16 lg:w-24 text-center">
@@ -150,7 +154,7 @@ const FinesPage = () => {
                                                                                     detailedFine._id === fine._id
                                                                             )
                                                                             .map((value) => value)[0]?.value *
-                                                                        (fine?.value || 1)
+                                                                            (fine?.value || 1) || 0
                                                                     ).toLocaleString('pt-PT', localeStringOptions)}{' '}
                                                                     &euro;
                                                                 </div>
@@ -163,7 +167,7 @@ const FinesPage = () => {
                                                                 <span className="font-semibold">{fine.name}</span>
                                                                 <div className="w-16 lg:w-24 text-center">
                                                                     {/* TODO: utility function to calculate total value from defeats based on matches history */}
-                                                                    20,00 &euro;
+                                                                    {/* {player.fines.total} &euro; */}
                                                                 </div>
                                                             </li>
                                                         )
@@ -181,7 +185,7 @@ const FinesPage = () => {
                     <div className="flex justify-between gap-y-8">
                         <div className="flex items-center gap-x-1 text-green-600">
                             <TrendingUpOutlined fontSize="inherit" />
-                            <Typography>{totalPaid?.toLocaleString('pt-PT', localeStringOptions)}</Typography>
+                            <Typography>{totalPaid?.toLocaleString('pt-PT', localeStringOptions)} &euro;</Typography>
                             <Typography className="text-slate-400">/</Typography>
                             <Typography>{totalValue?.toLocaleString('pt-PT', localeStringOptions)} &euro;</Typography>
                         </div>

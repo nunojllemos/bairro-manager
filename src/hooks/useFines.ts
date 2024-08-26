@@ -20,7 +20,13 @@ const useFines = () => {
 
         const totalValueDebt = players
             .map((player) => {
-                return player.fines.total - player.fines.paid
+                const isNegativeValue = player.fines.total - player.fines.paid < 0
+
+                console.log(player.fines.total, isNegativeValue)
+
+                if (!isNegativeValue) return player.fines.total - player.fines.paid
+
+                return 0
             })
             .reduce((total, current) => total + current)
 

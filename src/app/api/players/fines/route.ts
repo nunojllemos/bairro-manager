@@ -25,28 +25,36 @@ export async function PATCH(request: NextRequest) {
         const update = { 'fines.details': updatedFinesDetails }
         const options = { new: true }
 
-        const finesModel: Partial<IFines>[] | null = await Fines.find({}, ['_id', 'value'], { lean: true })
+        const finesData: Partial<IFines>[] | null = await Fines.find({}, ['_id', 'value'], { lean: true })
 
-        console.log(finesModel)
+        const updatedUser: Player | null = await PlayerModel.findOneAndUpdate(filter, update, options)
 
-        const totalValue = finesModel.map((fine) => {
-            player.fines.details
-                .map((playerFine) => {
-                    if (playerFine._id === fine._id) {
-                        console.log(playerFine.value * (fine.value || 1))
-                        return playerFine.value * (fine.value || 1)
-                    }
+        const totalValue = finesData
+            .map((fine) => {
+                const { _id, value } = fine
 
-                    return 0
-                })
-                .reduce((total, currentValue) => total + currentValue)
-        })
+                const total = updatedUser?.fines.details
+                    .map((playerFine) => {
+                        if (playerFine._id === (_id as any).toHexString()) {
+                            console.log('player fine value:', playerFine.value, ' * ', 'fine value: ', value)
+                            return playerFine.value * (value || 1)
+                        }
 
-        console.log(totalValue)
+                        return 0
+                    })
+                    .reduce((total, currentValue) => total + currentValue)
 
-        const updatedUser = await PlayerModel.findOneAndUpdate(filter, update, options)
+                return total
+            })
+            .reduce((total, current) => (total as number) + (current as number))
 
-        return NextResponse.json({ message: 'OK', user: updatedUser }, { status: 200 })
+        const updatedUserTotal: Player | null = await PlayerModel.findOneAndUpdate(
+            filter,
+            { 'fines.total': totalValue },
+            options
+        )
+
+        return NextResponse.json({ message: 'OK', user: updatedUserTotal }, { status: 200 })
     } catch (error) {
         console.log(error)
     }
