@@ -30,7 +30,7 @@ const FinesPage = () => {
     const [playerId, setPlayerId] = useState('')
     const [isModalOpen, setIsModalOpen] = useState(false)
     const { players, setPlayers } = usePlayers()
-    const { fines } = useFines()
+    const { fines, totalPaid, totalDebt, totalValue } = useFines()
 
     const handleClose = () => setIsModalOpen(false)
 
@@ -102,7 +102,7 @@ const FinesPage = () => {
                                         </AccordionSummary>
                                         <AccordionDetails>
                                             <Divider className="!mb-8 md:!mb-4" />
-                                            <div className="flex items-center justify-between">
+                                            <div className="flex items-center justify-between lg:px-6">
                                                 <span className="flex items-center gap-x-1 text-sm text-blue-500">
                                                     <InfoOutlined fontSize="inherit" />
                                                     Detalhes
@@ -113,6 +113,7 @@ const FinesPage = () => {
                                                             setIsModalOpen(true)
                                                             handleEdit(player._id)
                                                         }}
+                                                        size="small"
                                                         variant="outlined"
                                                         startIcon={<EditOutlined fontSize="small" />}
                                                     >
@@ -120,7 +121,7 @@ const FinesPage = () => {
                                                     </Button>
                                                 )}
                                             </div>
-                                            <ul className="mt-8 md:mt-4 flex flex-col gap-y-1 text-sm lg:pr-6">
+                                            <ul className="mt-8 md:mt-4 flex flex-col gap-y-1 text-sm lg:px-6">
                                                 {fines &&
                                                     fines.map((fine) => {
                                                         return !Object.keys(fine).includes('values') ? (
@@ -178,13 +179,15 @@ const FinesPage = () => {
             {role === 'cap' && (
                 <section className="mt-8">
                     <div className="flex justify-between gap-y-8">
-                        <div className="flex items-center gap-x-2 text-green-600">
+                        <div className="flex items-center gap-x-1 text-green-600">
                             <TrendingUpOutlined fontSize="inherit" />
-                            <Typography>200,00€</Typography>
+                            <Typography>{totalPaid?.toLocaleString('pt-PT', localeStringOptions)}</Typography>
+                            <Typography className="text-slate-400">/</Typography>
+                            <Typography>{totalValue?.toLocaleString('pt-PT', localeStringOptions)} &euro;</Typography>
                         </div>
                         <div className="flex items-center gap-x-2 text-red-500">
                             <TrendingDownOutlined fontSize="inherit" />
-                            <Typography>300,00€</Typography>
+                            <Typography>{totalDebt?.toLocaleString('pt-PT', localeStringOptions)} &euro;</Typography>
                         </div>
                     </div>
                 </section>
@@ -197,7 +200,7 @@ const FinesPage = () => {
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
                 >
-                    <FinesModal id={playerId} />
+                    <FinesModal id={playerId} handleClose={handleClose} />
                 </Modal>
             )}
         </>

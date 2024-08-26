@@ -2,6 +2,7 @@ import mongoose, { Document, Model, Schema } from 'mongoose'
 
 export interface IFines extends Document {
     name: string
+    description: string
     value?: number
     values?: number[]
 }
@@ -18,7 +19,6 @@ const finesSchema: Schema = new mongoose.Schema(
     }
 )
 
-const Fines =
-    mongoose.models.Fines || mongoose.model<IFines>('Fines', finesSchema)
+const Fines = mongoose.models.Fines || mongoose.model<IFines>('Fines', finesSchema)
 
 export default Fines

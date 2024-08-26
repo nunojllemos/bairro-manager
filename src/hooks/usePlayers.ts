@@ -8,11 +8,17 @@ const usePlayers = () => {
     const getPlayer = (id: string) => players.filter((player) => player._id === id)[0] || null
 
     const updatePlayers = (player: Player) => {
-        const newPlayer = players.filter((p) => p._id === player._id).map((player) => player)
-        const playersListWithoutUpdatedPlayer = players.filter((p) => p._id !== player._id)
-        console.log(newPlayer)
+        const updatedPlayers = players.map((p) => {
+            console.log(p)
+            console.log(player)
+            if (p._id === player._id) {
+                return player
+            }
 
-        setPlayers([...playersListWithoutUpdatedPlayer, ...newPlayer])
+            return p
+        })
+
+        setPlayers(updatedPlayers)
     }
 
     return { players, setPlayers, getPlayer, updatePlayers }

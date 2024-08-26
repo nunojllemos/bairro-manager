@@ -1,56 +1,5 @@
-// import mongoose, { Document, Model, Schema } from 'mongoose'
-
-// export interface IPlayer extends Document {
-//     name: string
-//     number: number
-//     createdAt: Date
-//     updatedAt: Date
-// }
-
-// const playerSchema: Schema = new mongoose.Schema(
-//     {
-//         name: {
-//             type: String,
-//             required: true,
-//         },
-//         number: {
-//             type: Number,
-//             required: true,
-//         },
-//         fines: [
-//             {
-//                 total: {
-//                     type: Number,
-//                 },
-//                 paid: {
-//                     type: Number,
-//                 },
-//                 details: [
-//                     {
-//                         _id: {
-//                             type: String,
-//                         },
-//                         value: {
-//                             type: String,
-//                         },
-//                     },
-//                 ],
-//             },
-//         ],
-//     },
-//     {
-//         timestamps: true,
-//         collection: 'players',
-//     }
-// )
-
-// const Player = mongoose.models.Player || mongoose.model<IPlayer>('Player', playerSchema)
-
-// export default Player
-
 import mongoose, { Schema, Document } from 'mongoose'
 
-// Interface for the document structure
 interface Player extends Document {
     fines: {
         total: number
@@ -67,7 +16,6 @@ interface Player extends Document {
     is_captain: boolean
     points: number
     positions: string[]
-    updatedAt: Date
 }
 
 // Define the schema for the fines
@@ -99,7 +47,6 @@ const PlayerSchema: Schema = new Schema(
         is_captain: { type: Boolean, required: true },
         points: { type: Number, required: true },
         positions: { type: [String], required: true },
-        updatedAt: { type: Date, required: true },
     },
     { timestamps: true } // Automatically manage createdAt and updatedAt fields
 )

@@ -9,9 +9,10 @@ import React, { useRef, useState } from 'react'
 
 interface FinesModalProps {
     id: string
+    handleClose: () => void
 }
 
-const FinesModal = ({ id }: FinesModalProps) => {
+const FinesModal = ({ id, handleClose }: FinesModalProps) => {
     const { getPlayer, updatePlayers } = usePlayers()
     const { fines } = useFines()
     const player = getPlayer(id)
@@ -37,7 +38,7 @@ const FinesModal = ({ id }: FinesModalProps) => {
                 .filter((fine) => !!fine),
         }
 
-        const request = await fetch('/api/players', {
+        const request = await fetch('/api/players/fines', {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -47,9 +48,8 @@ const FinesModal = ({ id }: FinesModalProps) => {
         const newPlayer = await request.json()
 
         updatePlayers(newPlayer.user)
+        handleClose()
     }
-
-    const handleCancel = () => {}
 
     return (
         <div className="bg-slate-100 p-16 w-max h-max rounded-md min-w-[40rem]">
@@ -99,7 +99,7 @@ const FinesModal = ({ id }: FinesModalProps) => {
                 </ul>
                 <div className="mt-12 flex gap-x-4 justify-end">
                     <Button
-                        onClick={handleCancel}
+                        onClick={handleClose}
                         color="error"
                         variant="outlined"
                         startIcon={<CloseOutlined fontSize="small" />}
