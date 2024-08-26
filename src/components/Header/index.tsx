@@ -82,7 +82,7 @@ const Header = () => {
     ]
 
     return (
-        <header className="py-4 border-b border-slate-200 flex justify-between items-center bg-slate-100 sticky top-0 w-full z-[2]">
+        <header className="py-4 border-b border-slate-200 flex justify-between items-center bg-slate-100 sticky top-0 w-full z-[3]">
             <Link href="/" className="flex flex-col">
                 <span className="uppercase font-bold text-xl text-blue-500 leading-none">bairro futebol clube</span>
                 <span className="text-sm font-light leading-none">manager</span>

@@ -2,7 +2,6 @@
 import React from 'react'
 import {
     Avatar,
-    Button,
     Divider,
     Table,
     TableBody,
@@ -12,33 +11,17 @@ import {
     TableRow,
     Typography,
 } from '@mui/material'
-import { CakeOutlined, PanToolAltOutlined } from '@mui/icons-material'
+import { CakeOutlined } from '@mui/icons-material'
 import useAuth from '@/hooks/useAuth'
 import { redirect } from 'next/navigation'
-
-const createData = (number: string, name: string, date: string, age: string, url: string) => ({
-    number,
-    name,
-    date,
-    age,
-    url,
-})
+import usePlayers from '@/hooks/usePlayers'
+import { getAge } from '@/utils'
 
 const BirthdaysPage = () => {
-    // const request = await fetch('http://localhost:3000/api/players/')
-    // const players = await request.json()
-    // console.log(players)
     const { isAuthenticated } = useAuth()
+    const { players } = usePlayers()
 
     if (!isAuthenticated) redirect('/login')
-
-    const DUMMY_ROWS = [
-        createData('14', 'Coruja', '01/10/1998', '27', 'https://avatar.iran.liara.run/public/1'),
-        createData('4', 'Antunes', '02/08/1994', '30', 'https://avatar.iran.liara.run/public/2'),
-        createData('10', 'Serra', '16/07/1999', '25', 'https://avatar.iran.liara.run/public/3'),
-        createData('1', 'Cris', '10/06/1994', '31', 'https://avatar.iran.liara.run/public/4'),
-        createData('18', 'Joãozinho', '06/08/1998', '27', 'https://avatar.iran.liara.run/public/5'),
-    ]
 
     return (
         <>
@@ -60,7 +43,7 @@ const BirthdaysPage = () => {
             <Divider className="!my-8" />
             <section>
                 <TableContainer>
-                    <Table sx={{ minWidth: 440 }}>
+                    <Table>
                         <TableHead>
                             <TableRow>
                                 <TableCell className="font-semibold text-blue-500">Nome</TableCell>
@@ -73,20 +56,20 @@ const BirthdaysPage = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {DUMMY_ROWS.map((player, index) => {
+                            {players.map((player, index) => {
                                 return (
-                                    <TableRow className={`${index % 2 === 0 ? 'bg-white' : ''}`} key={player.name}>
+                                    <TableRow className={`${index % 2 === 0 ? 'bg-white' : ''}`} key={player._id}>
                                         <TableCell size="small">
-                                            <div className="flex items-center gap-x-4">
-                                                <Avatar src={player.url} />
+                                            <div className="flex items-center gap-x-4 capitalize">
+                                                <Avatar src={player.avatar} />
                                                 {player.name}
                                             </div>
                                         </TableCell>
                                         <TableCell align="right" size="small">
-                                            {player.date}
+                                            {player.dob}
                                         </TableCell>
                                         <TableCell align="right" size="small">
-                                            {player.age}
+                                            {getAge(player.dob)}
                                         </TableCell>
                                     </TableRow>
                                 )
@@ -94,9 +77,6 @@ const BirthdaysPage = () => {
                         </TableBody>
                     </Table>
                 </TableContainer>
-                <div className="swipe-animation sm:hidden mt-4 text-zinc-500 text-2xl">
-                    <PanToolAltOutlined fontSize="inherit" />
-                </div>
             </section>
         </>
     )
