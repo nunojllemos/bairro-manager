@@ -77,30 +77,31 @@ const FinesPage = () => {
             </section>
             <Divider className="!my-8" />
 
-            <div className="pb-12">
-                <TextField
-                    className="w-full"
-                    size="small"
-                    value={searchValue}
-                    placeholder="Pesquisar"
-                    onChange={handleSearchInputChange}
-                    InputProps={{
-                        endAdornment: (
-                            <InputAdornment className="pl-4 opacity-40" position="start">
-                                <SearchOutlined fontSize="medium" />
-                            </InputAdornment>
-                        ),
-                    }}
-                />
-            </div>
-
             <section>
-                <div className="flex py-6 pl-4 pr-6 lg:pl-4 lg:pr-10 justify-between text-blue-500 font-semibold">
-                    <span>Nome</span>
-                    <div className="flex gap-x-6">
-                        <span className="block w-12 lg:w-24 text-center">Total</span>
-                        <span className="block w-12 lg:w-24 text-center">Pago</span>
-                        <span className="block lg:w-24 text-center">Em dívida</span>
+                <div className="sticky top-16 bg-slate-100 z-[2]">
+                    <div className="pb-12">
+                        <TextField
+                            className="w-full"
+                            size="small"
+                            value={searchValue}
+                            placeholder="Pesquisar"
+                            onChange={handleSearchInputChange}
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment className="pl-4 opacity-40" position="start">
+                                        <SearchOutlined fontSize="medium" />
+                                    </InputAdornment>
+                                ),
+                            }}
+                        />
+                    </div>
+                    <div className="flex py-6 pl-4 pr-6 lg:pl-4 lg:pr-10 justify-between text-blue-500 font-semibold">
+                        <span>Nome</span>
+                        <div className="flex gap-x-6">
+                            <span className="block w-12 lg:w-24 text-center">Total</span>
+                            <span className="block w-12 lg:w-24 text-center">Pago</span>
+                            <span className="block lg:w-24 text-center">Em dívida</span>
+                        </div>
                     </div>
                 </div>
                 <ul className="flex flex-col gap-y-4 lg:gap-y-2">
@@ -219,8 +220,9 @@ const FinesPage = () => {
                                 )
                             })
                     ) : (
-                        <li className="py-8 flex items-center justify-center gap-x-2 text-lg bg-slate-200 rounded-md">
-                            <Inventory2Outlined fontSize="small" /> Sem resultados para a pesquisa "{searchValue}"
+                        <li className="py-8 flex items-center justify-center gap-x-2 text-sm lg:text-lg bg-slate-200 rounded-md">
+                            <Inventory2Outlined fontSize="small" /> Sem resultados para a pesquisa &quot;{searchValue}
+                            &quot;
                         </li>
                     )}
                 </ul>

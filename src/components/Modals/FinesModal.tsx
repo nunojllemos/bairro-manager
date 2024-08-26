@@ -52,9 +52,11 @@ const FinesModal = ({ id, handleClose }: FinesModalProps) => {
     }
 
     return (
-        <div className="bg-slate-100 p-16 w-max h-max rounded-md min-w-[40rem]">
+        <div className="bg-slate-100 p-6 md:p-16 h-max rounded-md w-[calc(100%_-_2rem)] md:w-[40rem] max-h-[calc(100vh_-_4rem)] overflow-y-auto">
             <div className="flex items-center gap-x-2">
-                <Avatar sx={{ width: 60, height: 60 }} src={player.avatar} />
+                <div className="w-12 h-12 md:w-16 md:h-16">
+                    <Avatar sx={{ width: '100%', height: '100%' }} src={player.avatar} />
+                </div>
                 <Typography className="capitalize" variant="h5" component="h2">
                     {player.name}
                 </Typography>
@@ -99,7 +101,7 @@ const FinesModal = ({ id, handleClose }: FinesModalProps) => {
                             )
                         })}
                 </ul>
-                <div className="mt-12 flex gap-x-4 justify-end">
+                <div className="mt-24 md:mt-12 flex flex-col md:flex-row gap-4 justify-end">
                     <Button
                         onClick={handleClose}
                         color="error"
