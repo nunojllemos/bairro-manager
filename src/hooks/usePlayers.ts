@@ -1,4 +1,3 @@
-import { Player } from './../types/index.d'
 import { PlayersContext } from '@/context/PlayersContext'
 import { Player } from '@/types'
 import { useContext } from 'react'
@@ -11,7 +10,6 @@ const usePlayers = () => {
     const updatePlayer = (player: Player) => {
         const updatedPlayers = players.map((p) => {
             if (p._id === player._id) {
-                console.log(player)
                 return player
             }
 

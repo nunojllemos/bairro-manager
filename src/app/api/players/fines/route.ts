@@ -36,7 +36,6 @@ export async function PATCH(request: NextRequest) {
                 const total = updatedUser?.fines.details
                     .map((playerFine) => {
                         if (playerFine._id === (_id as any).toHexString()) {
-                            console.log('player fine value:', playerFine.value, ' * ', 'fine value: ', value)
                             return playerFine.value * (value || 1)
                         }
 

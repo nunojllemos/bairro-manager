@@ -1,10 +1,4 @@
-import {
-    createContext,
-    Dispatch,
-    SetStateAction,
-    useEffect,
-    useState,
-} from 'react'
+import { createContext, Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { Player } from '@/types'
 
 interface IPlayersContextProps {
@@ -31,18 +25,13 @@ const PlayersContextProvider = ({ children }: IPlayersContextProps) => {
             const request = await fetch('/api/players')
             const players = await request.json()
 
-            console.log(players)
             setPlayers(players)
         }
 
         getPlayers()
     }, [])
 
-    return (
-        <PlayersContext.Provider value={{ players, setPlayers }}>
-            {children}
-        </PlayersContext.Provider>
-    )
+    return <PlayersContext.Provider value={{ players, setPlayers }}>{children}</PlayersContext.Provider>
 }
 
 export default PlayersContextProvider
