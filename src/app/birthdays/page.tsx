@@ -46,11 +46,11 @@ const BirthdaysPage = () => {
                     <Table>
                         <TableHead>
                             <TableRow>
-                                <TableCell className="font-semibold text-blue-500">Nome</TableCell>
-                                <TableCell align="right" className="font-semibold text-blue-500">
+                                <TableCell className="!font-semibold !text-blue-500">Nome</TableCell>
+                                <TableCell align="right" className="!font-semibold !text-blue-500">
                                     Data
                                 </TableCell>
-                                <TableCell align="right" className="font-semibold text-blue-500">
+                                <TableCell align="right" className="!font-semibold !text-blue-500">
                                     Idade
                                 </TableCell>
                             </TableRow>

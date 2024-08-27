@@ -13,7 +13,12 @@ import {
     Typography,
     Modal,
 } from '@mui/material'
-import { EditOutlined, EmojiEventsOutlined } from '@mui/icons-material'
+import {
+    EditOutlined,
+    EmojiEventsOutlined,
+    SentimentDissatisfiedOutlined,
+    ThumbDownAltOutlined,
+} from '@mui/icons-material'
 import useAuth from '@/hooks/useAuth'
 import { redirect } from 'next/navigation'
 import usePlayers from '@/hooks/usePlayers'
@@ -53,8 +58,8 @@ const TablePage = () => {
                     <Table>
                         <TableHead>
                             <TableRow>
-                                <TableCell className="font-semibold text-blue-500 pl-12">Nome</TableCell>
-                                <TableCell align="right" className="font-semibold text-blue-500">
+                                <TableCell className="!font-semibold !text-blue-500 !pl-12">Nome</TableCell>
+                                <TableCell align="right" className="!font-semibold !text-blue-500">
                                     Pontos
                                 </TableCell>
                             </TableRow>
@@ -64,17 +69,28 @@ const TablePage = () => {
                                 .sort((a, b) => b.points - a.points)
                                 .map((player, index) => {
                                     return (
-                                        <TableRow
-                                            className={`${index % 2 === 0 ? 'bg-white' : ''} ${
-                                                index === 0 ? 'bg-green-100/35' : ''
-                                            } ${index + 1 > players.length / 2 ? 'bg-red-100/35' : ''}`}
-                                            key={player._id}
-                                        >
+                                        <TableRow className={`${index % 2 === 0 ? 'bg-white' : ''}`} key={player._id}>
                                             <TableCell size="small">
                                                 <div className="flex items-center gap-x-4 capitalize">
                                                     <span>#{index + 1}</span>
                                                     <Avatar src={player.avatar} />
-                                                    {player.name}
+                                                    <span
+                                                        className={`${
+                                                            index + 1 > players.length / 2 ? 'text-red-500' : ''
+                                                        }`}
+                                                    >
+                                                        {player.name}{' '}
+                                                    </span>
+                                                    {index + 1 > players.length / 2 && (
+                                                        <span className="text-xl pl-4 text-red-500">
+                                                            <ThumbDownAltOutlined fontSize="inherit" />
+                                                        </span>
+                                                    )}
+                                                    {index === 0 && (
+                                                        <span className="text-xl pl-4 text-green-700">
+                                                            <EmojiEventsOutlined fontSize="inherit" />
+                                                        </span>
+                                                    )}
                                                 </div>
                                             </TableCell>
                                             <TableCell align="right" size="small">

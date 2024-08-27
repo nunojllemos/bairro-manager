@@ -65,10 +65,10 @@ const MatchesPage = () => {
                     <Table sx={{ minWidth: 440 }}>
                         <TableHead>
                             <TableRow>
-                                <TableCell className="font-semibold text-blue-500 w-12"></TableCell>
-                                <TableCell className="font-semibold text-blue-500">Data</TableCell>
-                                <TableCell className="font-semibold text-blue-500">Equipa</TableCell>
-                                <TableCell align="right" className="font-semibold text-blue-500">
+                                <TableCell className="!font-semibold !text-blue-500 w-12"></TableCell>
+                                <TableCell className="!font-semibold !text-blue-500">Data</TableCell>
+                                <TableCell className="!font-semibold !text-blue-500">Equipa</TableCell>
+                                <TableCell align="right" className="!font-semibold !text-blue-500">
                                     <span className="inline-block mr-3 lg:mr-2">Resultado</span>
                                 </TableCell>
                             </TableRow>
