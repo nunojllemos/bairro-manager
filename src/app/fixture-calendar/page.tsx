@@ -7,9 +7,11 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import listPlugin from '@fullcalendar/list'
 import useAuth from '@/hooks/useAuth'
 import { redirect } from 'next/navigation'
+import usePlayers from '@/hooks/usePlayers'
 
 const FixtureCalendarPage = () => {
     const { isAuthenticated } = useAuth()
+    const { players } = usePlayers()
 
     if (!isAuthenticated) redirect('/login')
 
@@ -23,34 +25,52 @@ const FixtureCalendarPage = () => {
     const DUMMY_ANNIVERSARIES = [
         {
             name: 'Coruja',
-            date: '2024-08-25 08:00:00',
+            date: '2024-08-25',
         },
     ]
 
     const DUMMY_TRAINING_SESSIONS = [
         {
-            name: 'Treino #31',
-            date: '2024-08-05',
+            name: 'Treino',
+            date: {
+                start: '2024-08-05T20:00:00',
+                end: '2024-08-05T21:30:00',
+            },
         },
         {
-            name: 'Treino #32',
-            date: '2024-08-07',
+            name: 'Treino',
+            date: {
+                start: '2024-08-07T20:00:00',
+                end: '2024-08-07T21:30:00',
+            },
         },
         {
-            name: 'Treino #33',
-            date: '2024-08-09',
+            name: 'Treino',
+            date: {
+                start: '2024-08-09T20:00:00',
+                end: '2024-08-09T21:30:00',
+            },
         },
         {
-            name: 'Treino #34',
-            date: '2024-08-12',
+            name: 'Treino',
+            date: {
+                start: '2024-08-12T20:00:00',
+                end: '2024-08-12T21:30:00',
+            },
         },
         {
-            name: 'Treino #35',
-            date: '2024-08-14',
+            name: 'Treino',
+            date: {
+                start: '2024-08-14T20:00:00',
+                end: '2024-08-14T21:30:00',
+            },
         },
         {
-            name: 'Treino #36',
-            date: '2024-08-16',
+            name: 'Treino',
+            date: {
+                start: '2024-08-16T20:00:00',
+                end: '2024-08-16T21:30:00',
+            },
         },
     ]
 
@@ -68,19 +88,20 @@ const FixtureCalendarPage = () => {
     ]
 
     const mappedTrainingSessions = DUMMY_TRAINING_SESSIONS.map((session) => ({
-        title: `${session.name}`,
-        start: session.date,
+        title: `⚽️ ${session.name}`,
+        start: session.date.start,
+        end: session.date.end,
         color: COLORS.training,
     }))
 
-    const mappedAnniversaries = DUMMY_ANNIVERSARIES.map((anniversary) => ({
-        title: `🎂 ${anniversary.name} faz anos`,
-        start: anniversary.date,
+    const mappedAnniversaries = players.map((player) => ({
+        title: `🎂 ${player.name} faz anos`,
+        start: player.dob,
         color: COLORS.anniversaries,
     }))
 
     const mappedMatches = DUMMY_GAMES.map((match) => ({
-        title: match.place === 'home' ? `⚽️ Bairro x ${match.team}` : `⚽️ ${match.team} x Bairro`,
+        title: match.place === 'home' ? `🏆 Bairro x ${match.team}` : `🏆 ${match.team} x Bairro`,
         start: match.date,
         color: COLORS.matches,
     }))
@@ -116,15 +137,7 @@ const FixtureCalendarPage = () => {
                     }}
                     locale="pt"
                     firstDay={1}
-                    events={[
-                        ...mappedAnniversaries,
-                        ...mappedMatches,
-                        ...mappedTrainingSessions,
-                        {
-                            title: 'Test',
-                            date: '2024-08-01',
-                        },
-                    ]}
+                    events={[...mappedAnniversaries, ...mappedMatches, ...mappedTrainingSessions]}
                 />
             </section>
             <Divider className="!mt-16" />

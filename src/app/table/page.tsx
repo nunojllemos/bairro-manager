@@ -13,12 +13,7 @@ import {
     Typography,
     Modal,
 } from '@mui/material'
-import {
-    EditOutlined,
-    EmojiEventsOutlined,
-    SentimentDissatisfiedOutlined,
-    ThumbDownAltOutlined,
-} from '@mui/icons-material'
+import { EditOutlined, EmojiEventsOutlined, ThumbDownAltOutlined } from '@mui/icons-material'
 import useAuth from '@/hooks/useAuth'
 import { redirect } from 'next/navigation'
 import usePlayers from '@/hooks/usePlayers'
@@ -46,9 +41,19 @@ const TablePage = () => {
                 </div>
                 <div className="mt-4">
                     <Typography>
-                        Os aniversários são mais uma chance de convivermos juntos e enaltecermos as relações e as
-                        sinergias de balneário que futuramente nos trarão melhores resultados dentro do campo. Desta
-                        forma, os aniversários são para serem festejados em equipa, pelo que é obrigatório levar bolo.
+                        Cada exercício é uma nova oportunidade de ser melhor. O querer ser melhor é contagiante e vai
+                        ajudar imenso cada um nos seus objetivos pessoais, e acima de tudo, a equipa a ser mais forte e
+                        competente. Esta competição interna existe para alimentar essa fome de querer ser melhor e
+                        vencer cada obstáculo que nos é apresentado.
+                        <br />
+                        <br />
+                        As regras são simples:
+                        <span className="block pl-2">
+                            - A <strong>metade de baixo</strong> paga multa mensalmente
+                        </span>
+                        <span className="block pl-2">
+                            - O <strong>primeiro classificado</strong> vence um prémio
+                        </span>
                     </Typography>
                 </div>
             </section>
