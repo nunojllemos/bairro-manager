@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 import {
     Avatar,
     Button,
@@ -22,8 +22,13 @@ import PointsModal from '@/components/Modals/PointsModal'
 const TablePage = () => {
     const { isAuthenticated, role } = useAuth()
     const { players } = usePlayers()
+    const [isModalOpen, setIsModalOpen] = useState(false)
 
     if (!isAuthenticated) redirect('/login')
+
+    const handleClose = () => setIsModalOpen(false)
+
+    const openModal = () => setIsModalOpen(true)
 
     return (
         <>
@@ -56,10 +61,7 @@ const TablePage = () => {
                         </TableHead>
                         <TableBody>
                             {players
-                                .sort((a, b) => {
-                                    console.log(a, b)
-                                    return b.points - a.points
-                                })
+                                .sort((a, b) => b.points - a.points)
                                 .map((player, index) => {
                                     return (
                                         <TableRow
@@ -88,18 +90,23 @@ const TablePage = () => {
             {role === 'mister' && (
                 <>
                     <section className="mt-12 flex justify-end">
-                        <Button type="button" variant="contained" startIcon={<EditOutlined fontSize="small" />}>
+                        <Button
+                            onClick={openModal}
+                            type="button"
+                            variant="contained"
+                            startIcon={<EditOutlined fontSize="small" />}
+                        >
                             Editar
                         </Button>
                     </section>
                     <Modal
                         className="flex items-center justify-center"
-                        open={true}
-                        // onClose={handleClose}
+                        open={isModalOpen}
+                        onClose={handleClose}
                         aria-labelledby="modal-modal-title"
                         aria-describedby="modal-modal-description"
                     >
-                        <PointsModal />
+                        <PointsModal handleClose={handleClose} />
                     </Modal>
                 </>
             )}

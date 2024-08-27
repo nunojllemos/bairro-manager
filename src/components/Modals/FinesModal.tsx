@@ -13,7 +13,7 @@ interface FinesModalProps {
 }
 
 const FinesModal = ({ id, handleClose }: FinesModalProps) => {
-    const { getPlayer, updatePlayers } = usePlayers()
+    const { getPlayer, updatePlayer } = usePlayers()
     const { fines } = useFines()
     const player = getPlayer(id)
     const form = useRef<HTMLFormElement>(null)
@@ -47,7 +47,7 @@ const FinesModal = ({ id, handleClose }: FinesModalProps) => {
         })
         const newPlayer = await request.json()
 
-        updatePlayers(newPlayer.user)
+        updatePlayer(newPlayer.user)
         handleClose()
     }
 
