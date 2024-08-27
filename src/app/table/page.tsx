@@ -2,6 +2,7 @@
 import React from 'react'
 import {
     Avatar,
+    Button,
     Divider,
     Table,
     TableBody,
@@ -10,14 +11,16 @@ import {
     TableHead,
     TableRow,
     Typography,
+    Modal,
 } from '@mui/material'
-import { EmojiEventsOutlined } from '@mui/icons-material'
+import { EditOutlined, EmojiEventsOutlined } from '@mui/icons-material'
 import useAuth from '@/hooks/useAuth'
 import { redirect } from 'next/navigation'
 import usePlayers from '@/hooks/usePlayers'
+import PointsModal from '@/components/Modals/PointsModal'
 
 const TablePage = () => {
-    const { isAuthenticated } = useAuth()
+    const { isAuthenticated, role } = useAuth()
     const { players } = usePlayers()
 
     if (!isAuthenticated) redirect('/login')
@@ -82,6 +85,24 @@ const TablePage = () => {
                     </Table>
                 </TableContainer>
             </section>
+            {role === 'mister' && (
+                <>
+                    <section className="mt-12 flex justify-end">
+                        <Button type="button" variant="contained" startIcon={<EditOutlined fontSize="small" />}>
+                            Editar
+                        </Button>
+                    </section>
+                    <Modal
+                        className="flex items-center justify-center"
+                        open={true}
+                        // onClose={handleClose}
+                        aria-labelledby="modal-modal-title"
+                        aria-describedby="modal-modal-description"
+                    >
+                        <PointsModal />
+                    </Modal>
+                </>
+            )}
         </>
     )
 }
