@@ -1,5 +1,4 @@
 import { createContext, Dispatch, SetStateAction, useEffect, useState } from 'react'
-import { FinesModel } from '@/types'
 import { Event } from '@/models/events'
 import { EventSourceInput } from '@fullcalendar/core/index.js'
 import { capitalize, OPTIONS } from '@/utils'
@@ -31,27 +30,6 @@ const EventsContextProvider = ({ children }: IEventsContextProps) => {
     const { players } = usePlayers()
 
     useEffect(() => {
-        console.log('events useeffect', events)
-        const mappedEvents = events.map((event) => ({
-            title: `${OPTIONS[event.type].emoji} ${event.title}`,
-            start: new Date(`${event.date}T${event.start}`),
-            end: new Date(`${event.date}T${event.end}`),
-            color: OPTIONS[event.type].color,
-        }))
-
-        const mappedAnniversaries = players.map((player) => ({
-            color: OPTIONS.anniversary.color,
-            title: `${OPTIONS.anniversary.emoji} ${capitalize(player.name)}`,
-            rrule: {
-                freq: 'yearly',
-                dtstart: player.dob,
-            },
-        }))
-
-        setEventsForCalendar([...mappedAnniversaries, ...mappedEvents])
-    }, [events])
-
-    useEffect(() => {
         const getEvents = async () => {
             const request = await fetch('/api/events')
             const response = await request.json()
@@ -61,6 +39,27 @@ const EventsContextProvider = ({ children }: IEventsContextProps) => {
 
         getEvents()
     }, [])
+
+    useEffect(() => {
+        const mappedEvents = events.map((event) => ({
+            title: `${OPTIONS[event.type].emoji} ${event.title}`,
+            start: new Date(`${event.date}T${event.start}`),
+            end: new Date(`${event.date}T${event.end}`),
+            color: OPTIONS[event.type].color,
+        }))
+        console.log(mappedEvents)
+
+        const mappedAnniversaries = players.map((player) => ({
+            color: OPTIONS.anniversary.color || 'red',
+            title: `${OPTIONS.anniversary.emoji} ${capitalize(player.name)}`,
+            rrule: {
+                freq: 'yearly',
+                dtstart: player.dob,
+            },
+        }))
+
+        setEventsForCalendar([...mappedAnniversaries, ...mappedEvents])
+    }, [events, players])
 
     return (
         <EventsContext.Provider value={{ events, setEvents, eventsForCalendar, setEventsForCalendar }}>

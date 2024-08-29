@@ -35,30 +35,9 @@ interface CalendarModalProps {
 const CalendarModal = ({ handleClose }: CalendarModalProps) => {
     const { events, setEvents } = useEvents()
 
-    const mergeArrays = (originalEventsArray: Event[], updatedEventsArray: Event[]): Event[] => {
-        const mergedArray = originalEventsArray.map((originalEvent) => {
-            const { _id: originalEventId } = originalEvent
-
-            const updatedArray = updatedEventsArray.map((updatedEvent) => {
-                const { _id: updatedEventId } = updatedEvent
-
-                if (originalEventId === updatedEventId) {
-                    return updatedEvent
-                }
-
-                return originalEvent
-            })
-
-            return updatedArray[0]
-        })
-
-        return mergedArray
-    }
-
     const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault()
 
-        // const formData = new FormData(form.current as HTMLFormElement)
         const data = events
             .filter((event) => !isDatePast(`${event.date}T${event.start}:00`))
             .map((event) => {
@@ -97,8 +76,7 @@ const CalendarModal = ({ handleClose }: CalendarModalProps) => {
 
         const response = await request.json()
 
-        setEvents(mergeArrays(events, response.updatedEvents))
-        console.log('update events')
+        setEvents(response.events)
         handleClose()
     }
 
@@ -204,6 +182,7 @@ const CalendarModal = ({ handleClose }: CalendarModalProps) => {
                                                 >
                                                     {mapEventsToPortuguese().map((type) => (
                                                         <MenuItem
+                                                            key={type}
                                                             value={capitalize(type as string)}
                                                             className="capitalize text-sm"
                                                         >
@@ -221,7 +200,7 @@ const CalendarModal = ({ handleClose }: CalendarModalProps) => {
             </ul>
             <div className="mt-24 md:mt-12 flex flex-col md:flex-row gap-4 justify-end">
                 <Button
-                    onClick={() => {}}
+                    onClick={handleClose}
                     color="error"
                     variant="outlined"
                     startIcon={<CloseOutlined fontSize="small" />}

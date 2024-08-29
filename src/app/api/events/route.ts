@@ -33,7 +33,9 @@ export async function PATCH(request: NextRequest) {
             })
         )
 
-        return NextResponse.json({ message: 'OK', updatedEvents }, { status: 200 })
+        const allEvents = await EventModel.find({})
+
+        return NextResponse.json({ message: 'OK', events: allEvents }, { status: 200 })
     } catch (error) {
         console.log(error)
     }
