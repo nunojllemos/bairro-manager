@@ -66,7 +66,10 @@ const BirthdaysPage = () => {
                                             </div>
                                         </TableCell>
                                         <TableCell align="right" size="small">
-                                            {player.dob}
+                                            {new Date(player.dob).toLocaleDateString('pt-PT', {
+                                                day: 'numeric',
+                                                month: 'long',
+                                            })}
                                         </TableCell>
                                         <TableCell align="right" size="small">
                                             {getAge(player.dob)}

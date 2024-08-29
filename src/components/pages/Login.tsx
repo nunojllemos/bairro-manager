@@ -9,7 +9,7 @@ import { setCookie } from '@/utils/cookies'
 const Login = () => {
     const [password, setPassword] = useState('')
     const [user, setUser] = useState('')
-    const { setAuthentication, isAuthenticated, setRole } = useAuth()
+    const { setAuthentication, isAuthenticated, setRole, setUser: setUserContext } = useAuth()
     const [isPasswordVisible, setIsPasswordVisible] = useState(false)
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
@@ -41,7 +41,9 @@ const Login = () => {
                 setAuthentication(true)
                 setIsSubmitting(false)
                 setRole(response.user.role)
+                setUserContext(response.user)
                 setCookie('session-id', response.user.session_id)
+                setCookie('username', response.user.username)
             }
 
             if (status === 401) {

@@ -1,12 +1,7 @@
-import {
-    createContext,
-    Dispatch,
-    SetStateAction,
-    useEffect,
-    useState,
-} from 'react'
+import { createContext, Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { setRoleBySessionId } from '@/utils'
 import { getCookie } from '@/utils/cookies'
+import { User } from '@/types'
 
 export type Role = 'player' | 'mister' | 'cap' | null
 
@@ -17,6 +12,8 @@ interface IAuthContextProps {
 interface IAuthContext {
     isAuthenticated: boolean
     setAuthentication: (bool: boolean) => void
+    user: Omit<User, 'password'> | null
+    setUser: Dispatch<SetStateAction<Omit<User, 'password'> | null>>
     role: Role
     setRole: Dispatch<SetStateAction<Role>>
 }
@@ -26,11 +23,14 @@ export const AuthContext = createContext<IAuthContext>({
     setAuthentication: () => console.log(''),
     role: 'player',
     setRole: () => console.log(''),
+    user: { username: 'lemos', role: 'cap', session_id: 'asd' },
+    setUser: () => console.log(''),
 })
 
 const AuthContextProvider = ({ children }: IAuthContextProps) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false)
     const [role, setRole] = useState<Role>(null)
+    const [user, setUser] = useState<Omit<User, 'password'> | null>(null)
 
     const setAuthentication = (boolean: boolean) => {
         setIsAuthenticated(boolean)
@@ -38,17 +38,20 @@ const AuthContextProvider = ({ children }: IAuthContextProps) => {
 
     useEffect(() => {
         const sessionId = getCookie('session-id')
+        const usernameCookie = getCookie('username')
 
-        if (sessionId) {
+        if (!!sessionId) {
             setIsAuthenticated(true)
             setRole(setRoleBySessionId(sessionId))
+        }
+
+        if (!!usernameCookie) {
+            setUser({ username: usernameCookie, role: role, session_id: sessionId || '' })
         }
     }, [])
 
     return (
-        <AuthContext.Provider
-            value={{ isAuthenticated, setAuthentication, role, setRole }}
-        >
+        <AuthContext.Provider value={{ isAuthenticated, setAuthentication, role, setRole, user, setUser }}>
             {children}
         </AuthContext.Provider>
     )

@@ -75,11 +75,11 @@ const FinesPage = () => {
                     </Typography>
                 </div>
             </section>
-            <Divider className="!my-8" />
+            <Divider className="!mt-8" />
 
             <section>
-                <div className="sticky top-16 bg-slate-100 z-[2]">
-                    <div className="pb-12">
+                <div className="sticky top-24 bg-slate-100 z-[2]">
+                    <div className="pb-12 lg:pb-6 pt-8">
                         <TextField
                             className="w-full"
                             size="small"
