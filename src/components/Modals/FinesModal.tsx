@@ -25,6 +25,7 @@ const FinesModal = ({ id, handleClose }: FinesModalProps) => {
 
         const data = {
             player_id: id,
+            paid: formData.get('paid'),
             fines: fines
                 .map((fine) => {
                     const hasValuesKey = Object.keys(fine).includes('values')
@@ -63,6 +64,27 @@ const FinesModal = ({ id, handleClose }: FinesModalProps) => {
             </div>
             <form ref={form} onSubmit={handleSubmit}>
                 <ul className="flex flex-col gap-y-6 mt-16 w-full">
+                    <li className="p-4 rounded-lg bg-green-100/60">
+                        <TextField
+                            name={'paid'}
+                            color="success"
+                            className="w-full"
+                            variant="outlined"
+                            size="small"
+                            label={'Pago'}
+                            placeholder="Valor atual + pagamento"
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment className="pl-4 opacity-40" position="start">
+                                        {`Atual: ${player.fines.paid} €`}
+                                    </InputAdornment>
+                                ),
+                            }}
+                        />
+                    </li>
                     {fines
                         .filter((fine) => !Object.keys(fine).includes('values'))
                         .map((fine) => {

@@ -30,7 +30,11 @@ const useFines = () => {
 
         setTotalDebt(totalValueDebt)
 
-        if (totalDebt && totalPaid) setTotalValue(totalDebt + totalPaid)
+        if (totalDebt && totalPaid) {
+            setTotalValue(totalDebt + totalPaid)
+        } else {
+            setTotalValue(0)
+        }
     }, [players, totalDebt, totalPaid])
 
     return { fines, totalPaid, totalDebt, totalValue }

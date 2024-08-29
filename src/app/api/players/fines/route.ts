@@ -7,7 +7,7 @@ import { Player } from '@/types'
 export async function PATCH(request: NextRequest) {
     try {
         const data = await request.json()
-        const { player_id, fines } = data
+        const { player_id, fines, paid } = data
 
         await dbConnect()
 
@@ -22,7 +22,7 @@ export async function PATCH(request: NextRequest) {
         ]
 
         const filter = { _id: player_id }
-        const update = { 'fines.details': updatedFinesDetails }
+        const update = { 'fines.details': updatedFinesDetails, 'fines.paid': paid }
         const options = { new: true }
 
         const finesData: Partial<IFines>[] | null = await Fines.find({}, ['_id', 'value'], { lean: true })

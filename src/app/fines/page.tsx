@@ -23,7 +23,7 @@ import {
     TrendingUpOutlined,
 } from '@mui/icons-material'
 import useAuth from '@/hooks/useAuth'
-import { redirect, useRouter } from 'next/navigation'
+import { redirect } from 'next/navigation'
 import usePlayers from '@/hooks/usePlayers'
 import useFines from '@/hooks/useFines'
 import FinesModal from '@/components/Modals/FinesModal'
@@ -38,15 +38,6 @@ const FinesPage = () => {
     const { fines, totalPaid, totalDebt, totalValue } = useFines()
 
     const handleClose = () => setIsModalOpen(false)
-
-    useEffect(() => {
-        const getPlayer = async () => {
-            const request = await fetch('/api/players')
-            const json = await request.json()
-        }
-
-        getPlayer()
-    }, [playerId])
 
     if (!isAuthenticated) redirect('/login')
 
@@ -69,9 +60,41 @@ const FinesPage = () => {
                 </div>
                 <div className="mt-4">
                     <Typography>
-                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Neque voluptatem vero praesentium
-                        molestiae ipsa optio dolor ea labore debitis consectetur necessitatibus nobis voluptates, hic
-                        quasi animi adipisci repudiandae corporis dicta?
+                        As multas têm como principal propósito fomentar o compromisso de cada um com a equipa e com os
+                        comportamentos que todos acham adequados para o plantel. Também servem para fazer uma festa do
+                        car****o no final do ano mas isso é outra história.
+                        <br />
+                        <br />
+                        Como aprovado por <strong>todos</strong>, aqui está a tabela de preços para refrescar a memória
+                        aos mais esquecidos:
+                        <br />
+                        <br />
+                        <ul className="border border-zinc-300 grid md:grid-cols-2 gap-px bg-zinc-300 md:max-w-max">
+                            <li className="bg-slate-100 px-4 py-1">Atraso ao treino</li>
+                            <li className="bg-slate-100 px-4 py-1 md:text-end font-semibold">1,00€</li>
+                            <li className="bg-slate-100 px-4 py-1">Atraso à convocatória</li>
+                            <li className="bg-slate-100 px-4 py-1 md:text-end font-semibold">2,00€</li>
+                            <li className="bg-slate-100 px-4 py-1">Falta injustificada ao treino</li>
+                            <li className="bg-slate-100 px-4 py-1 md:text-end font-semibold">2,50€</li>
+                            <li className="bg-slate-100 px-4 py-1">Falta injustificada ao jogo</li>
+                            <li className="bg-slate-100 px-4 py-1 md:text-end font-semibold">10,00€</li>
+                            <li className="bg-slate-100 px-4 py-1">Telemóvel com som na palestra</li>
+                            <li className="bg-slate-100 px-4 py-1 md:text-end font-semibold">1,00€</li>
+                            <li className="bg-slate-100 px-4 py-1">Expulsão desnecessária</li>
+                            <li className="bg-slate-100 px-4 py-1 md:text-end font-semibold">10,00€</li>
+                            <li className="bg-slate-100 px-4 py-1">Roupa virada ou fora dos cestos</li>
+                            <li className="bg-slate-100 px-4 py-1 md:text-end font-semibold">0,50€ / todos</li>
+                            <li className="bg-slate-100 px-4 py-1">Falta de bolo de aniversário</li>
+                            <li className="bg-slate-100 px-4 py-1 md:text-end font-semibold">30,00€</li>
+                            <li className="bg-slate-100 px-4 py-1">Falta de presença no lanche do jogo</li>
+                            <li className="bg-slate-100 px-4 py-1 md:text-end font-semibold">2,00€</li>
+                            <li className="bg-slate-100 px-4 py-1">Falta de presença no autocarro (ida e volta)</li>
+                            <li className="bg-slate-100 px-4 py-1 md:text-end font-semibold">2,50€</li>
+                            <li className="bg-slate-100 px-4 py-1">Derrota (p/ os jogadores)</li>
+                            <li className="bg-slate-100 px-4 py-1 md:text-end font-semibold">1,00€ / 1,50€ / 2,00€</li>
+                            <li className="bg-slate-100 px-4 py-1">Derrota (p/ a equipa técnica)</li>
+                            <li className="bg-slate-100 px-4 py-1 md:text-end font-semibold">1,50€ / 2,00€ / 2,50€</li>
+                        </ul>
                     </Typography>
                 </div>
             </section>
@@ -79,7 +102,7 @@ const FinesPage = () => {
 
             <section>
                 <div className="sticky top-24 bg-slate-100 z-[2]">
-                    <div className="pb-12 lg:pb-6 pt-8">
+                    <div className="pb-8 lg:pb-6 pt-8">
                         <TextField
                             className="w-full"
                             size="small"
@@ -100,7 +123,7 @@ const FinesPage = () => {
                         <div className="flex gap-x-6">
                             <span className="block w-12 lg:w-24 text-center">Total</span>
                             <span className="block w-12 lg:w-24 text-center">Pago</span>
-                            <span className="block lg:w-24 text-center">Em dívida</span>
+                            <span className="block lg:w-24 text-center">Saldo</span>
                         </div>
                     </div>
                 </div>
@@ -136,7 +159,11 @@ const FinesPage = () => {
                                                         {player.fines.paid} &euro;
                                                     </li>
                                                     <li className="w-16 lg:w-24 text-center text-red-700">
-                                                        {player.fines.total - player.fines.paid > 0 ? (
+                                                        {player.fines.total - player.fines.paid === 0 ? (
+                                                            <span className="text-zinc-900">
+                                                                {player.fines.total - player.fines.paid} &euro;
+                                                            </span>
+                                                        ) : player.fines.total - player.fines.paid > 0 ? (
                                                             <span>
                                                                 &minus; {player.fines.total - player.fines.paid} &euro;
                                                             </span>
