@@ -98,6 +98,7 @@ const CalendarModal = ({ handleClose }: CalendarModalProps) => {
         const response = await request.json()
 
         setEvents(mergeArrays(events, response.updatedEvents))
+        console.log('update events')
         handleClose()
     }
 

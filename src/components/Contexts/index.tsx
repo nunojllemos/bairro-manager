@@ -8,11 +8,11 @@ import EventsContextProvider from '@/context/EventsContext'
 const Contexts = ({ children }: { children: React.ReactNode }) => {
     return (
         <AuthContextProvider>
-            <EventsContextProvider>
-                <PlayersContextProvider>
+            <PlayersContextProvider>
+                <EventsContextProvider>
                     <FinesContextProvider>{children}</FinesContextProvider>
-                </PlayersContextProvider>
-            </EventsContextProvider>
+                </EventsContextProvider>
+            </PlayersContextProvider>
         </AuthContextProvider>
     )
 }
