@@ -88,25 +88,27 @@ const CalendarModal = ({ handleClose }: CalendarModalProps) => {
                         <CalendarMonthOutlined fontSize="medium" /> Eventos
                     </span>
                 </Typography>
-                <span className="font-light text-sm py-4 px-6 rounded-lg bg-yellow-100 text-yellow-800">
+                <span className="font-light text-sm p-2 md:py-4 md:px-6 rounded-lg bg-yellow-100 text-yellow-800">
                     {'⚠️'} Só aparecem eventos futuros.
                 </span>
             </div>
-            <ul className="flex flex-col gap-y-4 mt-16 w-full">
+            <ul className="flex flex-col md:gap-y-4 mt-8 md:mt-16 w-full h-[40vh] md:h-auto z-[1] relative">
                 {events
                     .filter((event) => !isDatePast(`${event.date}T${event.start}`))
                     .map((event) => {
                         return (
-                            <li key={`${event.title}`}>
+                            <li key={`${event.title}`} className="pb-4 md:pb-0">
                                 <Accordion>
                                     <AccordionSummary
                                         expandIcon={<ExpandMoreOutlined fontSize="small" />}
                                         aria-controls="panel1-content"
                                         id="panel1-header"
                                     >
-                                        <div className="flex items-center gap-x-6 md:gap-x-2">
-                                            <span className="text-sm font-light text-slate-500">{event.date}</span>
-                                            <span className="text-sm font-medium">
+                                        <div className="flex flex-col md:flex-row md:items-center gap-y-1 md:gap-x-2">
+                                            <span className="text-xs md:text-sm font-light text-slate-400">
+                                                {new Date(event.date).toLocaleDateString('pt-PT')}
+                                            </span>
+                                            <span className="text-xs md:text-sm font-medium">
                                                 {OPTIONS[event.type].emoji} {event.title}
                                             </span>
                                         </div>
@@ -198,7 +200,7 @@ const CalendarModal = ({ handleClose }: CalendarModalProps) => {
                         )
                     })}
             </ul>
-            <div className="mt-24 md:mt-12 flex flex-col md:flex-row gap-4 justify-end">
+            <div className="mt-12 flex flex-col md:flex-row gap-4 justify-end">
                 <Button
                     onClick={handleClose}
                     color="error"

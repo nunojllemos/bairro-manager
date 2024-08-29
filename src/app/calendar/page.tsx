@@ -44,7 +44,7 @@ const FixtureCalendarPage = () => {
                 <span className="text-blue-500 flex items-center gap-x-2">
                     <InfoOutlined fontSize="inherit" /> Legenda
                 </span>
-                <ul className="flex flex-col lg:flex-row gap-2 lg:gap-16 mt-6">
+                <ul className="flex flex-row gap-4 flex-wrap lg:gap-16 mt-3 md:mt-6">
                     <li className="flex items-center gap-x-2">
                         <span className="inline-block grow-0 w-2 h-2 lg:w-3 lg:h-3 rounded-full bg-yellow-400"></span>
                         <span>Aniversários</span>
@@ -64,7 +64,7 @@ const FixtureCalendarPage = () => {
                 </ul>
             </section>
 
-            <section>
+            <section className="text-sm md:text-base">
                 <FullCalendar
                     key={eventsForCalendar.toString()}
                     initialView="listWeek"

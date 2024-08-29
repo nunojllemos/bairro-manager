@@ -116,9 +116,16 @@ const FinesPage = () => {
                                         <Accordion className="!m-0 !rounded-none1 !shadow-none">
                                             <AccordionSummary className="pr-2" expandIcon={<ExpandMore />}>
                                                 <div>
-                                                    <div className="flex flex-col lg:flex-row items-center gap-y-1 lg:gap-x-4 text-xs lg:text-sm">
-                                                        <Avatar src={player.avatar} />
-                                                        <span className="capitalize">{player.name}</span>
+                                                    <div className="flex flex-col lg:flex-row items-center gap-y-1 lg:gap-x-4 text-xs lg:text-sm w-10 lg:w-auto">
+                                                        <Avatar
+                                                            src={
+                                                                player.avatar ||
+                                                                'https://i.postimg.cc/Jhzs04Fm/default.png'
+                                                            }
+                                                        />
+                                                        <span className="capitalize text-center lg:text-left">
+                                                            {player.name}
+                                                        </span>
                                                     </div>
                                                 </div>
                                                 <ul className="flex gap-x-6">
