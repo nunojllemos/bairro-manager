@@ -63,67 +63,72 @@ const FinesModal = ({ id, handleClose }: FinesModalProps) => {
                 </Typography>
             </div>
             <form ref={form} onSubmit={handleSubmit}>
-                <ul className="flex flex-col gap-y-6 mt-16 w-full">
-                    <li className="p-4 rounded-lg bg-green-100/60">
-                        <TextField
-                            name={'paid'}
-                            color="success"
-                            className="w-full"
-                            variant="outlined"
-                            size="small"
-                            label={'Pago'}
-                            placeholder="Valor atual + pagamento"
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment className="pl-4 opacity-40" position="start">
-                                        {`Atual: ${player.fines.paid} €`}
-                                    </InputAdornment>
-                                ),
-                            }}
-                        />
-                    </li>
-                    {fines
-                        .filter((fine) => !Object.keys(fine).includes('values'))
-                        .map((fine) => {
-                            return (
-                                <li key={fine._id}>
-                                    <TextField
-                                        name={fine._id}
-                                        type="number"
-                                        className="w-full"
-                                        variant="outlined"
-                                        size="small"
-                                        label={fine.name}
-                                        placeholder={
-                                            player.fines.details
-                                                .filter((playerFine) => fine._id === playerFine._id)[0]
-                                                ?.value.toString() || '0'
-                                        }
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                        InputProps={{
-                                            endAdornment: (
-                                                <InputAdornment className="pl-4 opacity-40" position="start">
-                                                    {!Object.keys(fine).includes('values') && (
-                                                        <>
-                                                            &times;{' '}
-                                                            {fine.value?.toLocaleString('pt-PT', localeStringOptions)}{' '}
-                                                            &euro;
-                                                        </>
-                                                    )}
-                                                </InputAdornment>
-                                            ),
-                                        }}
-                                    />
-                                </li>
-                            )
-                        })}
-                </ul>
-                <div className="mt-24 md:mt-12 flex flex-col md:flex-row gap-4 justify-end">
+                <div className="relative after:block after:absolute after:bottom-0 after:w-full after:h-12 after:bg-[linear-gradient(180deg,rgba(255,255,255,0)_0%,rgba(241,245,249,1)_100%)]">
+                    <ul className="flex flex-col gap-y-6 mt-16 pb-16 w-full h-[60vh] overflow-y-auto">
+                        <li className="p-4 rounded-lg bg-green-100/60">
+                            <TextField
+                                name={'paid'}
+                                color="success"
+                                className="w-full"
+                                variant="outlined"
+                                size="small"
+                                label={'Pago'}
+                                placeholder="Valor atual + pagamento"
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                InputProps={{
+                                    endAdornment: (
+                                        <InputAdornment className="pl-4 opacity-40" position="start">
+                                            {`Atual: ${player.fines.paid} €`}
+                                        </InputAdornment>
+                                    ),
+                                }}
+                            />
+                        </li>
+                        {fines
+                            .filter((fine) => !Object.keys(fine).includes('values'))
+                            .map((fine) => {
+                                return (
+                                    <li key={fine._id}>
+                                        <TextField
+                                            name={fine._id}
+                                            type="number"
+                                            className="w-full"
+                                            variant="outlined"
+                                            size="small"
+                                            label={fine.name}
+                                            placeholder={
+                                                player.fines.details
+                                                    .filter((playerFine) => fine._id === playerFine._id)[0]
+                                                    ?.value.toString() || '0'
+                                            }
+                                            InputLabelProps={{
+                                                shrink: true,
+                                            }}
+                                            InputProps={{
+                                                endAdornment: (
+                                                    <InputAdornment className="pl-4 opacity-40" position="start">
+                                                        {!Object.keys(fine).includes('values') && (
+                                                            <>
+                                                                &times;{' '}
+                                                                {fine.value?.toLocaleString(
+                                                                    'pt-PT',
+                                                                    localeStringOptions
+                                                                )}{' '}
+                                                                &euro;
+                                                            </>
+                                                        )}
+                                                    </InputAdornment>
+                                                ),
+                                            }}
+                                        />
+                                    </li>
+                                )
+                            })}
+                    </ul>
+                </div>
+                <div className="mt-12 flex flex-col md:flex-row gap-4 justify-end">
                     <Button
                         onClick={handleClose}
                         color="error"

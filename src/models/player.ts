@@ -36,7 +36,7 @@ const PlayerSchema: Schema = new Schema(
         fines: { type: FinesSchema, required: true },
         name: { type: String, required: true },
         number: { type: Number, required: true },
-        avatar: { type: String, required: true },
+        avatar: { type: String },
         assists: { type: Number, required: true },
         cards: {
             yellow: { type: Number, required: true },

@@ -56,27 +56,29 @@ const BirthdaysPage = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {players.map((player, index) => {
-                                return (
-                                    <TableRow className={`${index % 2 === 0 ? 'bg-white' : ''}`} key={player._id}>
-                                        <TableCell size="small">
-                                            <div className="flex items-center gap-x-4 capitalize">
-                                                <Avatar src={player.avatar} />
-                                                {player.name}
-                                            </div>
-                                        </TableCell>
-                                        <TableCell align="right" size="small">
-                                            {new Date(player.dob).toLocaleDateString('pt-PT', {
-                                                day: 'numeric',
-                                                month: 'long',
-                                            })}
-                                        </TableCell>
-                                        <TableCell align="right" size="small">
-                                            {getAge(player.dob)}
-                                        </TableCell>
-                                    </TableRow>
-                                )
-                            })}
+                            {players
+                                .sort((a, b) => a.name.localeCompare(b.name))
+                                .map((player, index) => {
+                                    return (
+                                        <TableRow className={`${index % 2 === 0 ? 'bg-white' : ''}`} key={player._id}>
+                                            <TableCell size="small">
+                                                <div className="flex items-center gap-x-4 capitalize">
+                                                    <Avatar src={player.avatar} />
+                                                    {player.name}
+                                                </div>
+                                            </TableCell>
+                                            <TableCell align="right" size="small">
+                                                {new Date(player.dob).toLocaleDateString('pt-PT', {
+                                                    day: 'numeric',
+                                                    month: 'long',
+                                                })}
+                                            </TableCell>
+                                            <TableCell align="right" size="small">
+                                                {getAge(player.dob)}
+                                            </TableCell>
+                                        </TableRow>
+                                    )
+                                })}
                         </TableBody>
                     </Table>
                 </TableContainer>

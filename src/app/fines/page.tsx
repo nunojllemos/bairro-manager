@@ -69,7 +69,7 @@ const FinesPage = () => {
                         aos mais esquecidos:
                         <br />
                         <br />
-                        <ul className="border border-zinc-300 grid md:grid-cols-2 gap-px bg-zinc-300 md:max-w-max">
+                        {/* <ul className="border border-zinc-300 grid md:grid-cols-2 gap-px bg-zinc-300 md:max-w-max">
                             <li className="bg-slate-100 px-4 py-1">Atraso ao treino</li>
                             <li className="bg-slate-100 px-4 py-1 md:text-end font-semibold">1,00€</li>
                             <li className="bg-slate-100 px-4 py-1">Atraso à convocatória</li>
@@ -94,7 +94,7 @@ const FinesPage = () => {
                             <li className="bg-slate-100 px-4 py-1 md:text-end font-semibold">1,00€ / 1,50€ / 2,00€</li>
                             <li className="bg-slate-100 px-4 py-1">Derrota (p/ a equipa técnica)</li>
                             <li className="bg-slate-100 px-4 py-1 md:text-end font-semibold">1,50€ / 2,00€ / 2,50€</li>
-                        </ul>
+                        </ul> */}
                     </Typography>
                 </div>
             </section>
@@ -121,9 +121,9 @@ const FinesPage = () => {
                     <div className="flex py-6 pl-4 pr-6 lg:pl-4 lg:pr-10 justify-between text-blue-500 font-semibold">
                         <span>Nome</span>
                         <div className="flex gap-x-6">
-                            <span className="block w-12 lg:w-24 text-center">Total</span>
-                            <span className="block w-12 lg:w-24 text-center">Pago</span>
-                            <span className="block lg:w-24 text-center">Saldo</span>
+                            <span className="block w-16 lg:w-24 text-center">Total</span>
+                            <span className="block w-16 lg:w-24 text-center">Pago</span>
+                            <span className="block w-16 lg:w-24 text-center">Saldo</span>
                         </div>
                     </div>
                 </div>
@@ -133,6 +133,7 @@ const FinesPage = () => {
                         0 ? (
                         players
                             .filter((player) => player.name.toLowerCase().startsWith(searchValue.toLowerCase()))
+                            .sort((a, b) => a.name.localeCompare(b.name))
                             .map((player, index) => {
                                 return (
                                     <li key={player.name} className={`${index % 2 === 0 ? 'bg-white' : ''}`}>
@@ -140,12 +141,7 @@ const FinesPage = () => {
                                             <AccordionSummary className="pr-2" expandIcon={<ExpandMore />}>
                                                 <div>
                                                     <div className="flex flex-col lg:flex-row items-center gap-y-1 lg:gap-x-4 text-xs lg:text-sm w-10 lg:w-auto">
-                                                        <Avatar
-                                                            src={
-                                                                player.avatar ||
-                                                                'https://i.postimg.cc/Jhzs04Fm/default.png'
-                                                            }
-                                                        />
+                                                        <Avatar src={player.avatar} />
                                                         <span className="capitalize text-center lg:text-left">
                                                             {player.name}
                                                         </span>
