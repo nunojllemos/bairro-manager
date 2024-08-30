@@ -77,7 +77,7 @@ const TablePage = () => {
                                         <TableRow className={`${index % 2 === 0 ? 'bg-white' : ''}`} key={player._id}>
                                             <TableCell size="small">
                                                 <div className="flex items-center gap-x-4 capitalize">
-                                                    <span>#{index + 1}</span>
+                                                    <span className="w-6">#{index + 1}</span>
                                                     <Avatar src={player.avatar} />
                                                     <span
                                                         className={`${
