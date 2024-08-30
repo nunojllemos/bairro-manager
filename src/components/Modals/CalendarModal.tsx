@@ -92,7 +92,7 @@ const CalendarModal = ({ handleClose }: CalendarModalProps) => {
                     {'⚠️'} Só aparecem eventos futuros.
                 </span>
             </div>
-            <ul className="flex flex-col md:gap-y-4 mt-8 md:mt-16 w-full h-[40vh] md:h-auto z-[1] relative">
+            <ul className="flex flex-col md:gap-y-4 mt-8 md:mt-16 w-full h-[45vh] md:h-auto z-[1] relative overflow-y-auto">
                 {events
                     .filter((event) => !isDatePast(`${event.date}T${event.start}`))
                     .map((event) => {

@@ -44,8 +44,9 @@ const Header = () => {
     const navigationLinks = [
         {
             name: 'dashboard',
-            url: '/dashboard',
+            url: '/',
             icon: <SpaceDashboardOutlined fontSize="inherit" />,
+            wip: true,
         },
         {
             name: 'equipa',
@@ -60,11 +61,13 @@ const Header = () => {
                     name: 'estatísticas',
                     url: '/stats',
                     icon: <InsightsOutlined fontSize="inherit" />,
+                    soon: true,
                 },
                 {
                     name: 'jogos',
                     url: '/matches',
                     icon: <SportsSoccerOutlined fontSize="inherit" />,
+                    soon: true,
                 },
                 {
                     name: 'calendário',
@@ -145,10 +148,14 @@ const Header = () => {
                                                 >
                                                     {link.submenu.map((subLink) => {
                                                         return (
-                                                            <MenuItem key={subLink.url}>
+                                                            <MenuItem key={subLink.url} className="!relative">
                                                                 <Link
                                                                     onClick={() => setIsMenuOpen(false)}
-                                                                    className="hover:text-blue-500 transition-colors capitalize text-xl lg:text-sm"
+                                                                    className={`hover:text-blue-500 transition-colors capitalize text-xl lg:text-sm ${
+                                                                        subLink.soon
+                                                                            ? 'pointer-events-none text-gray-300'
+                                                                            : ''
+                                                                    }`}
                                                                     href={subLink.url}
                                                                 >
                                                                     <span className="flex items-center gap-x-1">
@@ -168,7 +175,13 @@ const Header = () => {
                                                                     className="hover:text-blue-500 transition-colors capitalize text-xl lg:text-sm"
                                                                     href={subLink.url}
                                                                 >
-                                                                    <span className="flex items-center gap-x-4">
+                                                                    <span
+                                                                        className={`flex items-center gap-x-4 ${
+                                                                            subLink.soon
+                                                                                ? 'text-gray-300 pointer-events-none'
+                                                                                : ''
+                                                                        }`}
+                                                                    >
                                                                         {subLink.icon} {subLink.name}
                                                                     </span>
                                                                 </Link>

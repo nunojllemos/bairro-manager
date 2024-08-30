@@ -47,7 +47,6 @@ const EventsContextProvider = ({ children }: IEventsContextProps) => {
             end: new Date(`${event.date}T${event.end}`),
             color: OPTIONS[event.type].color,
         }))
-        console.log(mappedEvents)
 
         const mappedAnniversaries = players.map((player) => ({
             color: OPTIONS.anniversary.color || 'red',
