@@ -1,3 +1,5 @@
+const { NEXT_PUBLIC_CAP_SECRET, NEXT_PUBLIC_PLAYER_SECRET, NEXT_PUBLIC_MISTER_SECRET } = process.env
+
 export const players = [
     {
         name: 'Amorim',
@@ -1649,4 +1651,34 @@ export const events = [
         end: '17:45',
         type: 'game',
     },
+]
+
+export const users = [
+    { username: 'antunes', role: 'cap', password: '1234', session_id: NEXT_PUBLIC_CAP_SECRET },
+    { username: 'coruja', role: 'cap', password: '1234', session_id: NEXT_PUBLIC_CAP_SECRET },
+    { username: 'cris', role: 'cap', password: '1234', session_id: NEXT_PUBLIC_CAP_SECRET },
+
+    { username: 'amorim', role: 'player', password: '1234', session_id: NEXT_PUBLIC_PLAYER_SECRET },
+    { username: 'arantes', role: 'player', password: '1234', session_id: NEXT_PUBLIC_PLAYER_SECRET },
+    { username: 'caetano', role: 'player', password: '1234', session_id: NEXT_PUBLIC_PLAYER_SECRET },
+    { username: 'costa', role: 'player', password: '1234', session_id: NEXT_PUBLIC_PLAYER_SECRET },
+    { username: 'correia', role: 'player', password: '1234', session_id: NEXT_PUBLIC_PLAYER_SECRET },
+    { username: 'pedro_rodrigues', role: 'player', password: '1234', session_id: NEXT_PUBLIC_PLAYER_SECRET },
+    { username: 'diogo_alves', role: 'player', password: '1234', session_id: NEXT_PUBLIC_PLAYER_SECRET },
+    { username: 'diogo_reis', role: 'player', password: '1234', session_id: NEXT_PUBLIC_PLAYER_SECRET },
+    { username: 'felipe', role: 'player', password: '1234', session_id: NEXT_PUBLIC_PLAYER_SECRET },
+    { username: 'gouveia', role: 'player', password: '1234', session_id: NEXT_PUBLIC_PLAYER_SECRET },
+    { username: 'gui', role: 'player', password: '1234', session_id: NEXT_PUBLIC_PLAYER_SECRET },
+    { username: 'joao', role: 'player', password: '1234', session_id: NEXT_PUBLIC_PLAYER_SECRET },
+    { username: 'lima', role: 'player', password: '1234', session_id: NEXT_PUBLIC_PLAYER_SECRET },
+    { username: 'pinto', role: 'player', password: '1234', session_id: NEXT_PUBLIC_PLAYER_SECRET },
+    { username: 'serra', role: 'player', password: '1234', session_id: NEXT_PUBLIC_PLAYER_SECRET },
+    { username: 'tiago', role: 'player', password: '1234', session_id: NEXT_PUBLIC_PLAYER_SECRET },
+    { username: 'ricardo_martins', role: 'player', password: '1234', session_id: NEXT_PUBLIC_PLAYER_SECRET },
+    { username: 'miguel', role: 'player', password: '1234', session_id: NEXT_PUBLIC_PLAYER_SECRET },
+    { username: 'ricardo_fernandes', role: 'player', password: '1234', session_id: NEXT_PUBLIC_PLAYER_SECRET },
+    { username: 'ricardo_moreira', role: 'player', password: '1234', session_id: NEXT_PUBLIC_PLAYER_SECRET },
+    { username: 'nelson', role: 'player', password: '1234', session_id: NEXT_PUBLIC_PLAYER_SECRET },
+
+    { username: 'emanuel', role: 'mister', password: '1234', session_id: NEXT_PUBLIC_MISTER_SECRET },
 ]

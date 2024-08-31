@@ -149,23 +149,39 @@ const FinesPage = () => {
                                                 </div>
                                                 <ul className="flex gap-x-6">
                                                     <li className="w-12 lg:w-24 text-center">
-                                                        {player.fines.total} &euro;
+                                                        {player.fines.total.toLocaleString(
+                                                            'pt-PT',
+                                                            localeStringOptions
+                                                        )}{' '}
+                                                        &euro;
                                                     </li>
                                                     <li className="w-12 lg:w-24 text-center">
-                                                        {player.fines.paid} &euro;
+                                                        {player.fines.paid.toLocaleString('pt-PT', localeStringOptions)}{' '}
+                                                        &euro;
                                                     </li>
                                                     <li className="w-16 lg:w-24 text-center text-red-700">
                                                         {player.fines.total - player.fines.paid === 0 ? (
                                                             <span className="text-zinc-900">
-                                                                {player.fines.total - player.fines.paid} &euro;
+                                                                {(
+                                                                    player.fines.total - player.fines.paid
+                                                                ).toLocaleString('pt-PT', localeStringOptions)}{' '}
+                                                                &euro;
                                                             </span>
                                                         ) : player.fines.total - player.fines.paid > 0 ? (
                                                             <span>
-                                                                &minus; {player.fines.total - player.fines.paid} &euro;
+                                                                &minus;{' '}
+                                                                {(
+                                                                    player.fines.total - player.fines.paid
+                                                                ).toLocaleString('pt-PT', localeStringOptions)}{' '}
+                                                                &euro;
                                                             </span>
                                                         ) : (
                                                             <span className="text-green-700">
-                                                                &#43; {(player.fines.total - player.fines.paid) * -1}{' '}
+                                                                &#43;{' '}
+                                                                {(
+                                                                    (player.fines.total - player.fines.paid) *
+                                                                    -1
+                                                                ).toLocaleString('pt-PT', localeStringOptions)}{' '}
                                                                 &euro;
                                                             </span>
                                                         )}

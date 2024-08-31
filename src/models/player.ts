@@ -48,7 +48,7 @@ const PlayerSchema: Schema = new Schema(
         points: { type: Number, required: true },
         positions: { type: [String], required: true },
     },
-    { timestamps: true } // Automatically manage createdAt and updatedAt fields
+    { timestamps: true }
 )
 
 // Create and export the model

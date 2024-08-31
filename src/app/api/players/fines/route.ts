@@ -9,6 +9,8 @@ export async function PATCH(request: NextRequest) {
         const data = await request.json()
         const { player_id, fines, paid } = data
 
+        console.log(fines)
+
         await dbConnect()
 
         const player: Player | null = await PlayerModel.findById(player_id)
@@ -22,7 +24,7 @@ export async function PATCH(request: NextRequest) {
         ]
 
         const filter = { _id: player_id }
-        const update = { 'fines.details': updatedFinesDetails, 'fines.paid': paid }
+        const update = { 'fines.details': updatedFinesDetails, 'fines.paid': paid || player.fines.paid }
         const options = { new: true }
 
         const finesData: Partial<IFines>[] | null = await Fines.find({}, ['_id', 'value'], { lean: true })
@@ -36,7 +38,9 @@ export async function PATCH(request: NextRequest) {
                 const total = updatedUser?.fines.details
                     .map((playerFine) => {
                         if (playerFine._id === (_id as any).toHexString()) {
-                            return playerFine.value * (value || 1)
+                            if (value) {
+                                return +playerFine.value * value
+                            }
                         }
 
                         return 0

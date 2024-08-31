@@ -23,6 +23,8 @@ const FinesModal = ({ id, handleClose }: FinesModalProps) => {
 
         const formData = new FormData(form.current as HTMLFormElement)
 
+        // console.log('player: ', player)
+
         const data = {
             player_id: id,
             paid: formData.get('paid'),
@@ -34,6 +36,7 @@ const FinesModal = ({ id, handleClose }: FinesModalProps) => {
                     const value = formData.get(fine._id)
 
                     if (!value) return
+
                     return { _id: fine._id, value: +value }
                 })
                 .filter((fine) => !!fine),

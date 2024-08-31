@@ -5,6 +5,7 @@ import { NextRequest, NextResponse } from 'next/server'
 export async function GET() {
     try {
         const events = await EventModel.find({})
+        console.log(events)
 
         if (events) return NextResponse.json({ message: 'OK', events }, { status: 200 })
 

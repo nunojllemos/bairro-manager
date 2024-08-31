@@ -150,7 +150,10 @@ const Header = () => {
                                                         return (
                                                             <MenuItem key={subLink.url} className="!relative">
                                                                 <Link
-                                                                    onClick={() => setIsMenuOpen(false)}
+                                                                    onClick={() => {
+                                                                        handleClose()
+                                                                        setIsMenuOpen(false)
+                                                                    }}
                                                                     className={`hover:text-blue-500 transition-colors capitalize text-xl lg:text-sm ${
                                                                         subLink.soon
                                                                             ? 'pointer-events-none text-gray-300'
@@ -171,7 +174,10 @@ const Header = () => {
                                                         return (
                                                             <MenuItem key={subLink.url}>
                                                                 <Link
-                                                                    onClick={() => setIsMenuOpen(false)}
+                                                                    onClick={() => {
+                                                                        handleClose()
+                                                                        setIsMenuOpen(false)
+                                                                    }}
                                                                     className="hover:text-blue-500 transition-colors capitalize text-xl lg:text-sm"
                                                                     href={subLink.url}
                                                                 >
