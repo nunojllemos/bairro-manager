@@ -19,6 +19,6 @@ const finesSchema: Schema = new mongoose.Schema(
     }
 )
 
-const Fines = mongoose.models.Fines || mongoose.model<IFines>('Fines', finesSchema)
+const FinesModel = mongoose.models.Fines || mongoose.model<IFines>('Fines', finesSchema)
 
-export default Fines
+export default FinesModel

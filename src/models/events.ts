@@ -22,5 +22,5 @@ const EventSchema: Schema = new Schema(
     { collection: 'events' }
 )
 
-const EventModel = mongoose.models.Event || mongoose.model<Event>('Event', EventSchema)
+const EventModel = mongoose.models.Event || mongoose.model<any>('Event', EventSchema)
 export default EventModel

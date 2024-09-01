@@ -1,11 +1,11 @@
 import connectDb from '@/lib/db'
-import Fines from '@/models/fines'
+import FinesModel from '@/models/fines'
 import { NextResponse } from 'next/server'
 
 export async function GET() {
     await connectDb()
 
-    const fines = await Fines.find({})
+    const fines = await FinesModel.find({})
 
     return NextResponse.json(fines)
 }
