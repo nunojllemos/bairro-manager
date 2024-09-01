@@ -1,9 +1,12 @@
+import connectDB from '@/lib/db'
 import EventModel, { Event } from '@/models/events'
 import mongoose from 'mongoose'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET() {
     try {
+        await connectDB()
+
         const events = await EventModel.find({})
 
         if (events) return NextResponse.json({ message: 'OK', events }, { status: 200 })
@@ -39,4 +42,7 @@ export async function PATCH(request: NextRequest) {
     } catch (error) {
         console.log(error)
     }
+}
+function connectDb() {
+    throw new Error('Function not implemented.')
 }

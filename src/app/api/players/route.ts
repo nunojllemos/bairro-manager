@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server'
 import PlayerModel from '@/models/player'
-import dbConnect from '@/lib/db'
+import connectDB from '@/lib/db'
 
 export async function GET() {
-    await dbConnect()
+    await connectDB()
 
     const players = await PlayerModel.find({})
 
