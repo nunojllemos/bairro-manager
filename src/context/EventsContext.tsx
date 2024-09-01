@@ -38,6 +38,7 @@ const EventsContextProvider = ({ children }: IEventsContextProps) => {
         }
 
         getEvents()
+        console.log('Events fetched')
     }, [])
 
     useEffect(() => {

@@ -1,6 +1,7 @@
 import useEvents from '@/hooks/useEvents'
 import { Event } from '@/models/events'
 import {
+    beautifyEventTitle,
     capitalize,
     cleanObject,
     isDatePast,
@@ -81,7 +82,7 @@ const CalendarModal = ({ handleClose }: CalendarModalProps) => {
     }
 
     return (
-        <div className="bg-slate-100 p-6 md:p-16 h-max rounded-md w-[calc(100%_-_2rem)] md:w-[50rem] max-h-[calc(100vh_-_4rem)] overflow-y-auto">
+        <div className="bg-slate-100 p-6 md:p-16 h-max rounded-md w-[calc(100%_-_2rem)] md:w-[50rem] max-h-[calc(100vh_-_4rem)] overflow-y-auto relative">
             <div className="flex flex-col gap-y-4">
                 <Typography className="capitalize" variant="h5" component="h2">
                     <span className="flex items-center gap-x-2 leading-none">
@@ -97,7 +98,10 @@ const CalendarModal = ({ handleClose }: CalendarModalProps) => {
                     .filter((event) => !isDatePast(`${event.date}T${event.start}`))
                     .map((event) => {
                         return (
-                            <li key={`${event.title}`} className="pb-4 md:pb-0">
+                            <li
+                                key={`${event.type}/${event.title}-${event.date}-${event.start}:${event.end}`}
+                                className="pb-4 md:pb-0"
+                            >
                                 <Accordion>
                                     <AccordionSummary
                                         expandIcon={<ExpandMoreOutlined fontSize="small" />}
@@ -176,6 +180,7 @@ const CalendarModal = ({ handleClose }: CalendarModalProps) => {
                                                 </span>
                                                 <Select
                                                     name="type"
+                                                    defaultValue={beautifyEventTitle(event)}
                                                     labelId="label"
                                                     size="small"
                                                     displayEmpty
@@ -200,7 +205,7 @@ const CalendarModal = ({ handleClose }: CalendarModalProps) => {
                         )
                     })}
             </ul>
-            <div className="mt-12 flex flex-col md:flex-row gap-4 justify-end">
+            <div className="py-8 flex flex-col md:flex-row gap-4 justify-end sticky -bottom-6 md:-bottom-16 bg-slate-100 z-[1]">
                 <Button
                     onClick={handleClose}
                     color="error"

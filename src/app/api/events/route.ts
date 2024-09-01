@@ -7,7 +7,7 @@ export async function GET() {
     try {
         await connectDB()
 
-        const events = await EventModel.find({})
+        const events = await EventModel.find({}).sort({ date: 1, start: 1 })
 
         if (events) return NextResponse.json({ message: 'OK', events }, { status: 200 })
 

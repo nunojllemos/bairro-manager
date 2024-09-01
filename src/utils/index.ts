@@ -1,4 +1,5 @@
 import { Role } from '@/context/AuthContext'
+import { Event } from '@/models/events'
 
 export const localeStringOptions = {
     maximumFractionDigits: 2,
@@ -41,6 +42,19 @@ export const mapEventsToPortuguese = () => {
     })
 
     return eventsTranslated
+}
+
+export const beautifyEventTitle = (event: Event) => {
+    switch (event.type) {
+        case 'other':
+            return '🍾 Outros'
+        case 'game':
+            return '🏆️ Jogo'
+        case 'session':
+            return '⚽️ Treino'
+        case 'anniversary':
+            return '🎂 Aniversário'
+    }
 }
 
 export const mapPortugueseEventToDatabaseName = (eventType: string | null): keyof typeof OPTIONS | null => {
