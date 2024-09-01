@@ -19,7 +19,7 @@ const EventSchema: Schema = new Schema(
         end: { type: String },
         type: { type: String },
     },
-    { collection: 'events' }
+    { collection: 'team-events' }
 )
 
 const EventModel = mongoose.models.Event || mongoose.model<any>('Event', EventSchema)
