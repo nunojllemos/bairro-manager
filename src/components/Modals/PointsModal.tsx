@@ -48,7 +48,7 @@ const PointsModal = ({ handleClose }: PointsModalProps) => {
     }
 
     return (
-        <div className="bg-slate-100 p-6 md:p-16 h-max rounded-md w-[calc(100%_-_2rem)] md:w-[40rem] max-h-[calc(100vh_-_4rem)] overflow-y-auto">
+        <div className="bg-slate-100 p-6 md:p-16 h-max rounded-md w-[calc(100%_-_2rem)] md:w-[40rem] max-h-[calc(100vh_-_4rem)] overflow-y-auto relative">
             <div className="flex items-center gap-x-2 text-blue-500">
                 <EditOutlined fontSize="small" />
                 <Typography variant="h5" component="h2">
@@ -81,7 +81,7 @@ const PointsModal = ({ handleClose }: PointsModalProps) => {
                             )
                         })}
                 </ul>
-                <div className="mt-24 md:mt-12 flex flex-col md:flex-row gap-4 justify-end">
+                <div className="py-8 flex flex-col md:flex-row gap-4 justify-end sticky -bottom-6 md:-bottom-16 bg-slate-100 z-[1]">
                     <Button
                         onClick={handleClose}
                         color="error"

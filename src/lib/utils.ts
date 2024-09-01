@@ -4,7 +4,7 @@ export const players = [
     {
         name: 'Amorim',
         number: 25,
-        avatar: '',
+        avatar: 'https://i.postimg.cc/52s2MBTB/amorim.png',
         assists: 0,
         goals: 0,
         fines: {
@@ -20,7 +20,7 @@ export const players = [
     {
         name: 'Antunes',
         number: 4,
-        avatar: '',
+        avatar: 'https://i.postimg.cc/7PzhTTJ4/antunes.png',
         assists: 0,
         goals: 0,
         fines: {
@@ -68,7 +68,7 @@ export const players = [
     {
         name: 'Coruja',
         number: 14,
-        avatar: '',
+        avatar: 'https://i.postimg.cc/L4PfP5x3/corujinha.png',
         assists: 0,
         goals: 0,
         fines: {
@@ -84,7 +84,7 @@ export const players = [
     {
         name: 'Costa',
         number: 91,
-        avatar: '',
+        avatar: 'https://i.postimg.cc/ZKhRPK6d/costa.png',
         assists: 0,
         goals: 0,
         fines: {
@@ -100,7 +100,7 @@ export const players = [
     {
         name: 'Correia',
         number: 91,
-        avatar: '',
+        avatar: 'https://i.postimg.cc/02dNVRCH/correia.png',
         assists: 0,
         goals: 0,
         fines: {
@@ -114,9 +114,9 @@ export const players = [
         positions: ['DC'],
     },
     {
-        name: 'Cabaço',
+        name: 'Pedro Rodrigues',
         number: 0,
-        avatar: '',
+        avatar: 'https://i.postimg.cc/nVqVLbNc/rodrigues.png',
         assists: 0,
         goals: 0,
         fines: {
@@ -180,7 +180,7 @@ export const players = [
     {
         name: 'Diogo Reis',
         number: 0,
-        avatar: '',
+        avatar: 'https://i.postimg.cc/43nN4KRr/diogo-reis.png',
         assists: 0,
         goals: 0,
         fines: {
@@ -196,7 +196,7 @@ export const players = [
     {
         name: 'Felipe',
         number: 0,
-        avatar: '',
+        avatar: 'https://i.postimg.cc/QMPNFXXV/felipe.png',
         assists: 0,
         goals: 0,
         fines: {
@@ -228,7 +228,7 @@ export const players = [
     {
         name: 'Gui',
         number: 0,
-        avatar: '',
+        avatar: 'https://i.postimg.cc/HxyY5fxz/gui.png',
         assists: 0,
         goals: 0,
         fines: {
@@ -244,7 +244,7 @@ export const players = [
     {
         name: 'Joãozinho',
         number: 18,
-        avatar: '',
+        avatar: 'https://i.postimg.cc/Hn1ptB8g/joaozinho.png',
         assists: 0,
         goals: 0,
         fines: {
@@ -258,9 +258,9 @@ export const players = [
         positions: ['DE', 'EE'],
     },
     {
-        name: 'Lima',
+        name: 'Gonçalo Lima',
         number: 0,
-        avatar: '',
+        avatar: 'https://i.postimg.cc/Dyg2qQ29/goncalo-lima.png',
         assists: 0,
         goals: 0,
         fines: {
@@ -292,7 +292,7 @@ export const players = [
     {
         name: 'Serra',
         number: 10,
-        avatar: '',
+        avatar: 'https://i.postimg.cc/dtvskNKR/serra.png',
         assists: 0,
         goals: 0,
         fines: {
