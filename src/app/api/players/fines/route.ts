@@ -31,33 +31,37 @@ export async function PATCH(request: NextRequest) {
 
         const updatedUser: Player | null = await PlayerModel.findOneAndUpdate(filter, update, options)
 
-        const totalValue = finesData
-            .map((fine) => {
-                const { _id, value } = fine
+        if (updatedFinesDetails.length) {
+            const totalValue = finesData
+                .map((fine) => {
+                    const { _id, value } = fine
 
-                const total = updatedUser?.fines.details
-                    .map((playerFine) => {
-                        if (playerFine._id === (_id as any).toHexString()) {
-                            if (value) {
-                                return +playerFine.value * value
+                    const total = updatedUser?.fines.details
+                        .map((playerFine) => {
+                            if (playerFine._id === (_id as any).toHexString()) {
+                                if (value) {
+                                    return +playerFine.value * value
+                                }
+                                return 0
                             }
-                        }
+                            return 0
+                        })
+                        .reduce((total, currentValue) => total + currentValue)
 
-                        return 0
-                    })
-                    .reduce((total, currentValue) => total + currentValue)
+                    return total
+                })
+                .reduce((total, current) => (total as number) + (current as number))
 
-                return total
-            })
-            .reduce((total, current) => (total as number) + (current as number))
+            const updatedUserTotal: Player | null = await PlayerModel.findOneAndUpdate(
+                filter,
+                { 'fines.total': totalValue },
+                options
+            )
 
-        const updatedUserTotal: Player | null = await PlayerModel.findOneAndUpdate(
-            filter,
-            { 'fines.total': totalValue },
-            options
-        )
+            return NextResponse.json({ message: 'OK', user: updatedUserTotal }, { status: 200 })
+        }
 
-        return NextResponse.json({ message: 'OK', user: updatedUserTotal }, { status: 200 })
+        return NextResponse.json({ message: 'OK', user: updatedUser }, { status: 200 })
     } catch (error) {
         console.log(error)
     }
