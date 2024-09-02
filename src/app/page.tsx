@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { redirect } from 'next/navigation'
 import useAuth from '@/hooks/useAuth'
 import { Typography } from '@mui/material'
@@ -9,6 +9,17 @@ const DashboardPage = () => {
     const { isAuthenticated, user } = useAuth()
 
     if (!isAuthenticated) redirect('/login')
+
+    // useEffect(() => {
+    //     const getCoaches = async () => {
+    //         const request = await fetch('/api/coaches')
+    //         const response = await request.json()
+
+    //         console.log(response)
+    //     }
+
+    //     getCoaches()
+    // }, [])
 
     return (
         <section>
