@@ -1,11 +1,10 @@
-import connectDB from '@/lib/db'
-import EventModel, { Event } from '@/models/events'
-import mongoose from 'mongoose'
 import { NextRequest, NextResponse } from 'next/server'
+import dbConnect from '@/lib/db'
+import EventModel, { Event } from '@/models/events'
 
 export async function GET() {
     try {
-        await connectDB()
+        await dbConnect()
 
         const events = await EventModel.find({}).sort({ date: 1, start: 1 })
 
@@ -19,12 +18,14 @@ export async function GET() {
 
 export async function PATCH(request: NextRequest) {
     try {
+        await dbConnect()
+
         const data = await request.json()
         const events: Event[] = await data.data
 
         if (!events) return NextResponse.json({ message: 'Bad request. No data.' }, { status: 400 })
 
-        const updatedEvents = await Promise.all(
+        await Promise.all(
             events.map(async (event) => {
                 const filter = { _id: event._id }
                 const update = { ...event }
@@ -42,7 +43,4 @@ export async function PATCH(request: NextRequest) {
     } catch (error) {
         console.log(error)
     }
-}
-function connectDb() {
-    throw new Error('Function not implemented.')
 }

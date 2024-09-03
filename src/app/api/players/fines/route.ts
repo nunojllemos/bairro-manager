@@ -9,11 +9,11 @@ export async function PATCH(request: NextRequest) {
         const data = await request.json()
         const { player_id, fines, paid } = data
 
-        console.log(fines)
-
         await dbConnect()
 
         const player: Player | null = await PlayerModel.findById(player_id)
+
+        console.log(player)
 
         if (!player) {
             return NextResponse.json({ message: 'Player not found' }, { status: 404 })
