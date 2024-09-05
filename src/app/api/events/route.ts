@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
-import dbConnect from '@/lib/db'
+import connectDB from '@/lib/db'
 import EventModel, { Event } from '@/models/events'
 
 export async function GET() {
     try {
-        await dbConnect()
+        await connectDB()
 
         const events = await EventModel.find({}).sort({ date: 1, start: 1 })
 
@@ -18,7 +18,7 @@ export async function GET() {
 
 export async function PATCH(request: NextRequest) {
     try {
-        await dbConnect()
+        await connectDB()
 
         const data = await request.json()
         const events: Event[] = await data.data

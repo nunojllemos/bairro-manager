@@ -1,5 +1,5 @@
 'use client'
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import React, { ChangeEvent, useState } from 'react'
 import {
     Accordion,
     AccordionDetails,
@@ -23,23 +23,22 @@ import {
     TrendingUpOutlined,
 } from '@mui/icons-material'
 import useAuth from '@/hooks/useAuth'
-import { redirect } from 'next/navigation'
 import usePlayers from '@/hooks/usePlayers'
 import useFines from '@/hooks/useFines'
 import FinesModal from '@/components/Modals/FinesModal'
 import { localeStringOptions } from '@/utils'
+import Link from 'next/link'
 
 const FinesPage = () => {
     const [searchValue, setSearchValue] = useState('')
     const [playerId, setPlayerId] = useState('')
     const [isModalOpen, setIsModalOpen] = useState(false)
-    const { isAuthenticated, role } = useAuth()
-    const { players, setPlayers } = usePlayers()
+    const { role } = useAuth()
+    const { players } = usePlayers()
     const { fines, totalPaid, totalDebt, totalValue } = useFines()
+    const { isAuthenticated } = useAuth()
 
     const handleClose = () => setIsModalOpen(false)
-
-    if (!isAuthenticated) redirect('/login')
 
     const handleEdit = (userId: string) => setPlayerId(userId)
 
@@ -267,7 +266,8 @@ const FinesPage = () => {
                             })
                     ) : (
                         <li className="py-8 flex items-center justify-center gap-x-2 text-sm lg:text-lg bg-slate-200 rounded-md">
-                            <Inventory2Outlined fontSize="small" /> Sem resultados para a pesquisa &quot;{searchValue}
+                            <Inventory2Outlined fontSize="small" /> Sem resultados para a pesquisa &quot;
+                            {searchValue}
                             &quot;
                         </li>
                     )}

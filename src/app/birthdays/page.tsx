@@ -12,16 +12,11 @@ import {
     Typography,
 } from '@mui/material'
 import { CakeOutlined } from '@mui/icons-material'
-import useAuth from '@/hooks/useAuth'
-import { redirect } from 'next/navigation'
 import usePlayers from '@/hooks/usePlayers'
 import { getAge } from '@/utils'
 
 const BirthdaysPage = () => {
-    const { isAuthenticated } = useAuth()
     const { players } = usePlayers()
-
-    if (!isAuthenticated) redirect('/login')
 
     return (
         <>

@@ -14,7 +14,10 @@ interface Player extends Document {
     dob: string
     goals: number
     is_captain: boolean
-    points: number
+    points: {
+        month: number
+        total: number
+    }
     positions: string[]
 }
 
@@ -45,7 +48,10 @@ const PlayerSchema: Schema = new Schema(
         dob: { type: String, required: true },
         goals: { type: Number, required: true },
         is_captain: { type: Boolean, required: true },
-        points: { type: Number, required: true },
+        points: {
+            month: { type: Number, required: true },
+            total: { type: Number, required: true },
+        },
         positions: { type: [String], required: true },
     },
     { timestamps: true }

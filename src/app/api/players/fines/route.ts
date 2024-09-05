@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import PlayerModel from '@/models/player'
-import dbConnect from '@/lib/db'
+import connectDB from '@/lib/db'
 import Fines, { IFines } from '@/models/fines'
 import { Player } from '@/types'
 
@@ -9,11 +9,9 @@ export async function PATCH(request: NextRequest) {
         const data = await request.json()
         const { player_id, fines, paid } = data
 
-        await dbConnect()
+        await connectDB()
 
         const player: Player | null = await PlayerModel.findById(player_id)
-
-        console.log(player)
 
         if (!player) {
             return NextResponse.json({ message: 'Player not found' }, { status: 404 })

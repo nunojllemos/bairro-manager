@@ -19,11 +19,13 @@ import { Button, Menu, MenuItem } from '@mui/material'
 import useAuth from '@/hooks/useAuth'
 import { setCookie } from '@/utils/cookies'
 import { capitalize } from '@/utils'
+import useLoading from '@/hooks/useLoading'
 
 const Header = () => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const { isAuthenticated, setAuthentication, setRole, user, setUser } = useAuth()
+    const { setIsLoading } = useLoading()
 
     const open = Boolean(anchorEl)
 
@@ -39,6 +41,7 @@ const Header = () => {
         setUser(null)
         setCookie('session-id', '')
         setCookie('username', '')
+        setIsLoading(true)
     }
 
     const navigationLinks = [

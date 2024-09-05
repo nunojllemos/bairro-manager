@@ -17,14 +17,8 @@ import {
     ThermostatOutlined,
 } from '@mui/icons-material'
 import { Divider, Typography } from '@mui/material'
-import useAuth from '@/hooks/useAuth'
-import { redirect } from 'next/navigation'
 
 const MatchPage = () => {
-    const { isAuthenticated } = useAuth()
-
-    if (!isAuthenticated) redirect('/login')
-
     const DUMMY_GAME = {
         team: 'Ruivães',
         isWin: true,

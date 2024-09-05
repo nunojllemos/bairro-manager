@@ -14,7 +14,10 @@ export const players = [
         cards: { yellow: 0, red: 0 },
         dob: '2003-06-25',
         is_captain: false,
-        points: 0,
+        points: {
+            month: 0,
+            total: 0,
+        },
         positions: ['PL'],
     },
     {
@@ -30,7 +33,10 @@ export const players = [
         cards: { yellow: 0, red: 0 },
         dob: '1994-07-13',
         is_captain: false,
-        points: 0,
+        points: {
+            month: 0,
+            total: 0,
+        },
         positions: ['DC', 'MDC'],
     },
     {
@@ -46,7 +52,10 @@ export const players = [
         cards: { yellow: 0, red: 0 },
         dob: '2003-05-02',
         is_captain: false,
-        points: 0,
+        points: {
+            month: 0,
+            total: 0,
+        },
         positions: ['DC', 'DD'],
     },
     {
@@ -62,7 +71,10 @@ export const players = [
         cards: { yellow: 0, red: 0 },
         dob: '1994-06-07',
         is_captain: false,
-        points: 0,
+        points: {
+            month: 0,
+            total: 0,
+        },
         positions: ['PL'],
     },
     {
@@ -78,7 +90,10 @@ export const players = [
         cards: { yellow: 0, red: 0 },
         dob: '1996-06-06',
         is_captain: false,
-        points: 0,
+        points: {
+            month: 0,
+            total: 0,
+        },
         positions: ['DD', 'DC', 'DE', 'ME', 'MD'],
     },
     {
@@ -94,7 +109,10 @@ export const players = [
         cards: { yellow: 0, red: 0 },
         dob: '1995-04-19',
         is_captain: false,
-        points: 0,
+        points: {
+            month: 0,
+            total: 0,
+        },
         positions: ['DC', 'MDC'],
     },
     {
@@ -110,7 +128,10 @@ export const players = [
         cards: { yellow: 0, red: 0 },
         dob: '2000-07-21',
         is_captain: false,
-        points: 0,
+        points: {
+            month: 0,
+            total: 0,
+        },
         positions: ['DC'],
     },
     {
@@ -126,7 +147,10 @@ export const players = [
         cards: { yellow: 0, red: 0 },
         dob: '1994-05-09',
         is_captain: false,
-        points: 0,
+        points: {
+            month: 0,
+            total: 0,
+        },
         positions: ['ME', 'MD', 'EE', 'ED'],
     },
     {
@@ -142,7 +166,10 @@ export const players = [
         cards: { yellow: 0, red: 0 },
         dob: '2005-07-02',
         is_captain: false,
-        points: 0,
+        points: {
+            month: 0,
+            total: 0,
+        },
         positions: ['GR'],
     },
     {
@@ -158,7 +185,10 @@ export const players = [
         cards: { yellow: 0, red: 0 },
         dob: '1994-06-21',
         is_captain: false,
-        points: 0,
+        points: {
+            month: 0,
+            total: 0,
+        },
         positions: ['GR'],
     },
     {
@@ -174,7 +204,10 @@ export const players = [
         cards: { yellow: 0, red: 0 },
         dob: '2005-02-15',
         is_captain: false,
-        points: 0,
+        points: {
+            month: 0,
+            total: 0,
+        },
         positions: ['DC'],
     },
     {
@@ -190,7 +223,10 @@ export const players = [
         cards: { yellow: 0, red: 0 },
         dob: '2001-08-07',
         is_captain: false,
-        points: 0,
+        points: {
+            month: 0,
+            total: 0,
+        },
         positions: ['PL'],
     },
     {
@@ -206,7 +242,10 @@ export const players = [
         cards: { yellow: 0, red: 0 },
         dob: '1993-08-31',
         is_captain: false,
-        points: 0,
+        points: {
+            month: 0,
+            total: 0,
+        },
         positions: ['EE', 'ED'],
     },
     {
@@ -222,7 +261,10 @@ export const players = [
         cards: { yellow: 0, red: 0 },
         dob: '2005-01-05',
         is_captain: false,
-        points: 0,
+        points: {
+            month: 0,
+            total: 0,
+        },
         positions: ['ME', 'MD'],
     },
     {
@@ -238,7 +280,10 @@ export const players = [
         cards: { yellow: 0, red: 0 },
         dob: '2005-10-05',
         is_captain: false,
-        points: 0,
+        points: {
+            month: 0,
+            total: 0,
+        },
         positions: ['ME', 'MD', 'DD'],
     },
     {
@@ -254,7 +299,10 @@ export const players = [
         cards: { yellow: 0, red: 0 },
         dob: '1997-08-06',
         is_captain: false,
-        points: 0,
+        points: {
+            month: 0,
+            total: 0,
+        },
         positions: ['DE', 'EE'],
     },
     {
@@ -270,7 +318,10 @@ export const players = [
         cards: { yellow: 0, red: 0 },
         dob: '2005-02-19',
         is_captain: false,
-        points: 0,
+        points: {
+            month: 0,
+            total: 0,
+        },
         positions: ['DC'],
     },
     {
@@ -286,7 +337,10 @@ export const players = [
         cards: { yellow: 0, red: 0 },
         dob: '2003-01-11',
         is_captain: false,
-        points: 0,
+        points: {
+            month: 0,
+            total: 0,
+        },
         positions: ['EE', 'ED'],
     },
     {
@@ -302,7 +356,10 @@ export const players = [
         cards: { yellow: 0, red: 0 },
         dob: '1999-06-07',
         is_captain: false,
-        points: 0,
+        points: {
+            month: 0,
+            total: 0,
+        },
         positions: ['ME', 'MD', 'EE', 'ED'],
     },
     {
@@ -318,7 +375,10 @@ export const players = [
         cards: { yellow: 0, red: 0 },
         dob: '2001-04-03',
         is_captain: false,
-        points: 0,
+        points: {
+            month: 0,
+            total: 0,
+        },
         positions: ['DE', 'DC'],
     },
     {
@@ -334,7 +394,10 @@ export const players = [
         cards: { yellow: 0, red: 0 },
         dob: '2001-04-03',
         is_captain: false,
-        points: 0,
+        points: {
+            month: 0,
+            total: 0,
+        },
         positions: ['PL'],
     },
     {
@@ -350,7 +413,10 @@ export const players = [
         cards: { yellow: 0, red: 0 },
         dob: '2000-05-24',
         is_captain: false,
-        points: 0,
+        points: {
+            month: 0,
+            total: 0,
+        },
         positions: ['DD'],
     },
     {
@@ -366,7 +432,10 @@ export const players = [
         cards: { yellow: 0, red: 0 },
         dob: '2003-03-28',
         is_captain: false,
-        points: 0,
+        points: {
+            month: 0,
+            total: 0,
+        },
         positions: ['ME', 'MD'],
     },
     {
@@ -382,7 +451,10 @@ export const players = [
         cards: { yellow: 0, red: 0 },
         dob: '2004-08-12',
         is_captain: false,
-        points: 0,
+        points: {
+            month: 0,
+            total: 0,
+        },
         positions: ['ME', 'MD'],
     },
     {
@@ -398,7 +470,10 @@ export const players = [
         cards: { yellow: 0, red: 0 },
         dob: '2000-01-14',
         is_captain: false,
-        points: 0,
+        points: {
+            month: 0,
+            total: 0,
+        },
         positions: ['DC'],
     },
 ]

@@ -10,30 +10,32 @@ const useFines = () => {
     const { players } = usePlayers()
 
     useEffect(() => {
-        const totalValuePaid = players
-            .map((player) => {
-                return player.fines.paid
-            })
-            .reduce((total, current) => total + current)
+        if (players.length) {
+            const totalValuePaid = players
+                .map((player) => {
+                    return player.fines.paid
+                })
+                .reduce((total, current) => total + current)
 
-        setTotalPaid(totalValuePaid)
+            setTotalPaid(totalValuePaid)
 
-        const totalValueDebt = players
-            .map((player) => {
-                const isNegativeValue = player.fines.total - player.fines.paid < 0
+            const totalValueDebt = players
+                .map((player) => {
+                    const isNegativeValue = player.fines.total - player.fines.paid < 0
 
-                if (!isNegativeValue) return player.fines.total - player.fines.paid
+                    if (!isNegativeValue) return player.fines.total - player.fines.paid
 
-                return 0
-            })
-            .reduce((total, current) => total + current)
+                    return 0
+                })
+                .reduce((total, current) => total + current)
 
-        setTotalDebt(totalValueDebt)
+            setTotalDebt(totalValueDebt)
 
-        if (totalDebt && totalPaid) {
-            setTotalValue(totalDebt + totalPaid)
-        } else {
-            setTotalValue(0)
+            if (totalDebt && totalPaid) {
+                setTotalValue(totalDebt + totalPaid)
+            } else {
+                setTotalValue(0)
+            }
         }
     }, [players, totalDebt, totalPaid])
 

@@ -12,7 +12,10 @@ export async function PATCH(request: NextRequest) {
                     const { _id, points } = player
 
                     const filter = { _id }
-                    const update = { points }
+                    const update = {
+                        $set: { 'points.month': points },
+                        $inc: { 'points.total': points },
+                    }
                     const options = { new: true }
 
                     const updatedPlayer = await PlayerModel.findByIdAndUpdate(filter, update, options)

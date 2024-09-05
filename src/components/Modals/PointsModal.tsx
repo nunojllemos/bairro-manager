@@ -58,7 +58,7 @@ const PointsModal = ({ handleClose }: PointsModalProps) => {
             <form className="mt-12" onSubmit={handleSubmit}>
                 <ul>
                     {players
-                        .sort((a, b) => b.points - a.points)
+                        .sort((a, b) => b.points.month - a.points.month)
                         .map((player, index) => {
                             return (
                                 <li
@@ -74,7 +74,7 @@ const PointsModal = ({ handleClose }: PointsModalProps) => {
                                             type="number"
                                             name={`points-${player._id}`}
                                             size="small"
-                                            placeholder={player.points.toString()}
+                                            placeholder={player.points.month.toString()}
                                         />
                                     </div>
                                 </li>

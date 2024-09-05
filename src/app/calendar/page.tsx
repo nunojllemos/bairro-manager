@@ -8,16 +8,13 @@ import listPlugin from '@fullcalendar/list'
 import rrulePlugin from '@fullcalendar/rrule'
 import allLocales from '@fullcalendar/core/locales-all'
 import useAuth from '@/hooks/useAuth'
-import { redirect } from 'next/navigation'
 import useEvents from '@/hooks/useEvents'
 import CalendarModal from '@/components/Modals/CalendarModal'
 
 const FixtureCalendarPage = () => {
     const [isModalOpen, setIsModalOpen] = useState(false)
-    const { isAuthenticated, role } = useAuth()
+    const { role } = useAuth()
     const { eventsForCalendar } = useEvents()
-
-    if (!isAuthenticated) redirect('/login')
 
     const handleClose = () => {
         setIsModalOpen(false)

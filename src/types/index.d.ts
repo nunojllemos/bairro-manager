@@ -49,7 +49,10 @@ export interface Player {
     is_captain: boolean
     name: string
     number: string
-    points: number
+    points: {
+        month: number
+        total: number
+    }
     positions: Positions[]
 }
 

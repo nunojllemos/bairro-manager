@@ -9,5 +9,7 @@ export async function GET() {
 
     const players = await PlayerModel.find({})
 
-    return NextResponse.json(players)
+    if (players) return NextResponse.json({ message: 'OK', players }, { status: 200 })
+
+    return NextResponse.json({ message: 'No players' }, { status: 404 })
 }
