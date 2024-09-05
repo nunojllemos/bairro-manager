@@ -29,8 +29,7 @@ const PlayersContextProvider = ({ children }: IPlayersContextProps) => {
         }
 
         getPlayers()
-        console.log('Players fetched')
-    }, [])
+    }, [players])
 
     return <PlayersContext.Provider value={{ players, setPlayers }}>{children}</PlayersContext.Provider>
 }
