@@ -4,10 +4,10 @@ import connectDB from '@/lib/db'
 import Fines, { IFines } from '@/models/fines'
 import { Player } from '@/types'
 
-export const revalidate = 0 //Very important
+// export const revalidate = 0 //Very important
 
-export const dynamic = 'force-dynamic'
-export const fetchCache = 'force-no-store'
+// export const dynamic = 'force-dynamic'
+// export const fetchCache = 'force-no-store'
 
 export async function PATCH(request: NextRequest) {
     try {
