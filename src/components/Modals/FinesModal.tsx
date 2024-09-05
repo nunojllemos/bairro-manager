@@ -48,7 +48,6 @@ const FinesModal = ({ id, handleClose }: FinesModalProps) => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(data),
-            cache: 'no-store',
         })
         const newPlayer = await request.json()
 
