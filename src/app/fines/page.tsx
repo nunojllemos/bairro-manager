@@ -147,18 +147,18 @@ const FinesPage = () => {
                                                     </div>
                                                 </div>
                                                 <ul className="flex gap-x-6">
-                                                    <li className="w-12 lg:w-24 text-center">
+                                                    <li className="w-12 lg:w-24 text-center text-sm text-nowrap lg:text-base">
                                                         {player.fines.total.toLocaleString(
                                                             'pt-PT',
                                                             localeStringOptions
                                                         )}{' '}
                                                         &euro;
                                                     </li>
-                                                    <li className="w-12 lg:w-24 text-center">
+                                                    <li className="w-12 lg:w-24 text-center text-sm text-nowrap lg:text-base">
                                                         {player.fines.paid.toLocaleString('pt-PT', localeStringOptions)}{' '}
                                                         &euro;
                                                     </li>
-                                                    <li className="w-16 lg:w-24 text-center text-red-700">
+                                                    <li className="w-16 lg:w-24 text-center text-sm text-nowrap lg:text-base text-red-700">
                                                         {player.fines.total - player.fines.paid === 0 ? (
                                                             <span className="text-zinc-900">
                                                                 {(
