@@ -1,6 +1,6 @@
 import { PlayersContext } from '@/context/PlayersContext'
 import { Player } from '@/types'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 
 const usePlayers = () => {
     const { players, setPlayers } = useContext(PlayersContext)
@@ -16,6 +16,8 @@ const usePlayers = () => {
             return p
         })
 
+        console.log('updatedPlayers', updatedPlayers)
+
         setPlayers(updatedPlayers)
     }
 
@@ -24,6 +26,10 @@ const usePlayers = () => {
 
         setPlayers([...fullUpdatedPlayers])
     }
+
+    useEffect(() => {
+        console.log('Inside usePlayers')
+    }, [])
 
     return { players, setPlayers, getPlayer, updatePlayer, updatePlayers }
 }

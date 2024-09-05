@@ -27,16 +27,15 @@ import usePlayers from '@/hooks/usePlayers'
 import useFines from '@/hooks/useFines'
 import FinesModal from '@/components/Modals/FinesModal'
 import { localeStringOptions } from '@/utils'
-import Link from 'next/link'
 
 const FinesPage = () => {
     const [searchValue, setSearchValue] = useState('')
     const [playerId, setPlayerId] = useState('')
     const [isModalOpen, setIsModalOpen] = useState(false)
+
     const { role } = useAuth()
     const { players } = usePlayers()
     const { fines, totalPaid, totalDebt, totalValue } = useFines()
-    const { isAuthenticated } = useAuth()
 
     const handleClose = () => setIsModalOpen(false)
 

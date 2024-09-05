@@ -24,6 +24,8 @@ const FinesContextProvider = ({ children }: IFinesContextProps) => {
             const fines = await request.json()
 
             setFines(fines)
+            console.log('Fines fetched')
+            console.log(fines)
         }
 
         getFines()

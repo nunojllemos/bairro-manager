@@ -33,6 +33,10 @@ const PlayersContextProvider = ({ children }: IPlayersContextProps) => {
         getPlayers()
     }, [])
 
+    useEffect(() => {
+        console.log('Players context - players: ', players)
+    }, [players])
+
     return <PlayersContext.Provider value={{ players, setPlayers }}>{children}</PlayersContext.Provider>
 }
 

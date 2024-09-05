@@ -51,7 +51,9 @@ const FinesModal = ({ id, handleClose }: FinesModalProps) => {
         })
         const newPlayer = await request.json()
 
-        updatePlayer(newPlayer.user)
+        console.log(newPlayer.player)
+
+        updatePlayer(newPlayer.player)
         handleClose()
     }
 

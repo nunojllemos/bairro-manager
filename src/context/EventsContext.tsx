@@ -35,6 +35,8 @@ const EventsContextProvider = ({ children }: IEventsContextProps) => {
             const response = await request.json()
 
             setEvents(response.events)
+            console.log('Events fetched')
+            console.log(response.events)
         }
 
         getEvents()

@@ -6,10 +6,10 @@ import { Player } from '@/types'
 
 export async function PATCH(request: NextRequest) {
     try {
+        await connectDB()
+
         const data = await request.json()
         const { player_id, fines, paid } = data
-
-        await connectDB()
 
         const player: Player | null = await PlayerModel.findById(player_id)
 
@@ -25,20 +25,20 @@ export async function PATCH(request: NextRequest) {
         const update = { 'fines.details': updatedFinesDetails, 'fines.paid': paid || player.fines.paid }
         const options = { new: true }
 
-        const finesData: Partial<IFines>[] | null = await Fines.find({}, ['_id', 'value'], { lean: true })
-
         const updatedUser: Player | null = await PlayerModel.findOneAndUpdate(filter, update, options)
 
-        if (updatedFinesDetails.length) {
+        console.log('updatedFinesDetails', updatedFinesDetails)
+
+        if (fines.length) {
+            const finesData: Partial<IFines>[] | null = await Fines.find({}, ['_id', 'value'], { lean: true })
+
             const totalValue = finesData
                 .map((fine) => {
-                    const { _id, value } = fine
-
                     const total = updatedUser?.fines.details
                         .map((playerFine) => {
-                            if (playerFine._id === (_id as any).toHexString()) {
-                                if (value) {
-                                    return +playerFine.value * value
+                            if (playerFine._id === (fine._id as any).toHexString()) {
+                                if (fine.value) {
+                                    return +playerFine.value * fine.value
                                 }
                                 return 0
                             }
@@ -56,10 +56,10 @@ export async function PATCH(request: NextRequest) {
                 options
             )
 
-            return NextResponse.json({ message: 'OK', user: updatedUserTotal }, { status: 200 })
+            return NextResponse.json({ player: updatedUserTotal }, { status: 200 })
         }
 
-        return NextResponse.json({ message: 'OK', user: updatedUser }, { status: 200 })
+        return NextResponse.json({ player: updatedUser }, { status: 200 })
     } catch (error) {
         console.log(error)
     }
