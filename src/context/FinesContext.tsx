@@ -20,7 +20,7 @@ const FinesContextProvider = ({ children }: IFinesContextProps) => {
 
     useEffect(() => {
         const getFines = async () => {
-            const request = await fetch('/api/fines')
+            const request = await fetch('/api/fines', { cache: 'no-store' })
             const fines = await request.json()
 
             setFines(fines)
