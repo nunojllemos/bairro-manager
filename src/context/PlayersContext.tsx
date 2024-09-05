@@ -26,10 +26,12 @@ const PlayersContextProvider = ({ children }: IPlayersContextProps) => {
             const response = await request.json()
 
             setPlayers(response.players)
+            console.log('Players fetched')
+            console.log(response.players)
         }
 
         getPlayers()
-    }, [players])
+    }, [])
 
     return <PlayersContext.Provider value={{ players, setPlayers }}>{children}</PlayersContext.Provider>
 }
