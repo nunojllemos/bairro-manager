@@ -4,6 +4,8 @@ import connectDB from '@/lib/db'
 import Fines, { IFines } from '@/models/fines'
 import { Player } from '@/types'
 
+export const revalidate = 10
+
 export async function PATCH(request: NextRequest) {
     try {
         await connectDB()
