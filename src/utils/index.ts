@@ -149,3 +149,11 @@ export const isDatePast = (dateString: string) => {
 
     return todayToNumber > dateToNumber
 }
+
+export const isBirthdayCurrentMonth = (date: string): boolean => {
+    const dob = new Date(date)
+    const dobMonth = dob.getMonth()
+    const currentMonth = new Date().getMonth()
+
+    return dobMonth === currentMonth
+}

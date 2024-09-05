@@ -13,7 +13,7 @@ import {
 } from '@mui/material'
 import { CakeOutlined } from '@mui/icons-material'
 import usePlayers from '@/hooks/usePlayers'
-import { getAge } from '@/utils'
+import { getAge, isBirthdayCurrentMonth } from '@/utils'
 
 const BirthdaysPage = () => {
     const { players } = usePlayers()
@@ -54,8 +54,19 @@ const BirthdaysPage = () => {
                             {players
                                 .sort((a, b) => a.name.localeCompare(b.name))
                                 .map((player, index) => {
+                                    console.log(player.name, isBirthdayCurrentMonth(player.dob))
+
                                     return (
-                                        <TableRow className={`${index % 2 === 0 ? 'bg-white' : ''}`} key={player._id}>
+                                        <TableRow
+                                            className={`${
+                                                isBirthdayCurrentMonth(player.dob)
+                                                    ? 'bg-yellow-50'
+                                                    : index % 2 === 0
+                                                    ? 'bg-white'
+                                                    : ''
+                                            }`}
+                                            key={player._id}
+                                        >
                                             <TableCell size="small">
                                                 <div className="flex items-center gap-x-4 capitalize">
                                                     <Avatar src={player.avatar} />
@@ -63,15 +74,19 @@ const BirthdaysPage = () => {
                                                 </div>
                                             </TableCell>
                                             <TableCell align="right" size="small">
-                                                <span className="text-nowrap">
+                                                <span
+                                                    className={`text-nowrap ${
+                                                        isBirthdayCurrentMonth(player.dob) ? 'font-semibold' : ''
+                                                    }`}
+                                                >
                                                     {new Date(player.dob).toLocaleDateString('pt-PT', {
-                                                        day: 'numeric',
+                                                        day: '2-digit',
                                                         month: 'long',
                                                     })}
                                                 </span>
                                             </TableCell>
                                             <TableCell align="right" size="small">
-                                                {getAge(player.dob)}
+                                                <span>{getAge(player.dob)}</span>
                                             </TableCell>
                                         </TableRow>
                                     )
