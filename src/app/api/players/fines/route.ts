@@ -56,10 +56,13 @@ export async function PATCH(request: NextRequest) {
                 options
             )
 
-            return NextResponse.json({ player: updatedUserTotal }, { status: 200 })
+            return NextResponse.json(
+                { player: updatedUserTotal },
+                { status: 200, headers: { 'Cache-Control': 'no-store' } }
+            )
         }
 
-        return NextResponse.json({ player: updatedUser }, { status: 200 })
+        return NextResponse.json({ player: updatedUser }, { status: 200, headers: { 'Cache-Control': 'no-store' } })
     } catch (error) {
         console.log(error)
     }
