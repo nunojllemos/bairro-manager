@@ -1,5 +1,5 @@
 'use client'
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import {
     Accordion,
     AccordionDetails,
@@ -27,14 +27,16 @@ import usePlayers from '@/hooks/usePlayers'
 import useFines from '@/hooks/useFines'
 import FinesModal from '@/components/Modals/FinesModal'
 import { localeStringOptions } from '@/utils'
+import { Player } from '@/types'
 
 const FinesPage = () => {
     const [searchValue, setSearchValue] = useState('')
     const [playerId, setPlayerId] = useState('')
     const [isModalOpen, setIsModalOpen] = useState(false)
+    const [players, setPlayers] = useState<Player[]>([])
 
     const { role } = useAuth()
-    const { players } = usePlayers()
+    const { players: playersContext } = usePlayers()
     const { fines, totalPaid, totalDebt, totalValue } = useFines()
 
     const handleClose = () => setIsModalOpen(false)
@@ -46,6 +48,19 @@ const FinesPage = () => {
 
         setSearchValue(value)
     }
+
+    const getPlayers = async () => {
+        const request = await fetch('/api/players', { cache: 'no-store', next: { revalidate: 0 } })
+        const response = await request.json()
+
+        setPlayers(response.players)
+        console.log('Players fetched inside fines page')
+        console.log(response.players)
+    }
+
+    useEffect(() => {
+        getPlayers()
+    }, [playersContext])
 
     return (
         <>
