@@ -20,16 +20,16 @@ export const PlayersContext = createContext<IPLayerContext>({
 const PlayersContextProvider = ({ children }: IPlayersContextProps) => {
     const [players, setPlayers] = useState<Player[]>([])
 
+    const getPlayers = async () => {
+        const request = await fetch('/api/players', { cache: 'no-store', next: { revalidate: 0 } })
+        const response = await request.json()
+
+        setPlayers(response.players)
+        console.log('Players fetched')
+        console.log(response.players)
+    }
+
     useEffect(() => {
-        const getPlayers = async () => {
-            const request = await fetch('/api/players')
-            const response = await request.json()
-
-            setPlayers(response.players)
-            console.log('Players fetched')
-            console.log(response.players)
-        }
-
         getPlayers()
     }, [])
 
