@@ -4,8 +4,6 @@ import connectDB from '@/lib/db'
 import Fines, { IFines } from '@/models/fines'
 import { Player } from '@/types'
 
-export const dynamic = 'force-dynamic'
-
 export async function PATCH(request: NextRequest) {
     try {
         await connectDB()

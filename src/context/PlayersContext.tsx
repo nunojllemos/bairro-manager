@@ -21,7 +21,7 @@ const PlayersContextProvider = ({ children }: IPlayersContextProps) => {
     const [players, setPlayers] = useState<Player[]>([])
 
     const getPlayers = async () => {
-        const request = await fetch('/api/players', { cache: 'no-store', next: { revalidate: 0 } })
+        const request = await fetch('/api/players')
         const response = await request.json()
 
         setPlayers(response.players)
