@@ -1,7 +1,7 @@
 import { Coach } from '@/types'
-import mongoose, { Schema } from 'mongoose'
+import { Schema, models, model } from 'mongoose'
 
-const coachSchema: Schema = new mongoose.Schema(
+const CoachSchema: Schema = new Schema(
     {
         name: { type: String },
         role: { type: String },
@@ -24,6 +24,6 @@ const coachSchema: Schema = new mongoose.Schema(
     }
 )
 
-const CoachModel = mongoose.models.CoachModel || mongoose.model<Coach>('Coach', coachSchema)
+const CoachModel = models.Coach || model<Coach>('Coach', CoachSchema)
 
 export default CoachModel

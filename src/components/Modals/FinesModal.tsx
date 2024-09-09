@@ -1,4 +1,5 @@
 'use client'
+import useCoaches from '@/hooks/useCoaches'
 import useFines from '@/hooks/useFines'
 import usePlayers from '@/hooks/usePlayers'
 import { FinesDetails } from '@/types'
@@ -14,8 +15,11 @@ interface FinesModalProps {
 
 const FinesModal = ({ id, handleClose }: FinesModalProps) => {
     const { getPlayer, updatePlayer } = usePlayers()
+    const { getCoach, updateCoach } = useCoaches()
     const { fines } = useFines()
     const player = getPlayer(id)
+    const coach = getCoach(id)
+    const person = player || coach
     const form = useRef<HTMLFormElement>(null)
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -23,10 +27,8 @@ const FinesModal = ({ id, handleClose }: FinesModalProps) => {
 
         const formData = new FormData(form.current as HTMLFormElement)
 
-        // console.log('player: ', player)
-
         const data = {
-            player_id: id,
+            person_id: id, // coach or player id
             paid: formData.get('paid'),
             fines: fines
                 .map((fine) => {
@@ -42,18 +44,35 @@ const FinesModal = ({ id, handleClose }: FinesModalProps) => {
                 .filter((fine) => !!fine),
         }
 
-        const request = await fetch('/api/players/fines', {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        })
-        const newPlayer = await request.json()
+        if (player) {
+            const request = await fetch('/api/players/fines', {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+            const newPlayer = await request.json()
 
-        console.log(newPlayer.player)
+            console.log(newPlayer.player)
 
-        updatePlayer(newPlayer.player)
+            updatePlayer(newPlayer.player)
+        }
+
+        if (coach) {
+            const request = await fetch('/api/coaches/fines', {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+            const newCoach = await request.json()
+
+            console.log(newCoach.coach)
+
+            updateCoach(newCoach.coach)
+        }
         handleClose()
     }
 
@@ -61,10 +80,10 @@ const FinesModal = ({ id, handleClose }: FinesModalProps) => {
         <div className="bg-slate-100 p-6 md:p-16 h-max rounded-md w-[calc(100%_-_2rem)] md:w-[40rem] max-h-[calc(100vh_-_4rem)] overflow-y-auto">
             <div className="flex items-center gap-x-2">
                 <div className="w-12 h-12 md:w-16 md:h-16">
-                    <Avatar sx={{ width: '100%', height: '100%' }} src={player.avatar} />
+                    <Avatar sx={{ width: '100%', height: '100%' }} src={person.avatar} />
                 </div>
                 <Typography className="capitalize" variant="h5" component="h2">
-                    {player.name}
+                    {person.name}
                 </Typography>
             </div>
             <form ref={form} onSubmit={handleSubmit}>
@@ -85,7 +104,7 @@ const FinesModal = ({ id, handleClose }: FinesModalProps) => {
                                 InputProps={{
                                     endAdornment: (
                                         <InputAdornment className="pl-4 opacity-40" position="start">
-                                            {`Atual: ${player.fines.paid} €`}
+                                            {`Atual: ${person.fines.paid} €`}
                                         </InputAdornment>
                                     ),
                                 }}
@@ -104,7 +123,7 @@ const FinesModal = ({ id, handleClose }: FinesModalProps) => {
                                             size="small"
                                             label={fine.name}
                                             placeholder={
-                                                player.fines.details
+                                                person.fines.details
                                                     .filter((playerFine) => fine._id === playerFine._id)[0]
                                                     ?.value.toString() || '0'
                                             }

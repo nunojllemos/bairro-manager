@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from 'react'
 import { FinesContext } from '@/context/FinesContext'
 import usePlayers from './usePlayers'
+import useCoaches from './useCoaches'
 
 const useFines = () => {
     const { fines } = useContext(FinesContext)
@@ -8,22 +9,23 @@ const useFines = () => {
     const [totalDebt, setTotalDebt] = useState<number | null>(null)
     const [totalValue, setTotalValue] = useState<number | null>(null)
     const { players } = usePlayers()
+    const { coaches } = useCoaches()
 
     useEffect(() => {
         if (players.length) {
-            const totalValuePaid = players
-                .map((player) => {
-                    return player.fines.paid
+            const totalValuePaid = [...players, ...coaches]
+                .map((person) => {
+                    return person.fines.paid
                 })
                 .reduce((total, current) => total + current)
 
             setTotalPaid(totalValuePaid)
 
-            const totalValueDebt = players
-                .map((player) => {
-                    const isNegativeValue = player.fines.total - player.fines.paid < 0
+            const totalValueDebt = [...players, ...coaches]
+                .map((person) => {
+                    const isNegativeValue = person.fines.total - person.fines.paid < 0
 
-                    if (!isNegativeValue) return player.fines.total - player.fines.paid
+                    if (!isNegativeValue) return person.fines.total - person.fines.paid
 
                     return 0
                 })
@@ -31,13 +33,13 @@ const useFines = () => {
 
             setTotalDebt(totalValueDebt)
 
-            if (totalDebt && totalPaid) {
+            if (totalDebt !== null && totalDebt >= 0 && totalPaid) {
                 setTotalValue(totalDebt + totalPaid)
             } else {
                 setTotalValue(0)
             }
         }
-    }, [players, totalDebt, totalPaid])
+    }, [players, coaches, totalDebt, totalPaid])
 
     return { fines, totalPaid, totalDebt, totalValue }
 }

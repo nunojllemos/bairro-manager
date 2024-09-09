@@ -4,13 +4,16 @@ import AuthContextProvider from '@/context/AuthContext'
 import PlayersContextProvider from '@/context/PlayersContext'
 import FinesContextProvider from '@/context/FinesContext'
 import EventsContextProvider from '@/context/EventsContext'
+import CoachesContextProvider from '@/context/CoachesContext'
 
 const Contexts = ({ children }: { children: React.ReactNode }) => {
     return (
         <AuthContextProvider>
             <PlayersContextProvider>
                 <EventsContextProvider>
-                    <FinesContextProvider>{children}</FinesContextProvider>
+                    <CoachesContextProvider>
+                        <FinesContextProvider>{children}</FinesContextProvider>
+                    </CoachesContextProvider>
                 </EventsContextProvider>
             </PlayersContextProvider>
         </AuthContextProvider>

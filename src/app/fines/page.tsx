@@ -28,6 +28,7 @@ import useFines from '@/hooks/useFines'
 import FinesModal from '@/components/Modals/FinesModal'
 import { localeStringOptions } from '@/utils'
 import { Player } from '@/types'
+import useCoaches from '@/hooks/useCoaches'
 
 const FinesPage = () => {
     const [searchValue, setSearchValue] = useState('')
@@ -36,6 +37,7 @@ const FinesPage = () => {
 
     const { role } = useAuth()
     const { players } = usePlayers()
+    const { coaches } = useCoaches()
     const { fines, totalPaid, totalDebt, totalValue } = useFines()
 
     const handleClose = () => setIsModalOpen(false)
@@ -128,10 +130,12 @@ const FinesPage = () => {
                 </div>
                 <ul className="flex flex-col gap-y-4 lg:gap-y-2">
                     {players &&
-                    players.filter((player) => player.name.toLowerCase().startsWith(searchValue.toLowerCase())).length >
-                        0 ? (
-                        players
-                            .filter((player) => player.name.toLowerCase().startsWith(searchValue.toLowerCase()))
+                    coaches &&
+                    [...players, ...coaches].filter((player) =>
+                        player.name.toLowerCase().startsWith(searchValue.toLowerCase())
+                    ).length > 0 ? (
+                        [...players, ...coaches]
+                            .filter((person) => person.name.toLowerCase().startsWith(searchValue.toLowerCase()))
                             .sort((a, b) => a.name.localeCompare(b.name))
                             .map((player, index) => {
                                 return (
@@ -266,9 +270,7 @@ const FinesPage = () => {
                             })
                     ) : (
                         <li className="py-8 flex items-center justify-center gap-x-2 text-sm lg:text-lg bg-slate-200 rounded-md">
-                            <Inventory2Outlined fontSize="small" /> Sem resultados para a pesquisa &quot;
-                            {searchValue}
-                            &quot;
+                            <Inventory2Outlined fontSize="small" /> Sem resultados
                         </li>
                     )}
                 </ul>

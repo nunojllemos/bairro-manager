@@ -24,11 +24,7 @@ export interface Coach {
     dob: string
     avatar: string
     role: CoachRole
-    fines: {
-        total: number
-        paid: number
-        fines: Fines
-    }
+    fines: Fines
 }
 
 type Positions = 'GR' | 'DD' | 'DC' | 'DE' | 'M' | 'MDC' | 'MD' | 'ME' | 'MOC' | 'EE' | 'ED' | 'PL'
@@ -62,4 +58,13 @@ export interface FinesModel {
     description: string
     value?: number
     values?: number[]
+}
+
+export interface Coach {
+    _id: string
+    name: string
+    role: string
+    dob: string
+    avatar: string
+    fines: Fines
 }
