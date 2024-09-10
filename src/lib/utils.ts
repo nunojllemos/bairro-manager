@@ -10,6 +10,7 @@ export const players = [
         fines: {
             total: 0,
             paid: 0,
+            games: 0,
         },
         cards: { yellow: 0, red: 0 },
         dob: '2003-06-25',
@@ -29,6 +30,7 @@ export const players = [
         fines: {
             total: 0,
             paid: 0,
+            games: 0,
         },
         cards: { yellow: 0, red: 0 },
         dob: '1994-07-13',
@@ -48,6 +50,7 @@ export const players = [
         fines: {
             total: 0,
             paid: 0,
+            games: 0,
         },
         cards: { yellow: 0, red: 0 },
         dob: '2003-05-02',
@@ -67,6 +70,7 @@ export const players = [
         fines: {
             total: 0,
             paid: 0,
+            games: 0,
         },
         cards: { yellow: 0, red: 0 },
         dob: '1994-06-07',
@@ -86,6 +90,7 @@ export const players = [
         fines: {
             total: 0,
             paid: 0,
+            games: 0,
         },
         cards: { yellow: 0, red: 0 },
         dob: '1996-06-06',
@@ -105,6 +110,7 @@ export const players = [
         fines: {
             total: 0,
             paid: 0,
+            games: 0,
         },
         cards: { yellow: 0, red: 0 },
         dob: '1995-04-19',
@@ -124,6 +130,7 @@ export const players = [
         fines: {
             total: 0,
             paid: 0,
+            games: 0,
         },
         cards: { yellow: 0, red: 0 },
         dob: '2000-07-21',
@@ -143,6 +150,7 @@ export const players = [
         fines: {
             total: 0,
             paid: 0,
+            games: 0,
         },
         cards: { yellow: 0, red: 0 },
         dob: '1994-05-09',
@@ -162,6 +170,7 @@ export const players = [
         fines: {
             total: 0,
             paid: 0,
+            games: 0,
         },
         cards: { yellow: 0, red: 0 },
         dob: '2005-07-02',
@@ -181,6 +190,7 @@ export const players = [
         fines: {
             total: 0,
             paid: 0,
+            games: 0,
         },
         cards: { yellow: 0, red: 0 },
         dob: '1994-06-21',
@@ -200,6 +210,7 @@ export const players = [
         fines: {
             total: 0,
             paid: 0,
+            games: 0,
         },
         cards: { yellow: 0, red: 0 },
         dob: '2005-02-15',
@@ -219,6 +230,7 @@ export const players = [
         fines: {
             total: 0,
             paid: 0,
+            games: 0,
         },
         cards: { yellow: 0, red: 0 },
         dob: '2001-08-07',
@@ -238,6 +250,7 @@ export const players = [
         fines: {
             total: 0,
             paid: 0,
+            games: 0,
         },
         cards: { yellow: 0, red: 0 },
         dob: '1993-08-31',
@@ -257,6 +270,7 @@ export const players = [
         fines: {
             total: 0,
             paid: 0,
+            games: 0,
         },
         cards: { yellow: 0, red: 0 },
         dob: '2005-01-05',
@@ -276,6 +290,7 @@ export const players = [
         fines: {
             total: 0,
             paid: 0,
+            games: 0,
         },
         cards: { yellow: 0, red: 0 },
         dob: '2005-10-05',
@@ -295,6 +310,7 @@ export const players = [
         fines: {
             total: 0,
             paid: 0,
+            games: 0,
         },
         cards: { yellow: 0, red: 0 },
         dob: '1997-08-06',
@@ -314,6 +330,7 @@ export const players = [
         fines: {
             total: 0,
             paid: 0,
+            games: 0,
         },
         cards: { yellow: 0, red: 0 },
         dob: '2005-02-19',
@@ -333,6 +350,7 @@ export const players = [
         fines: {
             total: 0,
             paid: 0,
+            games: 0,
         },
         cards: { yellow: 0, red: 0 },
         dob: '2003-01-11',
@@ -352,6 +370,7 @@ export const players = [
         fines: {
             total: 0,
             paid: 0,
+            games: 0,
         },
         cards: { yellow: 0, red: 0 },
         dob: '1999-06-07',
@@ -371,6 +390,7 @@ export const players = [
         fines: {
             total: 0,
             paid: 0,
+            games: 0,
         },
         cards: { yellow: 0, red: 0 },
         dob: '2001-04-03',
@@ -390,6 +410,7 @@ export const players = [
         fines: {
             total: 0,
             paid: 0,
+            games: 0,
         },
         cards: { yellow: 0, red: 0 },
         dob: '2001-04-03',
@@ -409,6 +430,7 @@ export const players = [
         fines: {
             total: 0,
             paid: 0,
+            games: 0,
         },
         cards: { yellow: 0, red: 0 },
         dob: '2000-05-24',
@@ -428,6 +450,7 @@ export const players = [
         fines: {
             total: 0,
             paid: 0,
+            games: 0,
         },
         cards: { yellow: 0, red: 0 },
         dob: '2003-03-28',
@@ -447,6 +470,7 @@ export const players = [
         fines: {
             total: 0,
             paid: 0,
+            games: 0,
         },
         cards: { yellow: 0, red: 0 },
         dob: '2004-08-12',
@@ -466,6 +490,7 @@ export const players = [
         fines: {
             total: 0,
             paid: 0,
+            games: 0,
         },
         cards: { yellow: 0, red: 0 },
         dob: '2000-01-14',
@@ -1756,4 +1781,211 @@ export const users = [
     { username: 'nelson', role: 'player', password: '1234', session_id: NEXT_PUBLIC_PLAYER_SECRET },
 
     { username: 'emanuel', role: 'mister', password: '1234', session_id: NEXT_PUBLIC_MISTER_SECRET },
+]
+
+export const games = [
+    {
+        is_home: true,
+        date: {
+            date: '2024-06-10',
+            start: '16:00',
+        },
+        final_result: '5-0',
+        half_time_result: '3-0',
+        cards: {
+            yellow: 2,
+            red: 0,
+        },
+        weather: {
+            temp: '25',
+            condition: 'sunny',
+        },
+        teams: {
+            home: {
+                tactic: '4-4-2',
+                initial: [
+                    {
+                        _id: '',
+                        position: 'GR',
+                        goals: [
+                            {
+                                minute: '15',
+                            },
+                        ],
+                        cards: {
+                            yellow: [
+                                {
+                                    minute: '18',
+                                },
+                            ],
+                            red: [
+                                {
+                                    minute: '39',
+                                },
+                            ],
+                        },
+                        sub: '75',
+                    },
+                ],
+                bench: [
+                    {
+                        _id: '',
+                        position: 'GR',
+                        goals: [],
+                        cards: {
+                            yellow: 0,
+                            red: 0,
+                        },
+                        sub: '',
+                    },
+                ],
+            },
+            away: {},
+        },
+        opponent: 'Ruivães',
+    },
+    {
+        is_home: false,
+        date: {
+            date: '2024-06-14',
+            start: '16:00',
+        },
+        final_result: '1-2',
+        half_time_result: '0-0',
+        cards: {
+            yellow: 4,
+            red: 1,
+        },
+        weather: {
+            temp: '18',
+            condition: 'foggy',
+        },
+        teams: {
+            home: {
+                tactic: '4-4-2',
+                initial: [
+                    {
+                        _id: '',
+                        position: 'GR',
+                        goals: [],
+                        cards: {
+                            yellow: [],
+                            red: [],
+                        },
+                        sub: '',
+                    },
+                ],
+                bench: [
+                    {
+                        _id: '',
+                        position: 'GR',
+                        goals: [],
+                        cards: {
+                            yellow: 0,
+                            red: 0,
+                        },
+                        sub: '',
+                    },
+                ],
+            },
+            away: {},
+        },
+        opponent: 'Joane',
+    },
+    {
+        is_home: false,
+        date: {
+            date: '2024-05-10',
+            start: '16:00',
+        },
+        final_result: '3-2',
+        half_time_result: '1-2',
+        cards: {
+            yellow: 4,
+            red: 1,
+        },
+        weather: {
+            temp: '18',
+            condition: 'foggy',
+        },
+        teams: {
+            home: {
+                tactic: '4-4-2',
+                initial: [
+                    {
+                        _id: '',
+                        position: 'GR',
+                        goals: [],
+                        cards: {
+                            yellow: [],
+                            red: [],
+                        },
+                        sub: '',
+                    },
+                ],
+                bench: [
+                    {
+                        _id: '',
+                        position: 'GR',
+                        goals: [],
+                        cards: {
+                            yellow: 0,
+                            red: 0,
+                        },
+                        sub: '',
+                    },
+                ],
+            },
+            away: {},
+        },
+        opponent: 'Barcelona',
+    },
+    {
+        is_home: true,
+        date: {
+            date: '2024-05-14',
+            start: '16:00',
+        },
+        final_result: '3-3',
+        half_time_result: '1-2',
+        cards: {
+            yellow: 4,
+            red: 1,
+        },
+        weather: {
+            temp: '18',
+            condition: 'foggy',
+        },
+        teams: {
+            home: {
+                tactic: '4-4-2',
+                initial: [
+                    {
+                        _id: '',
+                        position: 'GR',
+                        goals: [],
+                        cards: {
+                            yellow: [],
+                            red: [],
+                        },
+                        sub: '',
+                    },
+                ],
+                bench: [
+                    {
+                        _id: '',
+                        position: 'GR',
+                        goals: [],
+                        cards: {
+                            yellow: 0,
+                            red: 0,
+                        },
+                        sub: '',
+                    },
+                ],
+            },
+            away: {},
+        },
+        opponent: 'Real Madrid',
+    },
 ]

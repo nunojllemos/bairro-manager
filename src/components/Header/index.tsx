@@ -68,9 +68,8 @@ const Header = () => {
                 },
                 {
                     name: 'jogos',
-                    url: '/matches',
+                    url: '/games',
                     icon: <SportsSoccerOutlined fontSize="inherit" />,
-                    soon: true,
                 },
                 {
                     name: 'calendário',

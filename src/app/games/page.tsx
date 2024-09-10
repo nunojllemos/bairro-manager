@@ -1,39 +1,32 @@
-import React from 'react'
-import { AddOutlined, PanToolAltOutlined, SportsSoccerOutlined } from '@mui/icons-material'
-import { Divider, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
+'use client'
+import React, { useState } from 'react'
+import { AddOutlined, EditOutlined, InfoOutlined, PanToolAltOutlined, SportsSoccerOutlined } from '@mui/icons-material'
+import {
+    Button,
+    Divider,
+    Modal,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Typography,
+} from '@mui/material'
 import Link from 'next/link'
+import useGames from '@/hooks/useGames'
+import { getGameStatusByResult } from '@/utils'
+import useAuth from '@/hooks/useAuth'
+import GamesModal from '@/components/Modals/GamesModal'
 
 const MatchesPage = () => {
-    const DUMMY_GAMES = [
-        {
-            team: 'Ruivães',
-            date: '2024-05-11',
-            isWin: true,
-            place: 'casa',
-            result: '5-1',
-        },
-        {
-            team: 'Delães',
-            date: '2024-06-11',
-            isWin: true,
-            place: 'fora',
-            result: '0-3',
-        },
-        {
-            team: 'Man City',
-            date: '2024-02-11',
-            isWin: false,
-            place: 'fora',
-            result: '0-0',
-        },
-        {
-            team: 'Barcelona',
-            date: '2024-03-11',
-            isWin: false,
-            place: 'fora',
-            result: '2-1',
-        },
-    ]
+    const [isModalOpen, setIsModalOpen] = useState(true)
+    const { games, gamesResultRegistry } = useGames()
+    const { role } = useAuth()
+
+    const handleClose = () => setIsModalOpen(false)
+
+    const openModal = () => setIsModalOpen(true)
 
     return (
         <>
@@ -53,6 +46,33 @@ const MatchesPage = () => {
                 </div>
             </section>
             <Divider className="!my-8" />
+            <span className="flex items-center gap-x-1 text-sm text-blue-500">
+                <InfoOutlined fontSize="inherit" />
+                Registo
+            </span>
+            <ul className="mt-8 flex items-center gap-x-2">
+                {gamesResultRegistry.map((result) => {
+                    const isVictory = result === 'V'
+                    const isDraw = result === 'E'
+
+                    return (
+                        <li>
+                            <span
+                                className={`inline-block p-1 rounded-sm border bg-white w-6 text-center ${
+                                    isVictory
+                                        ? 'border-green-800/30 bg-green-50 text-green-700'
+                                        : isDraw
+                                        ? 'border-yellow-400 bg-yellow-50 text-yellow-700'
+                                        : 'border-red-500 bg-red-50 text-red-700'
+                                }`}
+                            >
+                                {result}
+                            </span>
+                        </li>
+                    )
+                })}
+            </ul>
+            <Divider className="!my-8" />
             <section>
                 <TableContainer>
                     <Table sx={{ minWidth: 440 }}>
@@ -67,36 +87,33 @@ const MatchesPage = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {DUMMY_GAMES.map((game, index) => {
-                                const goalsScored = game.result.split('-')[0]
-                                const goalsConceded = game.result.split('-')[1]
-                                const isDraw = goalsScored === goalsConceded
-
+                            {games.map((game, index) => {
                                 return (
-                                    <TableRow className={`${index % 2 === 0 ? 'bg-white' : ''}`} key={game.date}>
+                                    <TableRow className={`${index % 2 === 0 ? 'bg-white' : ''}`} key={game.date.date}>
                                         <TableCell size="small">
                                             <div className="flex items-center gap-2">
                                                 <span
                                                     className={`inline-block w-2 h-2 rounded ${
-                                                        game.isWin
+                                                        getGameStatusByResult(game.final_result, game.is_home).isVictory
                                                             ? 'bg-green-500'
-                                                            : isDraw
+                                                            : getGameStatusByResult(game.final_result, game.is_home)
+                                                                  .isDraw
                                                             ? 'bg-yellow-500'
                                                             : 'bg-red-500'
                                                     }`}
                                                 ></span>
 
                                                 <span className="inline-block p-1 rounded-sm border border-slate-200 bg-white">
-                                                    {game.place[0].toUpperCase()}
+                                                    {game.is_home ? 'C' : 'F'}
                                                 </span>
                                             </div>
                                         </TableCell>
-                                        <TableCell size="small">{game.date}</TableCell>
-                                        <TableCell size="small">{game.team}</TableCell>
+                                        <TableCell size="small">{game.date.date}</TableCell>
+                                        <TableCell size="small">{game.opponent}</TableCell>
                                         <TableCell align="right" size="small">
-                                            <Link href="/matches/bairro-ruivaes">
+                                            <Link href={`/games/${game._id}`}>
                                                 <span className="inline-block pl-2 text-blue-500">
-                                                    {game.result}{' '}
+                                                    {game.final_result}{' '}
                                                     <span className="inline-block text-xs text-blue-400 ml-1">
                                                         <AddOutlined fontSize="inherit" />
                                                         Ver mais
@@ -114,6 +131,30 @@ const MatchesPage = () => {
                     <PanToolAltOutlined fontSize="inherit" />
                 </div>
             </section>
+
+            {role === 'mister' && (
+                <>
+                    <section className="mt-12 flex justify-end">
+                        <Button
+                            onClick={openModal}
+                            type="button"
+                            variant="contained"
+                            startIcon={<AddOutlined fontSize="small" />}
+                        >
+                            Adicionar
+                        </Button>
+                    </section>
+                    <Modal
+                        className="flex items-center justify-center"
+                        open={isModalOpen}
+                        onClose={handleClose}
+                        aria-labelledby="modal-modal-title"
+                        aria-describedby="modal-modal-description"
+                    >
+                        <GamesModal />
+                    </Modal>
+                </>
+            )}
         </>
     )
 }

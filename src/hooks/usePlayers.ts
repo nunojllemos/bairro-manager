@@ -16,8 +16,6 @@ const usePlayers = () => {
             return p
         })
 
-        console.log('updatedPlayers', updatedPlayers)
-
         setPlayers(updatedPlayers)
     }
 
@@ -26,10 +24,6 @@ const usePlayers = () => {
 
         setPlayers([...fullUpdatedPlayers])
     }
-
-    useEffect(() => {
-        console.log('Inside usePlayers')
-    }, [])
 
     return { players, setPlayers, getPlayer, updatePlayer, updatePlayers }
 }

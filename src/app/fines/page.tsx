@@ -1,5 +1,5 @@
 'use client'
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import React, { ChangeEvent, useState } from 'react'
 import {
     Accordion,
     AccordionDetails,
@@ -27,7 +27,6 @@ import usePlayers from '@/hooks/usePlayers'
 import useFines from '@/hooks/useFines'
 import FinesModal from '@/components/Modals/FinesModal'
 import { localeStringOptions } from '@/utils'
-import { Player } from '@/types'
 import useCoaches from '@/hooks/useCoaches'
 
 const FinesPage = () => {
@@ -38,7 +37,7 @@ const FinesPage = () => {
     const { role } = useAuth()
     const { players } = usePlayers()
     const { coaches } = useCoaches()
-    const { fines, totalPaid, totalDebt, totalValue } = useFines()
+    const { fines, totalPaid, totalDebt, totalValue, totalDefeats, totalVictories } = useFines()
 
     const handleClose = () => setIsModalOpen(false)
 
@@ -137,44 +136,46 @@ const FinesPage = () => {
                         [...players, ...coaches]
                             .filter((person) => person.name.toLowerCase().startsWith(searchValue.toLowerCase()))
                             .sort((a, b) => a.name.localeCompare(b.name))
-                            .map((player, index) => {
+                            .map((person, index) => {
+                                const isCoach = Object.keys(person).includes('role')
+
                                 return (
-                                    <li key={player.name} className={`${index % 2 === 0 ? 'bg-white' : ''}`}>
+                                    <li key={person.name} className={`${index % 2 === 0 ? 'bg-white' : ''}`}>
                                         <Accordion className="!m-0 !rounded-none1 !shadow-none">
                                             <AccordionSummary className="pr-2" expandIcon={<ExpandMore />}>
                                                 <div>
                                                     <div className="flex flex-col lg:flex-row items-center gap-y-1 lg:gap-x-4 text-xs lg:text-sm w-10 lg:w-auto">
-                                                        <Avatar src={player.avatar} />
+                                                        <Avatar src={person.avatar} />
                                                         <span className="capitalize text-center lg:text-left">
-                                                            {player.name}
+                                                            {person.name}
                                                         </span>
                                                     </div>
                                                 </div>
                                                 <ul className="flex gap-x-6">
                                                     <li className="w-12 lg:w-24 text-center text-sm text-nowrap lg:text-base">
-                                                        {player.fines.total.toLocaleString(
+                                                        {person.fines.total.toLocaleString(
                                                             'pt-PT',
                                                             localeStringOptions
                                                         )}{' '}
                                                         &euro;
                                                     </li>
                                                     <li className="w-12 lg:w-24 text-center text-sm text-nowrap lg:text-base">
-                                                        {player.fines.paid.toLocaleString('pt-PT', localeStringOptions)}{' '}
+                                                        {person.fines.paid.toLocaleString('pt-PT', localeStringOptions)}{' '}
                                                         &euro;
                                                     </li>
                                                     <li className="w-16 lg:w-24 text-center text-sm text-nowrap lg:text-base text-red-700">
-                                                        {player.fines.total - player.fines.paid === 0 ? (
+                                                        {person.fines.total - person.fines.paid === 0 ? (
                                                             <span className="text-zinc-900">
                                                                 {(
-                                                                    player.fines.total - player.fines.paid
+                                                                    person.fines.total - person.fines.paid
                                                                 ).toLocaleString('pt-PT', localeStringOptions)}{' '}
                                                                 &euro;
                                                             </span>
-                                                        ) : player.fines.total - player.fines.paid > 0 ? (
+                                                        ) : person.fines.total - person.fines.paid > 0 ? (
                                                             <span>
                                                                 &minus;{' '}
                                                                 {(
-                                                                    player.fines.total - player.fines.paid
+                                                                    person.fines.total - person.fines.paid
                                                                 ).toLocaleString('pt-PT', localeStringOptions)}{' '}
                                                                 &euro;
                                                             </span>
@@ -182,7 +183,7 @@ const FinesPage = () => {
                                                             <span className="text-green-700">
                                                                 &#43;{' '}
                                                                 {(
-                                                                    (player.fines.total - player.fines.paid) *
+                                                                    (person.fines.total - person.fines.paid) *
                                                                     -1
                                                                 ).toLocaleString('pt-PT', localeStringOptions)}{' '}
                                                                 &euro;
@@ -202,7 +203,7 @@ const FinesPage = () => {
                                                         <Button
                                                             onClick={() => {
                                                                 setIsModalOpen(true)
-                                                                handleEdit(player._id)
+                                                                handleEdit(person._id)
                                                             }}
                                                             size="small"
                                                             variant="outlined"
@@ -215,52 +216,89 @@ const FinesPage = () => {
                                                 <ul className="mt-8 md:mt-4 flex flex-col gap-y-1 text-sm lg:px-6">
                                                     {fines &&
                                                         fines.map((fine) => {
-                                                            return !Object.keys(fine).includes('values') ? (
-                                                                <li
-                                                                    key={fine._id}
-                                                                    className="flex justify-between py-2 border-b border-b-slate-100"
-                                                                >
-                                                                    <div>
+                                                            if (
+                                                                !fine.name.includes('Derrota') &&
+                                                                !fine.name.includes('Vitória')
+                                                            ) {
+                                                                return (
+                                                                    <li
+                                                                        key={fine._id}
+                                                                        className="flex justify-between py-2 border-b border-b-slate-100"
+                                                                    >
+                                                                        <div>
+                                                                            <span className="font-semibold">
+                                                                                {fine.name}
+                                                                            </span>
+                                                                            <span className="inline-block px-2">
+                                                                                {person.fines.details
+                                                                                    .filter(
+                                                                                        (detailedFine) =>
+                                                                                            detailedFine._id ===
+                                                                                            fine._id
+                                                                                    )
+                                                                                    .map((value) => value)[0]?.value ||
+                                                                                    0}
+                                                                            </span>
+                                                                        </div>
+                                                                        <div className="w-16 lg:w-24 text-center">
+                                                                            {(
+                                                                                person.fines.details
+                                                                                    .filter(
+                                                                                        (detailedFine) =>
+                                                                                            detailedFine._id ===
+                                                                                            fine._id
+                                                                                    )
+                                                                                    .map((value) => value)[0]?.value *
+                                                                                    (fine?.value || 1) || 0
+                                                                            ).toLocaleString(
+                                                                                'pt-PT',
+                                                                                localeStringOptions
+                                                                            )}{' '}
+                                                                            &euro;
+                                                                        </div>
+                                                                    </li>
+                                                                )
+                                                            }
+
+                                                            if (isCoach && !fine.name.includes('Derrota')) {
+                                                                return (
+                                                                    <li
+                                                                        key={fine._id}
+                                                                        className={`flex justify-between py-2 border-b border-b-slate-100`}
+                                                                    >
                                                                         <span className="font-semibold">
                                                                             {fine.name}
                                                                         </span>
-                                                                        <span className="inline-block px-2">
-                                                                            {player.fines.details
-                                                                                .filter(
-                                                                                    (detailedFine) =>
-                                                                                        detailedFine._id === fine._id
-                                                                                )
-                                                                                .map((value) => value)[0]?.value || 0}
+                                                                        <div className="w-16 lg:w-24 text-center">
+                                                                            {totalVictories?.toLocaleString(
+                                                                                'pt-PT',
+                                                                                localeStringOptions
+                                                                            )}{' '}
+                                                                            &euro;
+                                                                        </div>
+                                                                    </li>
+                                                                )
+                                                            }
+
+                                                            if (!isCoach && !fine.name.includes('Vitória')) {
+                                                                return (
+                                                                    <li
+                                                                        key={fine._id}
+                                                                        className={`flex justify-between py-2 border-b border-b-slate-100`}
+                                                                    >
+                                                                        <span className="font-semibold">
+                                                                            {fine.name}
                                                                         </span>
-                                                                    </div>
-                                                                    <div className="w-16 lg:w-24 text-center">
-                                                                        {(
-                                                                            player.fines.details
-                                                                                .filter(
-                                                                                    (detailedFine) =>
-                                                                                        detailedFine._id === fine._id
-                                                                                )
-                                                                                .map((value) => value)[0]?.value *
-                                                                                (fine?.value || 1) || 0
-                                                                        ).toLocaleString(
-                                                                            'pt-PT',
-                                                                            localeStringOptions
-                                                                        )}{' '}
-                                                                        &euro;
-                                                                    </div>
-                                                                </li>
-                                                            ) : (
-                                                                <li
-                                                                    key={fine._id}
-                                                                    className="flex justify-between py-2 border-b border-b-slate-100"
-                                                                >
-                                                                    <span className="font-semibold">{fine.name}</span>
-                                                                    <div className="w-16 lg:w-24 text-center">
-                                                                        {/* TODO: utility function to calculate total value from defeats based on matches history */}
-                                                                        {/* {player.fines.total} &euro; */}
-                                                                    </div>
-                                                                </li>
-                                                            )
+                                                                        <div className="w-16 lg:w-24 text-center">
+                                                                            {totalDefeats?.toLocaleString(
+                                                                                'pt-PT',
+                                                                                localeStringOptions
+                                                                            )}{' '}
+                                                                            &euro;
+                                                                        </div>
+                                                                    </li>
+                                                                )
+                                                            }
                                                         })}
                                                 </ul>
                                             </AccordionDetails>

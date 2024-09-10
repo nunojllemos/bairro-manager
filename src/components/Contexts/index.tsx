@@ -5,6 +5,7 @@ import PlayersContextProvider from '@/context/PlayersContext'
 import FinesContextProvider from '@/context/FinesContext'
 import EventsContextProvider from '@/context/EventsContext'
 import CoachesContextProvider from '@/context/CoachesContext'
+import GamesContextProvider from '@/context/GamesContext'
 
 const Contexts = ({ children }: { children: React.ReactNode }) => {
     return (
@@ -12,7 +13,9 @@ const Contexts = ({ children }: { children: React.ReactNode }) => {
             <PlayersContextProvider>
                 <EventsContextProvider>
                     <CoachesContextProvider>
-                        <FinesContextProvider>{children}</FinesContextProvider>
+                        <FinesContextProvider>
+                            <GamesContextProvider>{children}</GamesContextProvider>
+                        </FinesContextProvider>
                     </CoachesContextProvider>
                 </EventsContextProvider>
             </PlayersContextProvider>

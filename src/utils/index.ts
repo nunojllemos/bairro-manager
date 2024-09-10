@@ -157,3 +157,69 @@ export const isBirthdayCurrentMonth = (date: string): boolean => {
 
     return dobMonth === currentMonth
 }
+
+export const getGameStatusByResult = (result: string, isHome: boolean): { isVictory: boolean; isDraw: boolean } => {
+    const goalsScored = isHome ? result.split('-')[0] : result.split('-')[1]
+    const goalsConceded = isHome ? result.split('-')[1] : result.split('-')[0]
+    const isDraw = goalsScored === goalsConceded
+    const isVictory = goalsConceded < goalsScored
+
+    return { isVictory, isDraw }
+}
+
+const groupConsecutiveValues = (array: ('V' | 'E' | 'D' | undefined)[]) => {
+    if (array.length === 0) return []
+
+    const result = []
+    let count = 1
+
+    for (let i = 1; i < array.length; i++) {
+        if (array[i] === array[i - 1]) {
+            count++
+        } else {
+            result.push(`${count}${array[i - 1]}`)
+            count = 1
+        }
+    }
+
+    // Push the last group
+    result.push(`${count}${array[array.length - 1]}`)
+
+    return result
+}
+
+export const calculateFinesByGamesRegistry = (
+    gamesRegistry: ('V' | 'E' | 'D' | undefined)[]
+): { defeats: number; victories: number } => {
+    const totalVictories = groupConsecutiveValues(gamesRegistry)
+        .map((registry) => {
+            if (registry.includes('V')) {
+                if (registry === '1V') return 1.5 as number
+                if (registry === '2V') return 3.5 as number
+                if (registry === '3V') return 6 as number
+
+                return 6 as number
+            }
+            return 0
+        })
+        .reduce((accumulator, currentValue) => {
+            return accumulator + currentValue
+        }, 0)
+
+    const totalDefeats = groupConsecutiveValues(gamesRegistry)
+        .map((registry) => {
+            if (registry.includes('D')) {
+                if (registry === '1D') return 1 as number
+                if (registry === '2D') return 2.5 as number
+                if (registry === '3D') return 4.5 as number
+
+                return 4.5 as number
+            }
+            return 0
+        })
+        .reduce((accumulator, currentValue) => {
+            return accumulator + currentValue
+        }, 0)
+
+    return { defeats: totalDefeats, victories: totalVictories }
+}

@@ -1,8 +1,9 @@
 import mongoose from 'mongoose'
 import connectDB from './db'
 import PlayerModel from '../models/player'
-import { events, players } from './utils'
+import { events, players, games } from './utils'
 import EventModel from '@/models/events'
+import GameModel from '@/models/games'
 
 const populateDB = async () => {
     try {
@@ -23,6 +24,16 @@ const populateDB = async () => {
 
         await EventModel.insertMany(newEvents)
         console.log('✅ Events populated')
+        console.log('')
+
+        await GameModel.deleteMany({})
+        console.log('✅ Games deleted')
+
+        const newGames = games.map((event) => new GameModel(event))
+
+        await GameModel.insertMany(newGames)
+        console.log('✅ Games populated')
+        console.log('')
     } catch (error) {
         console.error('Error populating the database:', error)
     } finally {

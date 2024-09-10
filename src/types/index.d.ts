@@ -68,3 +68,57 @@ export interface Coach {
     avatar: string
     fines: Fines
 }
+
+type WeatherConditions = 'sunny' | 'cloudy' | 'rainy' | 'storm' | 'snow' | 'foggy'
+
+interface PlayerGameInfo {
+    _id: string
+    position: string
+    goals: [
+        {
+            minute: number
+        }
+    ]
+    cards: {
+        yellow: [
+            {
+                minute: number
+            }
+        ]
+        red: [
+            {
+                minute: number
+            }
+        ]
+    }
+}
+
+interface Team {
+    tactic: string
+    initial: PlayerGameInfo[]
+    bench: PlayerGameInfo[]
+}
+
+export interface Game {
+    _id: string
+    opponent: string
+    date: {
+        date: string
+        start: string
+    }
+    is_home: boolean
+    final_result: string
+    half_time_result: string
+    cards: {
+        yellow: number
+        red: number
+    }
+    weather: {
+        temp: string
+        condition: WeatherConditions
+    }
+    teams: {
+        home: Team
+        away: Team
+    }
+}

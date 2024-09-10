@@ -1,5 +1,7 @@
 import { createContext, useEffect, useState } from 'react'
 import { FinesModel } from '@/types'
+import useGames from '@/hooks/useGames'
+import { calculateFinesByGamesRegistry } from '@/utils'
 
 export type Role = 'fine' | 'mister' | 'cap' | null
 
@@ -17,6 +19,7 @@ export const FinesContext = createContext<IFinesContext>({
 
 const FinesContextProvider = ({ children }: IFinesContextProps) => {
     const [fines, setFines] = useState<FinesModel[]>([])
+    const { games, gamesResultRegistry } = useGames()
 
     useEffect(() => {
         const getFines = async () => {
@@ -30,6 +33,18 @@ const FinesContextProvider = ({ children }: IFinesContextProps) => {
 
         getFines()
     }, [])
+
+    useEffect(() => {
+        const { defeats, victories } = calculateFinesByGamesRegistry(gamesResultRegistry)
+
+        fetch('/api/fines', {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ defeats, victories }),
+        })
+    }, [games, gamesResultRegistry])
 
     return <FinesContext.Provider value={{ fines }}>{children}</FinesContext.Provider>
 }
