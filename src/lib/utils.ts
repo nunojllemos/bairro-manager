@@ -64,7 +64,7 @@ export const players = [
     {
         name: 'Caetano',
         number: 9,
-        avatar: '',
+        avatar: 'https://i.postimg.cc/mDhv2cdz/caetano.png',
         assists: 0,
         goals: 0,
         fines: {
@@ -484,7 +484,7 @@ export const players = [
     {
         name: 'Nélson',
         number: 0,
-        avatar: '',
+        avatar: 'https://i.postimg.cc/fL3b4PZd/nelson.png',
         assists: 0,
         goals: 0,
         fines: {
@@ -1807,22 +1807,10 @@ export const games = [
                     {
                         _id: '',
                         position: 'GR',
-                        goals: [
-                            {
-                                minute: '15',
-                            },
-                        ],
+                        goals: '15',
                         cards: {
-                            yellow: [
-                                {
-                                    minute: '18',
-                                },
-                            ],
-                            red: [
-                                {
-                                    minute: '39',
-                                },
-                            ],
+                            yellow: '18',
+                            red: '69',
                         },
                         sub: '75',
                     },

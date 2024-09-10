@@ -51,12 +51,12 @@ const MatchesPage = () => {
                 Registo
             </span>
             <ul className="mt-8 flex items-center gap-x-2">
-                {gamesResultRegistry.map((result) => {
+                {gamesResultRegistry.map((result, index) => {
                     const isVictory = result === 'V'
                     const isDraw = result === 'E'
 
                     return (
-                        <li>
+                        <li key={`${index}-${result}`}>
                             <span
                                 className={`inline-block p-1 rounded-sm border bg-white w-6 text-center ${
                                     isVictory
