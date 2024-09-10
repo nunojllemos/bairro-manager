@@ -29,10 +29,10 @@ const populateDB = async () => {
         await GameModel.deleteMany({})
         console.log('✅ Games deleted')
 
-        const newGames = games.map((event) => new GameModel(event))
+        // const newGames = games.map((event) => new GameModel(event))
 
-        await GameModel.insertMany(newGames)
-        console.log('✅ Games populated')
+        // await GameModel.insertMany(newGames)
+        // console.log('✅ Games populated')
         console.log('')
     } catch (error) {
         console.error('Error populating the database:', error)

@@ -73,6 +73,8 @@ const GameSchema: Schema = new Schema(
                 ],
             },
         },
+        pre_game: { type: String },
+        pos_game: { type: String },
     },
     {
         collection: 'games',

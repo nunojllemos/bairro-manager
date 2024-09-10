@@ -1831,6 +1831,8 @@ export const games = [
             away: {},
         },
         opponent: 'Ruivães',
+        pre_game: 'Lorem ipsum',
+        pos_game: 'Lorem ipsum',
     },
     {
         is_home: false,
@@ -1879,6 +1881,8 @@ export const games = [
             away: {},
         },
         opponent: 'Joane',
+        pre_game: 'Lorem ipsum',
+        pos_game: 'Lorem ipsum',
     },
     {
         is_home: false,
@@ -1927,6 +1931,8 @@ export const games = [
             away: {},
         },
         opponent: 'Barcelona',
+        pre_game: '',
+        pos_game: '',
     },
     {
         is_home: true,
@@ -1975,5 +1981,7 @@ export const games = [
             away: {},
         },
         opponent: 'Real Madrid',
+        pre_game: 'Lorem ipsum',
+        pos_game: 'Lorem ipsum',
     },
 ]

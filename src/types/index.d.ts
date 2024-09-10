@@ -121,4 +121,6 @@ export interface Game {
         home: Team
         away: Team
     }
+    pre_game: string
+    pos_game: string
 }
