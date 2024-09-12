@@ -63,16 +63,19 @@ const MatchesPage = () => {
                         {gamesResultRegistry.map((result, index) => {
                             const isVictory = result === 'V'
                             const isDraw = result === 'E'
+                            const isDefeat = result === 'D'
 
                             return (
                                 <li key={`${index}-${result}`}>
                                     <span
-                                        className={`inline-block p-1 rounded-sm border bg-white w-6 text-center ${
+                                        className={`inline-block p-1 rounded-sm border bg-white text-center ${
                                             isVictory
-                                                ? 'border-green-800/30 bg-green-50 text-green-700'
+                                                ? 'border-green-800/30 bg-green-50 text-green-700 w-6'
                                                 : isDraw
-                                                ? 'border-yellow-400 bg-yellow-50 text-yellow-700'
-                                                : 'border-red-500 bg-red-50 text-red-700'
+                                                ? 'border-yellow-400 bg-yellow-50 text-yellow-700 w-6'
+                                                : isDefeat
+                                                ? 'border-red-500 bg-red-50 text-red-700 w-6'
+                                                : 'border-zinc-500 bg-zinc-50 text-zinc-700 w-12'
                                         }`}
                                     >
                                         {result}
@@ -115,7 +118,10 @@ const MatchesPage = () => {
                                                                 : getGameStatusByResult(game.final_result, game.is_home)
                                                                       .isDraw
                                                                 ? 'bg-yellow-500'
-                                                                : 'bg-red-500'
+                                                                : getGameStatusByResult(game.final_result, game.is_home)
+                                                                      .isLoss
+                                                                ? 'bg-red-500'
+                                                                : 'bg-zinc-300'
                                                         }`}
                                                     ></span>
 

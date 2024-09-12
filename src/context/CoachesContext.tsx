@@ -19,11 +19,9 @@ const CoachesContextProvider = ({ children }: { children: React.ReactNode }) => 
     useEffect(() => {
         const getCoaches = async () => {
             const request = await fetch('/api/coaches')
-            const response = await request.json()
+            const { coaches } = await request.json()
 
-            setCoaches(response.coaches)
-            console.log('Coaches fetched')
-            console.log(response.coaches)
+            setCoaches(coaches)
         }
 
         getCoaches()

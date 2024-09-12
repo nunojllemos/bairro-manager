@@ -20,7 +20,7 @@ const GameSchema: Schema = new Schema(
             condition: { type: String },
         },
         teams: {
-            home: {
+            bairro: {
                 tactic: { type: String },
                 initial: [
                     {
@@ -43,14 +43,47 @@ const GameSchema: Schema = new Schema(
                                 },
                             ],
                         },
+                        subs: [
+                            {
+                                minute: { type: Number },
+                            },
+                        ],
+                    },
+                ],
+                bench: [
+                    {
+                        _id: { type: String },
+                        position: { type: String },
+                        goals: [
+                            {
+                                minute: { type: Number },
+                            },
+                        ],
+                        cards: {
+                            yellow: [
+                                {
+                                    minute: { type: Number },
+                                },
+                            ],
+                            red: [
+                                {
+                                    minute: { type: Number },
+                                },
+                            ],
+                        },
+                        subs: [
+                            {
+                                minute: { type: Number },
+                            },
+                        ],
                     },
                 ],
             },
-            away: {
+            opponent: {
                 tactic: { type: String },
                 initial: [
                     {
-                        _id: { type: String },
+                        name: { type: String },
                         position: { type: String },
                         goals: [
                             {
@@ -69,6 +102,39 @@ const GameSchema: Schema = new Schema(
                                 },
                             ],
                         },
+                        subs: [
+                            {
+                                minute: { type: Number },
+                            },
+                        ],
+                    },
+                ],
+                bench: [
+                    {
+                        name: { type: String },
+                        position: { type: String },
+                        goals: [
+                            {
+                                minute: { type: Number },
+                            },
+                        ],
+                        cards: {
+                            yellow: [
+                                {
+                                    minute: { type: Number },
+                                },
+                            ],
+                            red: [
+                                {
+                                    minute: { type: Number },
+                                },
+                            ],
+                        },
+                        subs: [
+                            {
+                                minute: { type: Number },
+                            },
+                        ],
                     },
                 ],
             },

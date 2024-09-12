@@ -158,16 +158,23 @@ export const isBirthdayCurrentMonth = (date: string): boolean => {
     return dobMonth === currentMonth
 }
 
-export const getGameStatusByResult = (result: string, isHome: boolean): { isVictory: boolean; isDraw: boolean } => {
+export const getGameStatusByResult = (
+    result: string,
+    isHome: boolean
+): { isVictory: boolean; isDraw: boolean; isLoss: boolean; hasResult: boolean } => {
     const goalsScored = isHome ? result.split('-')[0] : result.split('-')[1]
     const goalsConceded = isHome ? result.split('-')[1] : result.split('-')[0]
     const isDraw = goalsScored === goalsConceded
     const isVictory = goalsConceded < goalsScored
+    const isLoss = goalsConceded > goalsScored
+    const hasResult = result !== ''
 
-    return { isVictory, isDraw }
+    console.log(hasResult, isVictory, isDraw, isLoss)
+
+    return { isVictory, isDraw, isLoss, hasResult }
 }
 
-const groupConsecutiveValues = (array: ('V' | 'E' | 'D' | undefined)[]) => {
+const groupConsecutiveValues = (array: ('V' | 'E' | 'D' | 'N/A' | undefined)[]) => {
     if (array.length === 0) return []
 
     const result = []
@@ -189,7 +196,7 @@ const groupConsecutiveValues = (array: ('V' | 'E' | 'D' | undefined)[]) => {
 }
 
 export const calculateFinesByGamesRegistry = (
-    gamesRegistry: ('V' | 'E' | 'D' | undefined)[]
+    gamesRegistry: ('V' | 'E' | 'D' | 'N/A' | undefined)[]
 ): { defeats: number; victories: number } => {
     const totalVictories = groupConsecutiveValues(gamesRegistry)
         .map((registry) => {

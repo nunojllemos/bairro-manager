@@ -1801,7 +1801,7 @@ export const games = [
             condition: 'sunny',
         },
         teams: {
-            home: {
+            bairro: {
                 tactic: '4-4-2',
                 initial: [
                     {
@@ -1828,7 +1828,7 @@ export const games = [
                     },
                 ],
             },
-            away: {},
+            opponent: {},
         },
         opponent: 'Ruivães',
         pre_game: 'Lorem ipsum',
@@ -1851,7 +1851,7 @@ export const games = [
             condition: 'foggy',
         },
         teams: {
-            home: {
+            bairro: {
                 tactic: '4-4-2',
                 initial: [
                     {
@@ -1878,7 +1878,7 @@ export const games = [
                     },
                 ],
             },
-            away: {},
+            opponent: {},
         },
         opponent: 'Joane',
         pre_game: 'Lorem ipsum',
@@ -1901,7 +1901,7 @@ export const games = [
             condition: 'foggy',
         },
         teams: {
-            home: {
+            bairro: {
                 tactic: '4-4-2',
                 initial: [
                     {
@@ -1928,7 +1928,7 @@ export const games = [
                     },
                 ],
             },
-            away: {},
+            opponent: {},
         },
         opponent: 'Barcelona',
         pre_game: '',
@@ -1951,7 +1951,7 @@ export const games = [
             condition: 'foggy',
         },
         teams: {
-            home: {
+            bairro: {
                 tactic: '4-4-2',
                 initial: [
                     {
@@ -1978,7 +1978,7 @@ export const games = [
                     },
                 ],
             },
-            away: {},
+            opponent: {},
         },
         opponent: 'Real Madrid',
         pre_game: 'Lorem ipsum',

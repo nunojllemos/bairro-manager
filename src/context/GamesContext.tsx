@@ -19,11 +19,9 @@ const GamesContextProvider = ({ children }: any) => {
     useEffect(() => {
         const getGames = async () => {
             const request = await fetch('/api/games')
-            const response = await request.json() // games
+            const { games } = await request.json()
 
-            setGames(response.games)
-            console.log('Games fetched')
-            console.log(response.games)
+            setGames(games)
         }
 
         getGames()

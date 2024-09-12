@@ -32,11 +32,9 @@ const EventsContextProvider = ({ children }: IEventsContextProps) => {
     useEffect(() => {
         const getEvents = async () => {
             const request = await fetch('/api/events')
-            const response = await request.json()
+            const { events } = await request.json()
 
-            setEvents(response.events)
-            console.log('Events fetched')
-            console.log(response.events)
+            setEvents(events)
         }
 
         getEvents()

@@ -22,20 +22,14 @@ const PlayersContextProvider = ({ children }: IPlayersContextProps) => {
 
     const getPlayers = async () => {
         const request = await fetch('/api/players')
-        const response = await request.json()
+        const { players } = await request.json()
 
-        setPlayers(response.players)
-        console.log('Players fetched')
-        console.log(response.players)
+        setPlayers(players)
     }
 
     useEffect(() => {
         getPlayers()
     }, [])
-
-    useEffect(() => {
-        console.log('Players context - players: ', players)
-    }, [players])
 
     return <PlayersContext.Provider value={{ players, setPlayers }}>{children}</PlayersContext.Provider>
 }
