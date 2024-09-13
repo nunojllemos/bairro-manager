@@ -162,8 +162,8 @@ export const getGameStatusByResult = (
     result: string,
     isHome: boolean
 ): { isVictory: boolean; isDraw: boolean; isLoss: boolean; hasResult: boolean } => {
-    const goalsScored = isHome ? result.split('-')[0] : result.split('-')[1]
-    const goalsConceded = isHome ? result.split('-')[1] : result.split('-')[0]
+    const goalsScored = (isHome ? result?.split('-')[0] : result?.split('-')[1]) || 0
+    const goalsConceded = (isHome ? result?.split('-')[1] : result?.split('-')[0]) || 0
     const isDraw = goalsScored === goalsConceded
     const isVictory = goalsConceded < goalsScored
     const isLoss = goalsConceded > goalsScored

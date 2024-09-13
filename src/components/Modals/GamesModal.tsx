@@ -14,15 +14,6 @@ const GamesModal = () => {
         const formData = new FormData(form)
 
         try {
-            console.log('Opponent:', formData.get('opponent'))
-            console.log('Final result:', formData.get('final_result'))
-            console.log('Half time result:', formData.get('half_time_result'))
-            console.log('Date:', formData.get('date'))
-            console.log('Schedule:', formData.get('start'))
-            console.log('Home:', !!formData.get('home'))
-            console.log('Pre game:', formData.get('pre-game'))
-            console.log('Pos game:', formData.get('pos-game'))
-
             const request = await fetch('/api/games', {
                 method: 'POST',
                 headers: {

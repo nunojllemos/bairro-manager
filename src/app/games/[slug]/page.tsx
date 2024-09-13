@@ -32,139 +32,26 @@ const MatchPage = () => {
     const pathname = usePathname()
     const id = pathname.split('/')[2]
     const { getGame, games } = useGames()
-    const { players } = usePlayers()
+    const { players, getPlayer } = usePlayers()
     const { role } = useAuth()
 
     const POSITIONS = ['GR', 'DE', 'DD', 'DC', 'MC', 'ME', 'MD', 'MDC', 'MOC', 'EE', 'ED', 'PL', 'SUP']
-    const INITIAL_PLAYERS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-    const BENCH_PLAYERS = [12, 13, 14, 15, 16, 17, 18, 19, 20]
+    const INITIAL_PLAYERS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    const BENCH_PLAYERS = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+
+    const DEFAULT_BAIRRO_TACTIC = '4-4-2'
 
     useEffect(() => {
         setGame(getGame(id))
-    }, [games])
-
-    const DUMMY_GAME = {
-        team: 'Ruivães',
-        isWin: true,
-        place: 'casa',
-        result: '5-0',
-        resultHalfTime: '3-0',
-        date: '2024-10-07',
-        schedule: '16:00',
-        teams: {
-            bairro: {
-                tactics: '4-4-2',
-                players: [
-                    {
-                        name: 'Cris',
-                        position: 'GR',
-                    },
-                    {
-                        name: 'Coruja',
-                        position: 'LD',
-                        isCaptain: true,
-                    },
-                    {
-                        name: 'Correia',
-                        position: 'DC',
-                    },
-                    {
-                        name: 'Antunes',
-                        position: 'DC',
-                        sub: {
-                            min: '54',
-                        },
-                    },
-                    {
-                        name: 'Joãozinho',
-                        position: 'LE',
-                        goals: [
-                            {
-                                min: '78',
-                            },
-                        ],
-                    },
-                    {
-                        name: 'Costa',
-                        position: 'sup',
-                        sub: {
-                            min: '54',
-                        },
-                        goals: [
-                            {
-                                min: '68',
-                            },
-                            {
-                                min: '70',
-                            },
-                        ],
-                    },
-                ],
-            },
-            other: {
-                tactics: '4-2-4',
-                players: [
-                    {
-                        name: 'Quim',
-                        position: 'GR',
-                    },
-                    {
-                        name: 'Zé',
-                        position: 'LD',
-                        isCaptain: true,
-                    },
-                    {
-                        name: 'António',
-                        position: 'DC',
-                    },
-                    {
-                        name: 'Manel',
-                        position: 'DC',
-                    },
-                    {
-                        name: 'Pedro',
-                        position: 'LE',
-                    },
-                ],
-            },
-        },
-        cards: {
-            red: [
-                {
-                    name: 'John Doe',
-                    time: '33',
-                    isBairro: false,
-                },
-            ],
-            yellow: [
-                {
-                    name: 'Serra',
-                    time: '21',
-                    isBairro: true,
-                },
-                {
-                    name: 'Carlos Doe',
-                    time: '44',
-                    isBairro: false,
-                },
-                {
-                    name: 'Joãozinho',
-                    time: '78',
-                    isBairro: true,
-                },
-            ],
-        },
-        weather: {
-            temp: '24',
-            status: 'Sol',
-        },
-    }
+        console.log(getGame(id))
+        console.log(game?.teams.bairro.tactic)
+    }, [id, getGame, games])
 
     const goalsScored = game?.final_result?.split('-')[0]
     const goalsConceded = game?.final_result?.split('-')[1]
     const isDraw = goalsScored === goalsConceded
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
 
         const formData = new FormData(event.currentTarget)
@@ -175,7 +62,7 @@ const MatchPage = () => {
             const goalsMinutes = (formData.get(`initial-bairro-player-goals-${initialPosition}`) as string)
                 .trim()
                 .split(' ')
-            const yellowsMinutes = (formData.get(`initial-bairro-player-yellows-${initialPosition}`) as string)
+            const yellowMinutes = (formData.get(`initial-bairro-player-yellow-${initialPosition}`) as string)
                 .trim()
                 .split(' ')
             const redMinutes = (formData.get(`initial-bairro-player-red-${initialPosition}`) as string)
@@ -188,7 +75,7 @@ const MatchPage = () => {
             const goals = goalsMinutes[0] !== '' ? goalsMinutes.map((minute) => ({ minute })) : null
 
             const cards = {
-                yellow: yellowsMinutes[0] !== '' ? yellowsMinutes.map((minute) => ({ minute })) : null,
+                yellow: yellowMinutes[0] !== '' ? yellowMinutes.map((minute) => ({ minute })) : null,
                 red: redMinutes[0] !== '' ? redMinutes.map((minute) => ({ minute })) : null,
             }
 
@@ -203,7 +90,7 @@ const MatchPage = () => {
             const goalsMinutes = (formData.get(`bench-bairro-player-goals-${benchPosition}`) as string)
                 .trim()
                 .split(' ')
-            const yellowsMinutes = (formData.get(`bench-bairro-player-yellows-${benchPosition}`) as string)
+            const yellowMinutes = (formData.get(`bench-bairro-player-yellow-${benchPosition}`) as string)
                 .trim()
                 .split(' ')
             const redMinutes = (formData.get(`bench-bairro-player-red-${benchPosition}`) as string).trim().split(' ')
@@ -212,7 +99,7 @@ const MatchPage = () => {
             const goals = goalsMinutes[0] !== '' ? goalsMinutes.map((minute) => ({ minute })) : null
 
             const cards = {
-                yellow: yellowsMinutes[0] !== '' ? yellowsMinutes.map((minute) => ({ minute })) : null,
+                yellow: yellowMinutes[0] !== '' ? yellowMinutes.map((minute) => ({ minute })) : null,
                 red: redMinutes[0] !== '' ? redMinutes.map((minute) => ({ minute })) : null,
             }
 
@@ -222,12 +109,12 @@ const MatchPage = () => {
         })
 
         const opponentInitialPlayers = INITIAL_PLAYERS.map((initialPosition) => {
-            const _id = formData.get(`initial-opponent-player-name-${initialPosition}`)
+            const name = formData.get(`initial-opponent-player-name-${initialPosition}`)
             const position = formData.get(`initial-opponent-player-position-${initialPosition}`)
             const goalsMinutes = (formData.get(`initial-opponent-player-goals-${initialPosition}`) as string)
                 .trim()
                 .split(' ')
-            const yellowsMinutes = (formData.get(`initial-opponent-player-yellows-${initialPosition}`) as string)
+            const yellowMinutes = (formData.get(`initial-opponent-player-yellow-${initialPosition}`) as string)
                 .trim()
                 .split(' ')
             const redMinutes = (formData.get(`initial-opponent-player-red-${initialPosition}`) as string)
@@ -240,22 +127,22 @@ const MatchPage = () => {
             const goals = goalsMinutes[0] !== '' ? goalsMinutes.map((minute) => ({ minute })) : null
 
             const cards = {
-                yellow: yellowsMinutes[0] !== '' ? yellowsMinutes.map((minute) => ({ minute })) : null,
+                yellow: yellowMinutes[0] !== '' ? yellowMinutes.map((minute) => ({ minute })) : null,
                 red: redMinutes[0] !== '' ? redMinutes.map((minute) => ({ minute })) : null,
             }
 
             const subs = subsMinutes[0] !== '' ? subsMinutes.map((minute) => ({ minute })) : null
 
-            return { _id, position, goals, cards, subs }
+            return { name, position, goals, cards, subs }
         })
 
         const opponentBenchPlayers = BENCH_PLAYERS.map((benchPosition) => {
-            const _id = formData.get(`bench-opponent-player-name-${benchPosition}`)
+            const name = formData.get(`bench-opponent-player-name-${benchPosition}`)
             const position = formData.get(`bench-opponent-player-position-${benchPosition}`)
             const goalsMinutes = (formData.get(`bench-opponent-player-goals-${benchPosition}`) as string)
                 .trim()
                 .split(' ')
-            const yellowsMinutes = (formData.get(`bench-opponent-player-yellows-${benchPosition}`) as string)
+            const yellowMinutes = (formData.get(`bench-opponent-player-yellow-${benchPosition}`) as string)
                 .trim()
                 .split(' ')
             const redMinutes = (formData.get(`bench-opponent-player-red-${benchPosition}`) as string).trim().split(' ')
@@ -266,13 +153,13 @@ const MatchPage = () => {
             const goals = goalsMinutes[0] !== '' ? goalsMinutes.map((minute) => ({ minute })) : null
 
             const cards = {
-                yellow: yellowsMinutes[0] !== '' ? yellowsMinutes.map((minute) => ({ minute })) : null,
+                yellow: yellowMinutes[0] !== '' ? yellowMinutes.map((minute) => ({ minute })) : null,
                 red: redMinutes[0] !== '' ? redMinutes.map((minute) => ({ minute })) : null,
             }
 
             const subs = subsMinutes[0] !== '' ? subsMinutes.map((minute) => ({ minute })) : null
 
-            return { _id, position, goals, cards, subs }
+            return { name, position, goals, cards, subs }
         })
 
         const bairroTactic = formData.get('bairro-tactic')
@@ -291,11 +178,38 @@ const MatchPage = () => {
             },
         }
 
-        console.log(teams)
+        const data = {
+            gameId: id,
+            teams,
+            date: {
+                date: formData.get('date'),
+                start: formData.get('start'),
+            },
+            weather: {
+                temp: formData.get('weather-temp'),
+                condition: formData.get('weather-condition'),
+            },
+            final_result: formData.get('final_result'),
+            half_time_result: formData.get('half_time_result'),
+        }
+
+        try {
+            const request = await fetch('/api/games', {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+            const response = await request.json()
+            console.log(response)
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     return (
-        <>
+        <form onSubmit={handleSubmit}>
             <div className="flex items-center gap-x-2 text-blue-500">
                 <ArrowBackOutlined fontSize="small" />
                 <Link href="/games">Voltar</Link>
@@ -326,38 +240,124 @@ const MatchPage = () => {
                     <span className="font-semibold flex items-center gap-x-2">
                         <CalendarTodayOutlined fontSize="inherit" /> Data:
                     </span>
-                    <span>{game?.date?.date}</span>
+                    {role === 'mister' ? (
+                        <TextField
+                            name={'date'}
+                            type="date"
+                            className="w-full"
+                            variant="outlined"
+                            size="small"
+                            label={'Data'}
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            defaultValue={game?.date?.date}
+                        />
+                    ) : (
+                        <span>{game?.date?.date}</span>
+                    )}
                 </div>
                 <div className="w-full grid grid-cols-[1fr_auto] gap-x-4">
                     <span className="font-semibold flex items-center gap-x-2">
                         <ScheduleOutlined fontSize="inherit" /> Horário:
                     </span>
-                    <span>{game?.date?.start}</span>
+                    {role === 'mister' ? (
+                        <TextField
+                            name={'start'}
+                            type="text"
+                            variant="outlined"
+                            size="small"
+                            label={'Hora'}
+                            placeholder="15:00"
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            defaultValue={game?.date?.start}
+                        />
+                    ) : (
+                        <span>{game?.date?.start}</span>
+                    )}
                 </div>
                 <div className="w-full grid grid-cols-[1fr_auto] gap-x-4">
                     <span className="font-semibold flex items-center gap-x-2">
                         <HourglassFullOutlined fontSize="inherit" /> Resultado:
                     </span>
-                    <span>{game?.final_result || 'Sem resultado'}</span>
+                    {role === 'mister' ? (
+                        <TextField
+                            name={'final_result'}
+                            type="text"
+                            variant="outlined"
+                            size="small"
+                            label={'Resultado final'}
+                            placeholder="0-0"
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            defaultValue={game?.final_result || ''}
+                        />
+                    ) : (
+                        <span>{game?.final_result || 'Sem resultado'}</span>
+                    )}
                 </div>
                 <div className="w-full grid grid-cols-[1fr_auto] gap-x-4">
                     <span className="font-semibold flex items-center gap-x-2">
                         <HourglassBottomOutlined fontSize="inherit" /> Ao intervalo:
                     </span>
-                    <span>{game?.half_time_result || 'Sem resultado'}</span>
+                    {role === 'mister' ? (
+                        <TextField
+                            name={'half_time_result'}
+                            type="text"
+                            variant="outlined"
+                            size="small"
+                            label={'Ao intervalo'}
+                            placeholder="0-0"
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            defaultValue={game?.half_time_result || ''}
+                        />
+                    ) : (
+                        <span>{game?.half_time_result || 'Sem resultado'}</span>
+                    )}
                 </div>
 
                 <div className="w-full grid grid-cols-[1fr_auto] gap-x-4">
                     <span className="font-semibold flex items-center gap-x-2">
                         <span className="inline-block w-2 h-3 bg-red-500 rounded-sm mx-1"></span> Vermelhos:
                     </span>
-                    <span>{game?.cards?.red || 'Sem dados'}</span>
+                    <span>
+                        {(game?.teams?.bairro?.initial
+                            .map((player) => player?.cards?.red?.length || 0)
+                            .reduce((accumulator, current) => accumulator + current, 0) || 0) +
+                            (game?.teams?.bairro?.bench
+                                .map((player) => player?.cards?.red?.length || 0)
+                                .reduce((accumulator, current) => accumulator + current, 0) || 0) +
+                            (game?.teams?.opponent?.initial
+                                .map((player) => player?.cards?.red?.length || 0)
+                                .reduce((accumulator, current) => accumulator + current, 0) || 0) +
+                            (game?.teams?.opponent?.bench
+                                .map((player) => player?.cards?.red?.length || 0)
+                                .reduce((accumulator, current) => accumulator + current, 0) || 0)}
+                    </span>
                 </div>
                 <div className="w-full grid grid-cols-[1fr_auto] gap-x-4">
                     <span className="font-semibold flex items-center gap-x-2">
                         <span className="inline-block w-2 h-3 bg-yellow-500 rounded-sm mx-1"></span> Amarelos:
                     </span>
-                    <span>{game?.cards?.yellow || 'Sem dados'}</span>
+                    <span>
+                        {(game?.teams?.bairro?.initial
+                            .map((player) => player?.cards?.yellow?.length || 0)
+                            .reduce((accumulator, current) => accumulator + current, 0) || 0) +
+                            (game?.teams?.bairro?.bench
+                                .map((player) => player?.cards?.yellow?.length || 0)
+                                .reduce((accumulator, current) => accumulator + current, 0) || 0) +
+                            (game?.teams?.opponent?.initial
+                                .map((player) => player?.cards?.yellow?.length || 0)
+                                .reduce((accumulator, current) => accumulator + current, 0) || 0) +
+                            (game?.teams?.opponent?.bench
+                                .map((player) => player?.cards?.yellow?.length || 0)
+                                .reduce((accumulator, current) => accumulator + current, 0) || 0)}
+                    </span>
                 </div>
 
                 <div className="w-full grid grid-cols-[1fr_auto] gap-x-4">
@@ -365,14 +365,45 @@ const MatchPage = () => {
                         <ThermostatOutlined fontSize="inherit" />
                         Temperatura:
                     </span>
-                    <span>{game?.weather?.temp || 'Sem dados'}</span>
+                    {role === 'mister' ? (
+                        <TextField
+                            name={'weather-temp'}
+                            type="text"
+                            variant="outlined"
+                            size="small"
+                            label={'Temperatura'}
+                            placeholder="Cº"
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            defaultValue={game?.weather?.temp || ''}
+                        />
+                    ) : (
+                        <span>{game?.weather?.temp || 'Sem dados'}</span>
+                    )}
                 </div>
                 <div className="w-full grid grid-cols-[1fr_auto] gap-x-4">
                     <span className="font-semibold flex items-center gap-x-2">
                         <CloudOutlined fontSize="inherit" />
                         Estado:
                     </span>
-                    <span>{game?.weather.condition || 'Sem dados'}</span>
+                    {role === 'mister' ? (
+                        <TextField
+                            name={'weather-condition'}
+                            type="text"
+                            className="w-full"
+                            variant="outlined"
+                            size="small"
+                            label={'Condições'}
+                            placeholder="Sol"
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            defaultValue={game?.weather?.condition || ''}
+                        />
+                    ) : (
+                        <span>{game?.weather.condition || 'Sem dados'}</span>
+                    )}
                 </div>
             </section>
             <Divider className="!my-12" />
@@ -382,7 +413,7 @@ const MatchPage = () => {
                         <span className="flex items-center gap-x-1 text-sm text-blue-500">
                             <PeopleOutline fontSize="inherit" /> Equipas
                         </span>
-                        <form onSubmit={handleSubmit} className="grid md:grid-cols-1 gap-y-24 md:gap-x-8 mt-4">
+                        <div className="grid md:grid-cols-1 gap-y-24 md:gap-x-8 mt-4">
                             {/* BAIRRO TEAM */}
                             <div className="flex flex-col gap-y-2">
                                 <div className="px-1 mb-4 flex items-center gap-x-4">
@@ -390,19 +421,22 @@ const MatchPage = () => {
                                     &mdash;
                                     {role === 'mister' ? (
                                         <span>
-                                            <Select name="bairro-tactic" size="sm" defaultValue="5-3-2">
+                                            <Select
+                                                key={game?.teams?.bairro.tactic}
+                                                name="bairro-tactic"
+                                                size="sm"
+                                                defaultValue={game?.teams?.bairro.tactic}
+                                            >
+                                                <Option value="3-4-3">3-4-3</Option>
                                                 <Option value="4-4-2">4-4-2</Option>
                                                 <Option value="4-3-3">4-3-3</Option>
                                                 <Option value="4-2-3-1">4-2-3-1</Option>
                                                 <Option value="5-2-3">5-2-3</Option>
                                                 <Option value="5-3-2">5-3-2</Option>
-                                                <Option value="5-2-3">5-2-3</Option>
                                             </Select>
                                         </span>
                                     ) : (
-                                        <span className="font-semibold text-base">
-                                            {game?.is_home ? game?.teams?.home.tactic : game?.teams?.away.tactic}
-                                        </span>
+                                        <span className="font-semibold text-base">{game?.teams?.bairro.tactic}</span>
                                     )}
                                 </div>
 
@@ -419,24 +453,46 @@ const MatchPage = () => {
                                                         className="flex gap-x-4"
                                                     >
                                                         <Select
+                                                            key={
+                                                                game?.teams?.bairro?.initial[initialPosition] &&
+                                                                game?.teams?.bairro?.initial[initialPosition]?.position
+                                                            }
                                                             placeholder="Posição"
                                                             className="w-[8.5rem]"
                                                             size="sm"
                                                             name={`initial-bairro-player-position-${initialPosition}`}
+                                                            defaultValue={
+                                                                game?.teams?.bairro?.initial[initialPosition]
+                                                                    ? game?.teams?.bairro?.initial[initialPosition]
+                                                                          ?.position
+                                                                    : ''
+                                                            }
                                                         >
                                                             {POSITIONS.map((position) => {
                                                                 return (
-                                                                    <Option key={position} value={position}>
+                                                                    <Option
+                                                                        key={`bairro-initial-player-position-${position}-${initialPosition}`}
+                                                                        value={position}
+                                                                    >
                                                                         {position}
                                                                     </Option>
                                                                 )
                                                             })}
                                                         </Select>
                                                         <Select
+                                                            key={
+                                                                game?.teams?.bairro?.initial[initialPosition] &&
+                                                                game?.teams?.bairro?.initial[initialPosition]?._id
+                                                            }
                                                             placeholder="Nome"
                                                             className="w-full"
                                                             size="sm"
                                                             name={`initial-bairro-player-name-${initialPosition}`}
+                                                            defaultValue={
+                                                                game?.teams?.bairro?.initial[initialPosition]
+                                                                    ? game?.teams?.bairro?.initial[initialPosition]?._id
+                                                                    : ''
+                                                            }
                                                         >
                                                             {players.map((player) => {
                                                                 return (
@@ -450,7 +506,14 @@ const MatchPage = () => {
                                                             })}
                                                         </Select>
                                                         <TextField
-                                                            name={`initial-bairro-player-yellows-${initialPosition}`}
+                                                            key={
+                                                                (game?.teams?.bairro?.initial[initialPosition] &&
+                                                                    game?.teams?.bairro?.initial[
+                                                                        initialPosition
+                                                                    ]?.cards?.yellow?.join(',')) ||
+                                                                `bairro-initial-player-${initialPosition}-yellow-key`
+                                                            }
+                                                            name={`initial-bairro-player-yellow-${initialPosition}`}
                                                             type="text"
                                                             className="w-max"
                                                             variant="outlined"
@@ -459,8 +522,26 @@ const MatchPage = () => {
                                                             InputLabelProps={{
                                                                 shrink: true,
                                                             }}
+                                                            defaultValue={
+                                                                game?.teams?.bairro?.initial[initialPosition]
+                                                                    ? game?.teams?.bairro?.initial[initialPosition]
+                                                                          ?.cards?.yellow &&
+                                                                      game?.teams?.bairro?.initial[
+                                                                          initialPosition
+                                                                      ]?.cards?.yellow
+                                                                          .map((card) => card.minute)
+                                                                          .join(' ')
+                                                                    : ''
+                                                            }
                                                         />
                                                         <TextField
+                                                            key={
+                                                                (game?.teams?.bairro?.initial[initialPosition] &&
+                                                                    game?.teams?.bairro?.initial[
+                                                                        initialPosition
+                                                                    ]?.cards?.red?.join(',')) ||
+                                                                `bairro-initial-player-${initialPosition}-red-key`
+                                                            }
                                                             name={`initial-bairro-player-red-${initialPosition}`}
                                                             type="text"
                                                             className="w-max"
@@ -470,8 +551,26 @@ const MatchPage = () => {
                                                             InputLabelProps={{
                                                                 shrink: true,
                                                             }}
+                                                            defaultValue={
+                                                                game?.teams?.bairro?.initial[initialPosition]
+                                                                    ? game?.teams?.bairro?.initial[initialPosition]
+                                                                          ?.cards?.red &&
+                                                                      game?.teams?.bairro?.initial[
+                                                                          initialPosition
+                                                                      ]?.cards?.red
+                                                                          .map((card) => card.minute)
+                                                                          .join(' ')
+                                                                    : ''
+                                                            }
                                                         />
                                                         <TextField
+                                                            key={
+                                                                (game?.teams?.bairro?.initial[initialPosition] &&
+                                                                    game?.teams?.bairro?.initial[
+                                                                        initialPosition
+                                                                    ]?.goals?.join(',')) ||
+                                                                `bairro-initial-player-${initialPosition}-goals-key`
+                                                            }
                                                             name={`initial-bairro-player-goals-${initialPosition}`}
                                                             type="text"
                                                             className="w-max"
@@ -481,8 +580,26 @@ const MatchPage = () => {
                                                             InputLabelProps={{
                                                                 shrink: true,
                                                             }}
+                                                            defaultValue={
+                                                                game?.teams?.bairro?.initial[initialPosition]
+                                                                    ? game?.teams?.bairro?.initial[initialPosition]
+                                                                          ?.goals &&
+                                                                      game?.teams?.bairro?.initial[
+                                                                          initialPosition
+                                                                      ]?.goals
+                                                                          .map((card) => card.minute)
+                                                                          .join(' ')
+                                                                    : ''
+                                                            }
                                                         />
                                                         <TextField
+                                                            key={
+                                                                (game?.teams?.bairro?.initial[initialPosition] &&
+                                                                    game?.teams?.bairro?.initial[
+                                                                        initialPosition
+                                                                    ]?.subs?.join(',')) ||
+                                                                `bairro-initial-player-${initialPosition}-subs-key`
+                                                            }
                                                             name={`initial-bairro-player-subs-${initialPosition}`}
                                                             type="text"
                                                             className="w-max"
@@ -492,6 +609,17 @@ const MatchPage = () => {
                                                             InputLabelProps={{
                                                                 shrink: true,
                                                             }}
+                                                            defaultValue={
+                                                                game?.teams?.bairro?.initial[initialPosition]
+                                                                    ? game?.teams?.bairro?.initial[initialPosition]
+                                                                          ?.subs &&
+                                                                      game?.teams?.bairro?.initial[
+                                                                          initialPosition
+                                                                      ]?.subs
+                                                                          .map((card) => card.minute)
+                                                                          .join(' ')
+                                                                    : ''
+                                                            }
                                                         />
                                                     </div>
                                                 )
@@ -507,11 +635,20 @@ const MatchPage = () => {
                                                         className="flex gap-x-4"
                                                     >
                                                         <Select
+                                                            key={
+                                                                game?.teams?.bairro?.bench[benchPosition] &&
+                                                                game?.teams?.bairro?.bench[benchPosition]?.position
+                                                            }
                                                             placeholder="Posição"
                                                             className="w-[8.5rem]"
                                                             size="sm"
                                                             name={`bench-bairro-player-position-${benchPosition}`}
-                                                            defaultValue="SUP"
+                                                            defaultValue={
+                                                                game?.teams?.bairro?.bench[benchPosition]
+                                                                    ? game?.teams?.bairro?.bench[benchPosition]
+                                                                          ?.position
+                                                                    : ''
+                                                            }
                                                         >
                                                             {POSITIONS.map((position) => {
                                                                 return (
@@ -522,10 +659,19 @@ const MatchPage = () => {
                                                             })}
                                                         </Select>
                                                         <Select
+                                                            key={
+                                                                game?.teams?.bairro?.bench[benchPosition] &&
+                                                                game?.teams?.bairro?.bench[benchPosition]?._id
+                                                            }
                                                             placeholder="Nome"
                                                             className="w-full"
                                                             size="sm"
                                                             name={`bench-bairro-player-name-${benchPosition}`}
+                                                            defaultValue={
+                                                                game?.teams?.bairro?.bench[benchPosition]
+                                                                    ? game?.teams?.bairro?.bench[benchPosition]?._id
+                                                                    : ''
+                                                            }
                                                         >
                                                             {players.map((player) => {
                                                                 return (
@@ -539,7 +685,14 @@ const MatchPage = () => {
                                                             })}
                                                         </Select>
                                                         <TextField
-                                                            name={`bench-bairro-player-yellows-${benchPosition}`}
+                                                            key={
+                                                                (game?.teams?.bairro?.bench[benchPosition] &&
+                                                                    game?.teams?.bairro?.bench[
+                                                                        benchPosition
+                                                                    ]?.cards?.yellow?.join(',')) ||
+                                                                `bairro-bench-player-${benchPosition}-yellow-key`
+                                                            }
+                                                            name={`bench-bairro-player-yellow-${benchPosition}`}
                                                             type="text"
                                                             className="w-max"
                                                             variant="outlined"
@@ -548,8 +701,26 @@ const MatchPage = () => {
                                                             InputLabelProps={{
                                                                 shrink: true,
                                                             }}
+                                                            defaultValue={
+                                                                game?.teams?.bairro?.bench[benchPosition]
+                                                                    ? game?.teams?.bairro?.bench[benchPosition]?.cards
+                                                                          ?.yellow &&
+                                                                      game?.teams?.bairro?.bench[
+                                                                          benchPosition
+                                                                      ]?.cards?.yellow
+                                                                          .map((card) => card.minute)
+                                                                          .join(' ')
+                                                                    : ''
+                                                            }
                                                         />
                                                         <TextField
+                                                            key={
+                                                                (game?.teams?.bairro?.bench[benchPosition] &&
+                                                                    game?.teams?.bairro?.bench[
+                                                                        benchPosition
+                                                                    ]?.cards?.red?.join(',')) ||
+                                                                `bairro-bench-player-${benchPosition}-red-key`
+                                                            }
                                                             name={`bench-bairro-player-red-${benchPosition}`}
                                                             type="text"
                                                             className="w-max"
@@ -559,8 +730,26 @@ const MatchPage = () => {
                                                             InputLabelProps={{
                                                                 shrink: true,
                                                             }}
+                                                            defaultValue={
+                                                                game?.teams?.bairro?.bench[benchPosition]
+                                                                    ? game?.teams?.bairro?.bench[benchPosition]?.cards
+                                                                          ?.red &&
+                                                                      game?.teams?.bairro?.bench[
+                                                                          benchPosition
+                                                                      ]?.cards?.red
+                                                                          .map((card) => card.minute)
+                                                                          .join(' ')
+                                                                    : ''
+                                                            }
                                                         />
                                                         <TextField
+                                                            key={
+                                                                (game?.teams?.bairro?.bench[benchPosition] &&
+                                                                    game?.teams?.bairro?.bench[
+                                                                        benchPosition
+                                                                    ]?.goals?.join(',')) ||
+                                                                `bairro-bench-player-${benchPosition}-goals-key`
+                                                            }
                                                             name={`bench-bairro-player-goals-${benchPosition}`}
                                                             type="text"
                                                             className="w-max"
@@ -570,8 +759,24 @@ const MatchPage = () => {
                                                             InputLabelProps={{
                                                                 shrink: true,
                                                             }}
+                                                            defaultValue={
+                                                                game?.teams?.bairro?.bench[benchPosition]
+                                                                    ? game?.teams?.bairro?.bench[benchPosition]
+                                                                          ?.goals &&
+                                                                      game?.teams?.bairro?.bench[benchPosition]?.goals
+                                                                          .map((card) => card.minute)
+                                                                          .join(' ')
+                                                                    : ''
+                                                            }
                                                         />
                                                         <TextField
+                                                            key={
+                                                                (game?.teams?.bairro?.bench[benchPosition] &&
+                                                                    game?.teams?.bairro?.bench[
+                                                                        benchPosition
+                                                                    ]?.subs?.join(',')) ||
+                                                                `bairro-bench-player-${benchPosition}-subs-key`
+                                                            }
                                                             name={`bench-bairro-player-subs-${benchPosition}`}
                                                             type="text"
                                                             className="w-max"
@@ -581,108 +786,217 @@ const MatchPage = () => {
                                                             InputLabelProps={{
                                                                 shrink: true,
                                                             }}
+                                                            defaultValue={
+                                                                game?.teams?.bairro?.bench[benchPosition]
+                                                                    ? game?.teams?.bairro?.bench[benchPosition]?.subs &&
+                                                                      game?.teams?.bairro?.bench[benchPosition]?.subs
+                                                                          .map((card) => card.minute)
+                                                                          .join(' ')
+                                                                    : ''
+                                                            }
                                                         />
                                                     </div>
                                                 )
                                             })}
                                         </div>
                                     ) : (
-                                        <> PLAYER VIEW</>
+                                        <>
+                                            <span className="flex items-center gap-x-1 text-sm text-blue-500 mb-4">
+                                                Titulares
+                                            </span>
+                                            <ul>
+                                                {game?.teams?.bairro?.initial.map((player) => {
+                                                    return (
+                                                        <li
+                                                            key={player._id}
+                                                            className="flex items-center justify-between gap-x-4 py-2 border-b border-b-slate-200 last:border-none"
+                                                        >
+                                                            <div className="flex items-center gap-x-4">
+                                                                <span className="border border-slate-200 rounded-md w-10 text-center py-1 text-xs">
+                                                                    {player.position}
+                                                                </span>
+                                                                <span className="flex items-center gap-x-2">
+                                                                    {player._id && getPlayer(player?._id)
+                                                                        ? getPlayer(player?._id).name
+                                                                        : ''}
+                                                                    {player?.subs?.length ? (
+                                                                        <span className="text-red-600 pb-px">
+                                                                            <RestartAltOutlined fontSize="inherit" />
+                                                                            <span className="text-xs">
+                                                                                {player.subs[0].minute}
+                                                                                &apos;
+                                                                            </span>
+                                                                        </span>
+                                                                    ) : (
+                                                                        <></>
+                                                                    )}
+                                                                </span>
+                                                            </div>
+                                                            <div className="flex gap-x-8">
+                                                                {player.cards && (
+                                                                    <div className="flex items-center gap-x-4">
+                                                                        <ul className="flex gap-x-2">
+                                                                            {player?.cards?.yellow?.length ? (
+                                                                                player.cards.yellow.map((yellow) => (
+                                                                                    <li
+                                                                                        key={`${player._id}-${yellow.minute}`}
+                                                                                    >
+                                                                                        {/* <SportsSoccerOutlined fontSize="inherit" /> */}
+                                                                                        <span className="inline-block w-2 h-3 bg-yellow-500 rounded-sm mx-1"></span>
+                                                                                        <span className="text-xs">
+                                                                                            {yellow.minute}
+                                                                                            &apos;
+                                                                                        </span>
+                                                                                    </li>
+                                                                                ))
+                                                                            ) : (
+                                                                                <></>
+                                                                            )}
+                                                                            {player?.cards?.red?.length ? (
+                                                                                player.cards.red.map((red) => (
+                                                                                    <li
+                                                                                        key={`${player._id}-${red.minute}`}
+                                                                                    >
+                                                                                        {/* <SportsSoccerOutlined fontSize="inherit" /> */}
+                                                                                        <span className="inline-block w-2 h-3 bg-red-500 rounded-sm mx-1"></span>
+                                                                                        <span className="text-xs">
+                                                                                            {red.minute}
+                                                                                            &apos;
+                                                                                        </span>
+                                                                                    </li>
+                                                                                ))
+                                                                            ) : (
+                                                                                <></>
+                                                                            )}
+                                                                        </ul>
+                                                                    </div>
+                                                                )}
+                                                                {player.goals && player.goals.length > 0 && (
+                                                                    <div className="flex items-center gap-x-4">
+                                                                        <ul className="flex gap-x-2">
+                                                                            {player?.goals.length ? (
+                                                                                player.goals.map((goal) => (
+                                                                                    <li
+                                                                                        key={`${player._id}-${goal.minute}`}
+                                                                                    >
+                                                                                        <SportsSoccerOutlined fontSize="inherit" />
+                                                                                        <span className="text-xs">
+                                                                                            {goal.minute}
+                                                                                            &apos;
+                                                                                        </span>
+                                                                                    </li>
+                                                                                ))
+                                                                            ) : (
+                                                                                <></>
+                                                                            )}
+                                                                        </ul>
+                                                                    </div>
+                                                                )}
+                                                            </div>
+                                                        </li>
+                                                    )
+                                                })}
+                                            </ul>
+
+                                            <span className="flex items-center gap-x-1 text-sm text-blue-500 mt-8 mb-4">
+                                                Suplentes
+                                            </span>
+                                            <ul>
+                                                {game?.teams?.bairro?.bench.map((player, index) => {
+                                                    return (
+                                                        <li
+                                                            key={player._id}
+                                                            className="flex items-center justify-between gap-x-4 py-2 border-b border-b-slate-200 last:border-none"
+                                                        >
+                                                            <div className="flex items-center gap-x-4">
+                                                                <span className="border border-slate-200 rounded-md w-10 text-center py-1 text-xs">
+                                                                    {player.position}
+                                                                </span>
+                                                                <span className="flex items-center gap-x-2">
+                                                                    {player._id && getPlayer(player._id)
+                                                                        ? getPlayer(player._id).name
+                                                                        : ''}
+                                                                    {player?.subs?.length ? (
+                                                                        <span className="text-green-600 pb-px">
+                                                                            <RestartAltOutlined fontSize="inherit" />
+                                                                            <span className="text-xs">
+                                                                                {player.subs[0].minute}
+                                                                                &apos;
+                                                                            </span>
+                                                                        </span>
+                                                                    ) : (
+                                                                        <></>
+                                                                    )}
+                                                                </span>
+                                                            </div>
+                                                            <div className="flex gap-x-8">
+                                                                {player.cards && (
+                                                                    <div className="flex items-center gap-x-4">
+                                                                        <ul className="flex gap-x-2">
+                                                                            {player?.cards?.yellow?.length ? (
+                                                                                player.cards.yellow.map((yellow) => (
+                                                                                    <li
+                                                                                        key={`${player._id}-${yellow.minute}`}
+                                                                                    >
+                                                                                        {/* <SportsSoccerOutlined fontSize="inherit" /> */}
+                                                                                        <span className="inline-block w-2 h-3 bg-yellow-500 rounded-sm mx-1"></span>
+                                                                                        <span className="text-xs">
+                                                                                            {yellow.minute}
+                                                                                            &apos;
+                                                                                        </span>
+                                                                                    </li>
+                                                                                ))
+                                                                            ) : (
+                                                                                <></>
+                                                                            )}
+                                                                            {player?.cards?.red?.length ? (
+                                                                                player.cards.red.map((red) => (
+                                                                                    <li
+                                                                                        key={`${player._id}-red-${red.minute}`}
+                                                                                    >
+                                                                                        {/* <SportsSoccerOutlined fontSize="inherit" /> */}
+                                                                                        <span className="inline-block w-2 h-3 bg-red-500 rounded-sm mx-1"></span>
+                                                                                        <span className="text-xs">
+                                                                                            {red.minute}
+                                                                                            &apos;
+                                                                                        </span>
+                                                                                    </li>
+                                                                                ))
+                                                                            ) : (
+                                                                                <></>
+                                                                            )}
+                                                                        </ul>
+                                                                    </div>
+                                                                )}
+                                                                {player.goals && player.goals.length > 0 && (
+                                                                    <div className="flex items-center gap-x-4">
+                                                                        <ul className="flex gap-x-2">
+                                                                            {player?.goals.length ? (
+                                                                                player.goals.map((goal) => (
+                                                                                    <li
+                                                                                        key={`${player._id}-${goal.minute}`}
+                                                                                    >
+                                                                                        <SportsSoccerOutlined fontSize="inherit" />
+                                                                                        <span className="text-xs">
+                                                                                            {goal.minute}
+                                                                                            &apos;
+                                                                                        </span>
+                                                                                    </li>
+                                                                                ))
+                                                                            ) : (
+                                                                                <></>
+                                                                            )}
+                                                                        </ul>
+                                                                    </div>
+                                                                )}
+                                                            </div>
+                                                        </li>
+                                                    )
+                                                })}
+                                            </ul>
+                                        </>
                                     )}
                                 </div>
-
-                                {/* {DUMMY_GAME.teams.bairro.players
-                                    .filter((player) => player.position !== 'sup')
-                                    .map((player) => {
-                                        return (
-                                            <li key={player.name} className="flex items-center justify-between gap-x-4">
-                                                <div className="flex items-center gap-x-4">
-                                                    <span className="border border-slate-200 rounded-md w-8 text-center py-1 text-xs">
-                                                        {player.position}
-                                                    </span>
-                                                    <span className="flex items-center gap-x-2">
-                                                        {player.name}
-                                                        {player?.sub && (
-                                                            <span className="text-red-600">
-                                                                <RestartAltOutlined fontSize="inherit" />
-                                                                <span className="text-xs">
-                                                                    {player.sub?.min}
-                                                                    &apos;
-                                                                </span>
-                                                            </span>
-                                                        )}
-                                                    </span>
-                                                </div>
-                                                {player.goals && player.goals.length > 0 && (
-                                                    <div className="flex items-center gap-x-4">
-                                                        <ul className="flex gap-x-2">
-                                                            {player?.goals &&
-                                                                player.goals.map((goal) => (
-                                                                    <li key={goal.min}>
-                                                                        <SportsSoccerOutlined fontSize="inherit" />
-                                                                        <span className="text-xs">
-                                                                            {goal.min}
-                                                                            &apos;
-                                                                        </span>
-                                                                    </li>
-                                                                ))}
-                                                        </ul>
-                                                    </div>
-                                                )}
-                                            </li>
-                                        )
-                                    })}
-                                <li>
-                                    <Divider className="!my-2" />
-                                </li>
-                                <li className="text-xs text-slate-400">Suplentes</li>
-                                {DUMMY_GAME.teams.bairro.players
-                                    .filter((player) => player.position === 'sup')
-                                    .map((player) => {
-                                        return (
-                                            <li
-                                                key={player.name}
-                                                className="flex items-center justify-between gap-x-4 text-slate-400"
-                                            >
-                                                <div className="flex items-center gap-x-4">
-                                                    <span className="border border-slate-200 rounded-md w-8 text-center py-1 text-xs">
-                                                        {player.position}
-                                                    </span>
-                                                    <span className="flex items-center gap-x-2">
-                                                        {player.name}
-                                                        {player?.sub && (
-                                                            <span className="text-green-600">
-                                                                <RestartAltOutlined
-                                                                    fontSize="inherit"
-                                                                    className="rotate-180"
-                                                                />
-                                                                <span className="text-xs">
-                                                                    {player.sub?.min}
-                                                                    &apos;
-                                                                </span>
-                                                            </span>
-                                                        )}
-                                                    </span>
-                                                </div>
-                                                {player.goals && player.goals.length > 0 && (
-                                                    <div className="flex items-center gap-x-4">
-                                                        <ul className="flex gap-x-2">
-                                                            {player?.goals &&
-                                                                player.goals.map((goal) => (
-                                                                    <li key={goal.min}>
-                                                                        <SportsSoccerOutlined fontSize="inherit" />
-                                                                        <span className="text-xs">
-                                                                            {goal.min}
-                                                                            &apos;
-                                                                        </span>
-                                                                    </li>
-                                                                ))}
-                                                        </ul>
-                                                    </div>
-                                                )}
-                                            </li>
-                                        )
-                                    })} */}
                             </div>
 
                             {/* OPPONENT TEAM */}
@@ -702,9 +1016,7 @@ const MatchPage = () => {
                                             </Select>
                                         </span>
                                     ) : (
-                                        <span className="font-semibold text-base">
-                                            {game?.is_home ? game?.teams?.away.tactic : game?.teams?.home.tactic}
-                                        </span>
+                                        <span className="font-semibold text-base">{game?.teams?.opponent.tactic}</span>
                                     )}
                                 </div>
 
@@ -725,6 +1037,17 @@ const MatchPage = () => {
                                                             className="w-[8.5rem]"
                                                             size="sm"
                                                             name={`initial-opponent-player-position-${initialPosition}`}
+                                                            key={
+                                                                game?.teams?.opponent?.initial[initialPosition] &&
+                                                                game?.teams?.opponent?.initial[initialPosition]
+                                                                    ?.position
+                                                            }
+                                                            defaultValue={
+                                                                game?.teams?.opponent?.initial[initialPosition]
+                                                                    ? game?.teams?.opponent?.initial[initialPosition]
+                                                                          ?.position
+                                                                    : ''
+                                                            }
                                                         >
                                                             {POSITIONS.map((position) => {
                                                                 return (
@@ -744,9 +1067,19 @@ const MatchPage = () => {
                                                             InputLabelProps={{
                                                                 shrink: true,
                                                             }}
+                                                            key={
+                                                                game?.teams?.opponent?.initial[initialPosition] &&
+                                                                game?.teams?.opponent?.initial[initialPosition]?.name
+                                                            }
+                                                            defaultValue={
+                                                                game?.teams?.opponent?.initial[initialPosition]
+                                                                    ? game?.teams?.opponent?.initial[initialPosition]
+                                                                          ?.name
+                                                                    : ''
+                                                            }
                                                         />
                                                         <TextField
-                                                            name={`initial-opponent-player-yellows-${initialPosition}`}
+                                                            name={`initial-opponent-player-yellow-${initialPosition}`}
                                                             type="text"
                                                             className="w-max"
                                                             variant="outlined"
@@ -755,6 +1088,24 @@ const MatchPage = () => {
                                                             InputLabelProps={{
                                                                 shrink: true,
                                                             }}
+                                                            key={
+                                                                (game?.teams?.opponent?.initial[initialPosition] &&
+                                                                    game?.teams?.opponent?.initial[
+                                                                        initialPosition
+                                                                    ]?.cards?.yellow?.join(',')) ||
+                                                                `opponent-initial-player-${initialPosition}-yellow-key`
+                                                            }
+                                                            defaultValue={
+                                                                game?.teams?.opponent?.initial[initialPosition]
+                                                                    ? game?.teams?.opponent?.initial[initialPosition]
+                                                                          ?.cards?.yellow &&
+                                                                      game?.teams?.opponent?.initial[
+                                                                          initialPosition
+                                                                      ]?.cards?.yellow
+                                                                          .map((card) => card.minute)
+                                                                          .join(' ')
+                                                                    : ''
+                                                            }
                                                         />
                                                         <TextField
                                                             name={`initial-opponent-player-red-${initialPosition}`}
@@ -766,6 +1117,24 @@ const MatchPage = () => {
                                                             InputLabelProps={{
                                                                 shrink: true,
                                                             }}
+                                                            key={
+                                                                (game?.teams?.opponent?.initial[initialPosition] &&
+                                                                    game?.teams?.opponent?.initial[
+                                                                        initialPosition
+                                                                    ]?.cards?.red?.join(',')) ||
+                                                                `opponent-initial-player-${initialPosition}-red-key`
+                                                            }
+                                                            defaultValue={
+                                                                game?.teams?.opponent?.initial[initialPosition]
+                                                                    ? game?.teams?.opponent?.initial[initialPosition]
+                                                                          ?.cards?.red &&
+                                                                      game?.teams?.opponent?.initial[
+                                                                          initialPosition
+                                                                      ]?.cards?.red
+                                                                          .map((card) => card.minute)
+                                                                          .join(' ')
+                                                                    : ''
+                                                            }
                                                         />
                                                         <TextField
                                                             name={`initial-opponent-player-goals-${initialPosition}`}
@@ -777,6 +1146,24 @@ const MatchPage = () => {
                                                             InputLabelProps={{
                                                                 shrink: true,
                                                             }}
+                                                            key={
+                                                                (game?.teams?.opponent?.initial[initialPosition] &&
+                                                                    game?.teams?.opponent?.initial[
+                                                                        initialPosition
+                                                                    ]?.goals?.join(',')) ||
+                                                                `opponent-initial-player-${initialPosition}-goals-key`
+                                                            }
+                                                            defaultValue={
+                                                                game?.teams?.opponent?.initial[initialPosition]
+                                                                    ? game?.teams?.opponent?.initial[initialPosition]
+                                                                          ?.goals &&
+                                                                      game?.teams?.opponent?.initial[
+                                                                          initialPosition
+                                                                      ]?.goals
+                                                                          .map((card) => card.minute)
+                                                                          .join(' ')
+                                                                    : ''
+                                                            }
                                                         />
                                                         <TextField
                                                             name={`initial-opponent-player-subs-${initialPosition}`}
@@ -788,6 +1175,24 @@ const MatchPage = () => {
                                                             InputLabelProps={{
                                                                 shrink: true,
                                                             }}
+                                                            key={
+                                                                (game?.teams?.opponent?.initial[initialPosition] &&
+                                                                    game?.teams?.opponent?.initial[
+                                                                        initialPosition
+                                                                    ]?.subs?.join(',')) ||
+                                                                `opponent-initial-player-${initialPosition}-subs-key`
+                                                            }
+                                                            defaultValue={
+                                                                game?.teams?.opponent?.initial[initialPosition]
+                                                                    ? game?.teams?.opponent?.initial[initialPosition]
+                                                                          ?.subs &&
+                                                                      game?.teams?.opponent?.initial[
+                                                                          initialPosition
+                                                                      ]?.subs
+                                                                          .map((card) => card.minute)
+                                                                          .join(' ')
+                                                                    : ''
+                                                            }
                                                         />
                                                     </div>
                                                 )
@@ -807,7 +1212,16 @@ const MatchPage = () => {
                                                             className="w-[8.5rem]"
                                                             size="sm"
                                                             name={`bench-opponent-player-position-${benchPosition}`}
-                                                            defaultValue="SUP"
+                                                            key={
+                                                                game?.teams?.opponent?.bench[benchPosition] &&
+                                                                game?.teams?.opponent?.bench[benchPosition]?.position
+                                                            }
+                                                            defaultValue={
+                                                                game?.teams?.opponent?.bench[benchPosition]
+                                                                    ? game?.teams?.opponent?.bench[benchPosition]
+                                                                          ?.position
+                                                                    : 'SUP'
+                                                            }
                                                         >
                                                             {POSITIONS.map((position) => {
                                                                 return (
@@ -827,9 +1241,18 @@ const MatchPage = () => {
                                                             InputLabelProps={{
                                                                 shrink: true,
                                                             }}
+                                                            key={
+                                                                game?.teams?.opponent?.bench[benchPosition] &&
+                                                                game?.teams?.opponent?.bench[benchPosition]?.name
+                                                            }
+                                                            defaultValue={
+                                                                game?.teams?.opponent?.bench[benchPosition]
+                                                                    ? game?.teams?.opponent?.bench[benchPosition]?.name
+                                                                    : ''
+                                                            }
                                                         />
                                                         <TextField
-                                                            name={`bench-opponent-player-yellows-${benchPosition}`}
+                                                            name={`bench-opponent-player-yellow-${benchPosition}`}
                                                             type="text"
                                                             className="w-max"
                                                             variant="outlined"
@@ -838,6 +1261,24 @@ const MatchPage = () => {
                                                             InputLabelProps={{
                                                                 shrink: true,
                                                             }}
+                                                            key={
+                                                                (game?.teams?.opponent?.bench[benchPosition] &&
+                                                                    game?.teams?.opponent?.bench[
+                                                                        benchPosition
+                                                                    ]?.cards?.yellow?.join(',')) ||
+                                                                `opponent-bench-player-${benchPosition}-yellow-key`
+                                                            }
+                                                            defaultValue={
+                                                                game?.teams?.opponent?.bench[benchPosition]
+                                                                    ? game?.teams?.opponent?.bench[benchPosition]?.cards
+                                                                          ?.yellow &&
+                                                                      game?.teams?.opponent?.bench[
+                                                                          benchPosition
+                                                                      ]?.cards?.yellow
+                                                                          .map((card) => card.minute)
+                                                                          .join(' ')
+                                                                    : ''
+                                                            }
                                                         />
                                                         <TextField
                                                             name={`bench-opponent-player-red-${benchPosition}`}
@@ -849,6 +1290,24 @@ const MatchPage = () => {
                                                             InputLabelProps={{
                                                                 shrink: true,
                                                             }}
+                                                            key={
+                                                                (game?.teams?.opponent?.bench[benchPosition] &&
+                                                                    game?.teams?.opponent?.bench[
+                                                                        benchPosition
+                                                                    ]?.cards?.red?.join(',')) ||
+                                                                `opponent-bench-player-${benchPosition}-red-key`
+                                                            }
+                                                            defaultValue={
+                                                                game?.teams?.opponent?.bench[benchPosition]
+                                                                    ? game?.teams?.opponent?.bench[benchPosition]?.cards
+                                                                          ?.red &&
+                                                                      game?.teams?.opponent?.bench[
+                                                                          benchPosition
+                                                                      ]?.cards?.red
+                                                                          .map((card) => card.minute)
+                                                                          .join(' ')
+                                                                    : ''
+                                                            }
                                                         />
                                                         <TextField
                                                             name={`bench-opponent-player-goals-${benchPosition}`}
@@ -860,6 +1319,22 @@ const MatchPage = () => {
                                                             InputLabelProps={{
                                                                 shrink: true,
                                                             }}
+                                                            key={
+                                                                (game?.teams?.opponent?.bench[benchPosition] &&
+                                                                    game?.teams?.opponent?.bench[
+                                                                        benchPosition
+                                                                    ]?.goals?.join(',')) ||
+                                                                `opponent-bench-player-${benchPosition}-goals-key`
+                                                            }
+                                                            defaultValue={
+                                                                game?.teams?.opponent?.bench[benchPosition]
+                                                                    ? game?.teams?.opponent?.bench[benchPosition]
+                                                                          ?.goals &&
+                                                                      game?.teams?.opponent?.bench[benchPosition]?.goals
+                                                                          .map((card) => card.minute)
+                                                                          .join(' ')
+                                                                    : ''
+                                                            }
                                                         />
                                                         <TextField
                                                             name={`bench-opponent-player-subs-${benchPosition}`}
@@ -871,25 +1346,245 @@ const MatchPage = () => {
                                                             InputLabelProps={{
                                                                 shrink: true,
                                                             }}
+                                                            key={
+                                                                (game?.teams?.opponent?.bench[benchPosition] &&
+                                                                    game?.teams?.opponent?.bench[
+                                                                        benchPosition
+                                                                    ]?.subs?.join(',')) ||
+                                                                `opponent-bench-player-${benchPosition}-subs-key`
+                                                            }
+                                                            defaultValue={
+                                                                game?.teams?.opponent?.bench[benchPosition]
+                                                                    ? game?.teams?.opponent?.bench[benchPosition]
+                                                                          ?.subs &&
+                                                                      game?.teams?.opponent?.bench[benchPosition]?.subs
+                                                                          .map((card) => card.minute)
+                                                                          .join(' ')
+                                                                    : ''
+                                                            }
                                                         />
                                                     </div>
                                                 )
                                             })}
                                         </div>
                                     ) : (
-                                        <> PLAYER VIEW</>
+                                        <>
+                                            <span className="flex items-center gap-x-1 text-sm text-blue-500 mb-4">
+                                                Titulares
+                                            </span>
+                                            <ul>
+                                                {game?.teams?.opponent?.initial.map((player) => {
+                                                    return (
+                                                        <li
+                                                            key={player._id}
+                                                            className="flex items-center justify-between gap-x-4 py-2 border-b border-b-slate-200 last:border-none"
+                                                        >
+                                                            <div className="flex items-center gap-x-4">
+                                                                <span className="border border-slate-200 rounded-md w-10 text-center py-1 text-xs">
+                                                                    {player.position || 'N/A'}
+                                                                </span>
+                                                                <span
+                                                                    className={`${
+                                                                        !player.name ? 'text-gray-400' : ''
+                                                                    } flex items-center gap-x-2`}
+                                                                >
+                                                                    {player.name || 'Sem dados'}
+                                                                    {player?.subs?.length ? (
+                                                                        <span className="text-red-600 pb-px">
+                                                                            <RestartAltOutlined fontSize="inherit" />
+                                                                            <span className="text-xs">
+                                                                                {player.subs[0].minute}
+                                                                                &apos;
+                                                                            </span>
+                                                                        </span>
+                                                                    ) : (
+                                                                        <></>
+                                                                    )}
+                                                                </span>
+                                                            </div>
+                                                            <div className="flex gap-x-8">
+                                                                {player.cards && (
+                                                                    <div className="flex items-center gap-x-4">
+                                                                        <ul className="flex gap-x-2">
+                                                                            {player?.cards?.yellow?.length ? (
+                                                                                player.cards.yellow.map((yellow) => (
+                                                                                    <li
+                                                                                        key={`${player._id}-${yellow.minute}`}
+                                                                                    >
+                                                                                        {/* <SportsSoccerOutlined fontSize="inherit" /> */}
+                                                                                        <span className="inline-block w-2 h-3 bg-yellow-500 rounded-sm mx-1"></span>
+                                                                                        <span className="text-xs">
+                                                                                            {yellow.minute}
+                                                                                            &apos;
+                                                                                        </span>
+                                                                                    </li>
+                                                                                ))
+                                                                            ) : (
+                                                                                <></>
+                                                                            )}
+                                                                            {player?.cards?.red?.length ? (
+                                                                                player.cards.red.map((red) => (
+                                                                                    <li
+                                                                                        key={`${player._id}-${red.minute}`}
+                                                                                    >
+                                                                                        {/* <SportsSoccerOutlined fontSize="inherit" /> */}
+                                                                                        <span className="inline-block w-2 h-3 bg-red-500 rounded-sm mx-1"></span>
+                                                                                        <span className="text-xs">
+                                                                                            {red.minute}
+                                                                                            &apos;
+                                                                                        </span>
+                                                                                    </li>
+                                                                                ))
+                                                                            ) : (
+                                                                                <></>
+                                                                            )}
+                                                                        </ul>
+                                                                    </div>
+                                                                )}
+                                                                {player.goals && player.goals.length > 0 && (
+                                                                    <div className="flex items-center gap-x-4">
+                                                                        <ul className="flex gap-x-2">
+                                                                            {player?.goals.length ? (
+                                                                                player.goals.map((goal) => (
+                                                                                    <li
+                                                                                        key={`${player._id}-${goal.minute}`}
+                                                                                    >
+                                                                                        <SportsSoccerOutlined fontSize="inherit" />
+                                                                                        <span className="text-xs">
+                                                                                            {goal.minute}
+                                                                                            &apos;
+                                                                                        </span>
+                                                                                    </li>
+                                                                                ))
+                                                                            ) : (
+                                                                                <></>
+                                                                            )}
+                                                                        </ul>
+                                                                    </div>
+                                                                )}
+                                                            </div>
+                                                        </li>
+                                                    )
+                                                })}
+                                            </ul>
+
+                                            <span className="flex items-center gap-x-1 text-sm text-blue-500 mt-8 mb-4">
+                                                Suplentes
+                                            </span>
+                                            <ul>
+                                                {game?.teams?.opponent?.bench.map((player) => {
+                                                    return (
+                                                        <li
+                                                            key={player._id}
+                                                            className="flex items-center justify-between gap-x-4 py-2 border-b border-b-slate-200 last:border-none"
+                                                        >
+                                                            <div className="flex items-center gap-x-4">
+                                                                <span className="border border-slate-200 rounded-md w-10 text-center py-1 text-xs">
+                                                                    {player.position || 'SUP'}
+                                                                </span>
+                                                                <span
+                                                                    className={`${
+                                                                        !player.name ? 'text-gray-400' : ''
+                                                                    } flex items-center gap-x-2`}
+                                                                >
+                                                                    {player.name || 'Sem dados'}
+                                                                    {player?.subs?.length ? (
+                                                                        <span className="text-green-600 pb-px">
+                                                                            <RestartAltOutlined fontSize="inherit" />
+                                                                            <span className="text-xs">
+                                                                                {player.subs[0].minute}
+                                                                                &apos;
+                                                                            </span>
+                                                                        </span>
+                                                                    ) : (
+                                                                        <></>
+                                                                    )}
+                                                                </span>
+                                                            </div>
+                                                            <div className="flex gap-x-8">
+                                                                {player.cards && (
+                                                                    <div className="flex items-center gap-x-4">
+                                                                        <ul className="flex gap-x-2">
+                                                                            {player?.cards?.yellow?.length ? (
+                                                                                player.cards.yellow.map((yellow) => (
+                                                                                    <li
+                                                                                        key={`${player._id}-${yellow.minute}`}
+                                                                                    >
+                                                                                        {/* <SportsSoccerOutlined fontSize="inherit" /> */}
+                                                                                        <span className="inline-block w-2 h-3 bg-yellow-500 rounded-sm mx-1"></span>
+                                                                                        <span className="text-xs">
+                                                                                            {yellow.minute}
+                                                                                            &apos;
+                                                                                        </span>
+                                                                                    </li>
+                                                                                ))
+                                                                            ) : (
+                                                                                <></>
+                                                                            )}
+                                                                            {player?.cards?.red?.length ? (
+                                                                                player.cards.red.map((red) => (
+                                                                                    <li
+                                                                                        key={`${player._id}-red-${red.minute}`}
+                                                                                    >
+                                                                                        {/* <SportsSoccerOutlined fontSize="inherit" /> */}
+                                                                                        <span className="inline-block w-2 h-3 bg-red-500 rounded-sm mx-1"></span>
+                                                                                        <span className="text-xs">
+                                                                                            {red.minute}
+                                                                                            &apos;
+                                                                                        </span>
+                                                                                    </li>
+                                                                                ))
+                                                                            ) : (
+                                                                                <></>
+                                                                            )}
+                                                                        </ul>
+                                                                    </div>
+                                                                )}
+                                                                {player.goals && player.goals.length > 0 && (
+                                                                    <div className="flex items-center gap-x-4">
+                                                                        <ul className="flex gap-x-2">
+                                                                            {player?.goals.length ? (
+                                                                                player.goals.map((goal) => (
+                                                                                    <li
+                                                                                        key={`${player._id}-${goal.minute}`}
+                                                                                    >
+                                                                                        <SportsSoccerOutlined fontSize="inherit" />
+                                                                                        <span className="text-xs">
+                                                                                            {goal.minute}
+                                                                                            &apos;
+                                                                                        </span>
+                                                                                    </li>
+                                                                                ))
+                                                                            ) : (
+                                                                                <></>
+                                                                            )}
+                                                                        </ul>
+                                                                    </div>
+                                                                )}
+                                                            </div>
+                                                        </li>
+                                                    )
+                                                })}
+                                            </ul>
+                                        </>
                                     )}
                                 </div>
                             </div>
 
-                            <div className="mt-12 flex flex-col md:flex-row gap-4 justify-end">
-                                <Button type="submit" variant="contained" startIcon={<SaveOutlined fontSize="small" />}>
-                                    Guardar
-                                </Button>
-                            </div>
-                        </form>
+                            {role === 'mister' && (
+                                <div className="mt-12 flex flex-col md:flex-row gap-4 justify-end">
+                                    <Button
+                                        type="submit"
+                                        variant="contained"
+                                        startIcon={<SaveOutlined fontSize="small" />}
+                                    >
+                                        Guardar
+                                    </Button>
+                                </div>
+                            )}
+                        </div>
                     </section>
-                    <Divider className="!my-12" />{' '}
+                    <Divider className="!my-12" />
                 </>
             )}
             <section>
@@ -909,7 +1604,7 @@ const MatchPage = () => {
                     <p className="text-sm">{game?.pos_game || 'Sem notas a apresentar'}</p>
                 </div>
             </section>
-        </>
+        </form>
     )
 }
 

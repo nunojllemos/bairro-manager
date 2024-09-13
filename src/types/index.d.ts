@@ -72,7 +72,8 @@ export interface Coach {
 type WeatherConditions = 'sunny' | 'cloudy' | 'rainy' | 'storm' | 'snow' | 'foggy'
 
 interface PlayerGameInfo {
-    _id: string
+    _id?: string
+    name?: string
     position: string
     goals: [
         {
@@ -91,6 +92,11 @@ interface PlayerGameInfo {
             }
         ]
     }
+    subs: [
+        {
+            minute: number
+        }
+    ]
 }
 
 interface Team {
@@ -118,8 +124,8 @@ export interface Game {
         condition: WeatherConditions
     }
     teams: {
-        home: Team
-        away: Team
+        bairro: Team
+        opponent: Team
     }
     pre_game: string
     pos_game: string
