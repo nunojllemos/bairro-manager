@@ -237,7 +237,11 @@ const MatchPage = () => {
             </div>
             <section className="grid md:grid-cols-2 gap-x-2 lg:gap-x-24 xl:gap-x-64 gap-y-2 w-full">
                 <div className="w-full grid grid-cols-[1fr_auto] gap-x-4">
-                    <span className="font-semibold flex items-center gap-x-2">
+                    <span
+                        className={`${
+                            role === 'mister' ? 'hidden lg:block' : ''
+                        } font-semibold flex items-center gap-x-2`}
+                    >
                         <CalendarTodayOutlined fontSize="inherit" /> Data:
                     </span>
                     {role === 'mister' ? (
@@ -258,7 +262,11 @@ const MatchPage = () => {
                     )}
                 </div>
                 <div className="w-full grid grid-cols-[1fr_auto] gap-x-4">
-                    <span className="font-semibold flex items-center gap-x-2">
+                    <span
+                        className={`${
+                            role === 'mister' ? 'hidden lg:block' : ''
+                        } font-semibold flex items-center gap-x-2`}
+                    >
                         <ScheduleOutlined fontSize="inherit" /> Horário:
                     </span>
                     {role === 'mister' ? (
@@ -279,7 +287,11 @@ const MatchPage = () => {
                     )}
                 </div>
                 <div className="w-full grid grid-cols-[1fr_auto] gap-x-4">
-                    <span className="font-semibold flex items-center gap-x-2">
+                    <span
+                        className={`${
+                            role === 'mister' ? 'hidden lg:block' : ''
+                        } font-semibold flex items-center gap-x-2`}
+                    >
                         <HourglassFullOutlined fontSize="inherit" /> Resultado:
                     </span>
                     {role === 'mister' ? (
@@ -300,7 +312,11 @@ const MatchPage = () => {
                     )}
                 </div>
                 <div className="w-full grid grid-cols-[1fr_auto] gap-x-4">
-                    <span className="font-semibold flex items-center gap-x-2">
+                    <span
+                        className={`${
+                            role === 'mister' ? 'hidden lg:block' : ''
+                        } font-semibold flex items-center gap-x-2`}
+                    >
                         <HourglassBottomOutlined fontSize="inherit" /> Ao intervalo:
                     </span>
                     {role === 'mister' ? (
@@ -446,358 +462,369 @@ const MatchPage = () => {
                                             <span className="flex items-center gap-x-1 text-sm text-blue-500">
                                                 Titulares
                                             </span>
-                                            {INITIAL_PLAYERS.map((initialPosition) => {
-                                                return (
-                                                    <div
-                                                        key={`initial-bairro-player-${initialPosition}`}
-                                                        className="flex gap-x-4"
-                                                    >
-                                                        <Select
-                                                            key={
-                                                                game?.teams?.bairro?.initial[initialPosition] &&
-                                                                game?.teams?.bairro?.initial[initialPosition]?.position
-                                                            }
-                                                            placeholder="Posição"
-                                                            className="w-[8.5rem]"
-                                                            size="sm"
-                                                            name={`initial-bairro-player-position-${initialPosition}`}
-                                                            defaultValue={
-                                                                game?.teams?.bairro?.initial[initialPosition]
-                                                                    ? game?.teams?.bairro?.initial[initialPosition]
-                                                                          ?.position
-                                                                    : ''
-                                                            }
+                                            <ul className="flex flex-col gap-y-12 lg:gap-4">
+                                                {INITIAL_PLAYERS.map((initialPosition) => {
+                                                    return (
+                                                        <li
+                                                            key={`initial-bairro-player-${initialPosition}`}
+                                                            className="flex flex-col lg:flex-row gap-4"
                                                         >
-                                                            {POSITIONS.map((position) => {
-                                                                return (
-                                                                    <Option
-                                                                        key={`bairro-initial-player-position-${position}-${initialPosition}`}
-                                                                        value={position}
-                                                                    >
-                                                                        {position}
-                                                                    </Option>
-                                                                )
-                                                            })}
-                                                        </Select>
-                                                        <Select
-                                                            key={
-                                                                game?.teams?.bairro?.initial[initialPosition] &&
-                                                                game?.teams?.bairro?.initial[initialPosition]?._id
-                                                            }
-                                                            placeholder="Nome"
-                                                            className="w-full"
-                                                            size="sm"
-                                                            name={`initial-bairro-player-name-${initialPosition}`}
-                                                            defaultValue={
-                                                                game?.teams?.bairro?.initial[initialPosition]
-                                                                    ? game?.teams?.bairro?.initial[initialPosition]?._id
-                                                                    : ''
-                                                            }
-                                                        >
-                                                            {players.map((player) => {
-                                                                return (
-                                                                    <Option
-                                                                        key={`initial-bairro-player-${player._id}`}
-                                                                        value={player._id}
-                                                                    >
-                                                                        {player.name}
-                                                                    </Option>
-                                                                )
-                                                            })}
-                                                        </Select>
-                                                        <TextField
-                                                            key={
-                                                                (game?.teams?.bairro?.initial[initialPosition] &&
-                                                                    game?.teams?.bairro?.initial[
-                                                                        initialPosition
-                                                                    ]?.cards?.yellow?.join(',')) ||
-                                                                `bairro-initial-player-${initialPosition}-yellow-key`
-                                                            }
-                                                            name={`initial-bairro-player-yellow-${initialPosition}`}
-                                                            type="text"
-                                                            className="w-max"
-                                                            variant="outlined"
-                                                            size="small"
-                                                            label={'Amarelos'}
-                                                            InputLabelProps={{
-                                                                shrink: true,
-                                                            }}
-                                                            defaultValue={
-                                                                game?.teams?.bairro?.initial[initialPosition]
-                                                                    ? game?.teams?.bairro?.initial[initialPosition]
-                                                                          ?.cards?.yellow &&
-                                                                      game?.teams?.bairro?.initial[
-                                                                          initialPosition
-                                                                      ]?.cards?.yellow
-                                                                          .map((card) => card.minute)
-                                                                          .join(' ')
-                                                                    : ''
-                                                            }
-                                                        />
-                                                        <TextField
-                                                            key={
-                                                                (game?.teams?.bairro?.initial[initialPosition] &&
-                                                                    game?.teams?.bairro?.initial[
-                                                                        initialPosition
-                                                                    ]?.cards?.red?.join(',')) ||
-                                                                `bairro-initial-player-${initialPosition}-red-key`
-                                                            }
-                                                            name={`initial-bairro-player-red-${initialPosition}`}
-                                                            type="text"
-                                                            className="w-max"
-                                                            variant="outlined"
-                                                            size="small"
-                                                            label={'Vermelho'}
-                                                            InputLabelProps={{
-                                                                shrink: true,
-                                                            }}
-                                                            defaultValue={
-                                                                game?.teams?.bairro?.initial[initialPosition]
-                                                                    ? game?.teams?.bairro?.initial[initialPosition]
-                                                                          ?.cards?.red &&
-                                                                      game?.teams?.bairro?.initial[
-                                                                          initialPosition
-                                                                      ]?.cards?.red
-                                                                          .map((card) => card.minute)
-                                                                          .join(' ')
-                                                                    : ''
-                                                            }
-                                                        />
-                                                        <TextField
-                                                            key={
-                                                                (game?.teams?.bairro?.initial[initialPosition] &&
-                                                                    game?.teams?.bairro?.initial[
-                                                                        initialPosition
-                                                                    ]?.goals?.join(',')) ||
-                                                                `bairro-initial-player-${initialPosition}-goals-key`
-                                                            }
-                                                            name={`initial-bairro-player-goals-${initialPosition}`}
-                                                            type="text"
-                                                            className="w-max"
-                                                            variant="outlined"
-                                                            size="small"
-                                                            label={'Golos'}
-                                                            InputLabelProps={{
-                                                                shrink: true,
-                                                            }}
-                                                            defaultValue={
-                                                                game?.teams?.bairro?.initial[initialPosition]
-                                                                    ? game?.teams?.bairro?.initial[initialPosition]
-                                                                          ?.goals &&
-                                                                      game?.teams?.bairro?.initial[
-                                                                          initialPosition
-                                                                      ]?.goals
-                                                                          .map((card) => card.minute)
-                                                                          .join(' ')
-                                                                    : ''
-                                                            }
-                                                        />
-                                                        <TextField
-                                                            key={
-                                                                (game?.teams?.bairro?.initial[initialPosition] &&
-                                                                    game?.teams?.bairro?.initial[
-                                                                        initialPosition
-                                                                    ]?.subs?.join(',')) ||
-                                                                `bairro-initial-player-${initialPosition}-subs-key`
-                                                            }
-                                                            name={`initial-bairro-player-subs-${initialPosition}`}
-                                                            type="text"
-                                                            className="w-max"
-                                                            variant="outlined"
-                                                            size="small"
-                                                            label={'Substituído'}
-                                                            InputLabelProps={{
-                                                                shrink: true,
-                                                            }}
-                                                            defaultValue={
-                                                                game?.teams?.bairro?.initial[initialPosition]
-                                                                    ? game?.teams?.bairro?.initial[initialPosition]
-                                                                          ?.subs &&
-                                                                      game?.teams?.bairro?.initial[
-                                                                          initialPosition
-                                                                      ]?.subs
-                                                                          .map((card) => card.minute)
-                                                                          .join(' ')
-                                                                    : ''
-                                                            }
-                                                        />
-                                                    </div>
-                                                )
-                                            })}
+                                                            <Select
+                                                                key={
+                                                                    game?.teams?.bairro?.initial[initialPosition] &&
+                                                                    game?.teams?.bairro?.initial[initialPosition]
+                                                                        ?.position
+                                                                }
+                                                                placeholder="Posição"
+                                                                className="w-full lg:w-[8.5rem]"
+                                                                size="sm"
+                                                                name={`initial-bairro-player-position-${initialPosition}`}
+                                                                defaultValue={
+                                                                    game?.teams?.bairro?.initial[initialPosition]
+                                                                        ? game?.teams?.bairro?.initial[initialPosition]
+                                                                              ?.position
+                                                                        : ''
+                                                                }
+                                                            >
+                                                                {POSITIONS.map((position) => {
+                                                                    return (
+                                                                        <Option
+                                                                            key={`bairro-initial-player-position-${position}-${initialPosition}`}
+                                                                            value={position}
+                                                                        >
+                                                                            {position}
+                                                                        </Option>
+                                                                    )
+                                                                })}
+                                                            </Select>
+                                                            <Select
+                                                                key={
+                                                                    game?.teams?.bairro?.initial[initialPosition] &&
+                                                                    game?.teams?.bairro?.initial[initialPosition]?._id
+                                                                }
+                                                                placeholder="Nome"
+                                                                className="w-full"
+                                                                size="sm"
+                                                                name={`initial-bairro-player-name-${initialPosition}`}
+                                                                defaultValue={
+                                                                    game?.teams?.bairro?.initial[initialPosition]
+                                                                        ? game?.teams?.bairro?.initial[initialPosition]
+                                                                              ?._id
+                                                                        : ''
+                                                                }
+                                                            >
+                                                                {players.map((player) => {
+                                                                    return (
+                                                                        <Option
+                                                                            key={`initial-bairro-player-${player._id}`}
+                                                                            value={player._id}
+                                                                        >
+                                                                            {player.name}
+                                                                        </Option>
+                                                                    )
+                                                                })}
+                                                            </Select>
+                                                            <TextField
+                                                                key={
+                                                                    (game?.teams?.bairro?.initial[initialPosition] &&
+                                                                        game?.teams?.bairro?.initial[
+                                                                            initialPosition
+                                                                        ]?.cards?.yellow?.join(',')) ||
+                                                                    `bairro-initial-player-${initialPosition}-yellow-key`
+                                                                }
+                                                                name={`initial-bairro-player-yellow-${initialPosition}`}
+                                                                type="text"
+                                                                className="w-full lg:w-max"
+                                                                variant="outlined"
+                                                                size="small"
+                                                                label={'Amarelos'}
+                                                                InputLabelProps={{
+                                                                    shrink: true,
+                                                                }}
+                                                                defaultValue={
+                                                                    game?.teams?.bairro?.initial[initialPosition]
+                                                                        ? game?.teams?.bairro?.initial[initialPosition]
+                                                                              ?.cards?.yellow &&
+                                                                          game?.teams?.bairro?.initial[
+                                                                              initialPosition
+                                                                          ]?.cards?.yellow
+                                                                              .map((card) => card.minute)
+                                                                              .join(' ')
+                                                                        : ''
+                                                                }
+                                                            />
+                                                            <TextField
+                                                                key={
+                                                                    (game?.teams?.bairro?.initial[initialPosition] &&
+                                                                        game?.teams?.bairro?.initial[
+                                                                            initialPosition
+                                                                        ]?.cards?.red?.join(',')) ||
+                                                                    `bairro-initial-player-${initialPosition}-red-key`
+                                                                }
+                                                                name={`initial-bairro-player-red-${initialPosition}`}
+                                                                type="text"
+                                                                className="w-full lg:w-max"
+                                                                variant="outlined"
+                                                                size="small"
+                                                                label={'Vermelho'}
+                                                                InputLabelProps={{
+                                                                    shrink: true,
+                                                                }}
+                                                                defaultValue={
+                                                                    game?.teams?.bairro?.initial[initialPosition]
+                                                                        ? game?.teams?.bairro?.initial[initialPosition]
+                                                                              ?.cards?.red &&
+                                                                          game?.teams?.bairro?.initial[
+                                                                              initialPosition
+                                                                          ]?.cards?.red
+                                                                              .map((card) => card.minute)
+                                                                              .join(' ')
+                                                                        : ''
+                                                                }
+                                                            />
+                                                            <TextField
+                                                                key={
+                                                                    (game?.teams?.bairro?.initial[initialPosition] &&
+                                                                        game?.teams?.bairro?.initial[
+                                                                            initialPosition
+                                                                        ]?.goals?.join(',')) ||
+                                                                    `bairro-initial-player-${initialPosition}-goals-key`
+                                                                }
+                                                                name={`initial-bairro-player-goals-${initialPosition}`}
+                                                                type="text"
+                                                                className="w-full lg:w-max"
+                                                                variant="outlined"
+                                                                size="small"
+                                                                label={'Golos'}
+                                                                InputLabelProps={{
+                                                                    shrink: true,
+                                                                }}
+                                                                defaultValue={
+                                                                    game?.teams?.bairro?.initial[initialPosition]
+                                                                        ? game?.teams?.bairro?.initial[initialPosition]
+                                                                              ?.goals &&
+                                                                          game?.teams?.bairro?.initial[
+                                                                              initialPosition
+                                                                          ]?.goals
+                                                                              .map((card) => card.minute)
+                                                                              .join(' ')
+                                                                        : ''
+                                                                }
+                                                            />
+                                                            <TextField
+                                                                key={
+                                                                    (game?.teams?.bairro?.initial[initialPosition] &&
+                                                                        game?.teams?.bairro?.initial[
+                                                                            initialPosition
+                                                                        ]?.subs?.join(',')) ||
+                                                                    `bairro-initial-player-${initialPosition}-subs-key`
+                                                                }
+                                                                name={`initial-bairro-player-subs-${initialPosition}`}
+                                                                type="text"
+                                                                className="w-full lg:w-max"
+                                                                variant="outlined"
+                                                                size="small"
+                                                                label={'Substituído'}
+                                                                InputLabelProps={{
+                                                                    shrink: true,
+                                                                }}
+                                                                defaultValue={
+                                                                    game?.teams?.bairro?.initial[initialPosition]
+                                                                        ? game?.teams?.bairro?.initial[initialPosition]
+                                                                              ?.subs &&
+                                                                          game?.teams?.bairro?.initial[
+                                                                              initialPosition
+                                                                          ]?.subs
+                                                                              .map((card) => card.minute)
+                                                                              .join(' ')
+                                                                        : ''
+                                                                }
+                                                            />
+                                                        </li>
+                                                    )
+                                                })}
+                                            </ul>
 
                                             <span className="flex items-center gap-x-1 text-sm text-blue-500 mt-12">
                                                 Suplentes
                                             </span>
-                                            {BENCH_PLAYERS.map((benchPosition) => {
-                                                return (
-                                                    <div
-                                                        key={`bench-bairro-player-${benchPosition}`}
-                                                        className="flex gap-x-4"
-                                                    >
-                                                        <Select
-                                                            key={
-                                                                game?.teams?.bairro?.bench[benchPosition] &&
-                                                                game?.teams?.bairro?.bench[benchPosition]?.position
-                                                            }
-                                                            placeholder="Posição"
-                                                            className="w-[8.5rem]"
-                                                            size="sm"
-                                                            name={`bench-bairro-player-position-${benchPosition}`}
-                                                            defaultValue={
-                                                                game?.teams?.bairro?.bench[benchPosition]
-                                                                    ? game?.teams?.bairro?.bench[benchPosition]
-                                                                          ?.position
-                                                                    : ''
-                                                            }
+                                            <ul className="flex flex-col gap-y-12 lg:gap-4">
+                                                {BENCH_PLAYERS.map((benchPosition) => {
+                                                    return (
+                                                        <li
+                                                            key={`bench-bairro-player-${benchPosition}`}
+                                                            className="flex flex-col lg:flex-row gap-4"
                                                         >
-                                                            {POSITIONS.map((position) => {
-                                                                return (
-                                                                    <Option key={position} value={position}>
-                                                                        {position}
-                                                                    </Option>
-                                                                )
-                                                            })}
-                                                        </Select>
-                                                        <Select
-                                                            key={
-                                                                game?.teams?.bairro?.bench[benchPosition] &&
-                                                                game?.teams?.bairro?.bench[benchPosition]?._id
-                                                            }
-                                                            placeholder="Nome"
-                                                            className="w-full"
-                                                            size="sm"
-                                                            name={`bench-bairro-player-name-${benchPosition}`}
-                                                            defaultValue={
-                                                                game?.teams?.bairro?.bench[benchPosition]
-                                                                    ? game?.teams?.bairro?.bench[benchPosition]?._id
-                                                                    : ''
-                                                            }
-                                                        >
-                                                            {players.map((player) => {
-                                                                return (
-                                                                    <Option
-                                                                        key={`bench-player-id-${player._id}`}
-                                                                        value={player._id}
-                                                                    >
-                                                                        {player.name}
-                                                                    </Option>
-                                                                )
-                                                            })}
-                                                        </Select>
-                                                        <TextField
-                                                            key={
-                                                                (game?.teams?.bairro?.bench[benchPosition] &&
-                                                                    game?.teams?.bairro?.bench[
-                                                                        benchPosition
-                                                                    ]?.cards?.yellow?.join(',')) ||
-                                                                `bairro-bench-player-${benchPosition}-yellow-key`
-                                                            }
-                                                            name={`bench-bairro-player-yellow-${benchPosition}`}
-                                                            type="text"
-                                                            className="w-max"
-                                                            variant="outlined"
-                                                            size="small"
-                                                            label={'Amarelos'}
-                                                            InputLabelProps={{
-                                                                shrink: true,
-                                                            }}
-                                                            defaultValue={
-                                                                game?.teams?.bairro?.bench[benchPosition]
-                                                                    ? game?.teams?.bairro?.bench[benchPosition]?.cards
-                                                                          ?.yellow &&
-                                                                      game?.teams?.bairro?.bench[
-                                                                          benchPosition
-                                                                      ]?.cards?.yellow
-                                                                          .map((card) => card.minute)
-                                                                          .join(' ')
-                                                                    : ''
-                                                            }
-                                                        />
-                                                        <TextField
-                                                            key={
-                                                                (game?.teams?.bairro?.bench[benchPosition] &&
-                                                                    game?.teams?.bairro?.bench[
-                                                                        benchPosition
-                                                                    ]?.cards?.red?.join(',')) ||
-                                                                `bairro-bench-player-${benchPosition}-red-key`
-                                                            }
-                                                            name={`bench-bairro-player-red-${benchPosition}`}
-                                                            type="text"
-                                                            className="w-max"
-                                                            variant="outlined"
-                                                            size="small"
-                                                            label={'Vermelho'}
-                                                            InputLabelProps={{
-                                                                shrink: true,
-                                                            }}
-                                                            defaultValue={
-                                                                game?.teams?.bairro?.bench[benchPosition]
-                                                                    ? game?.teams?.bairro?.bench[benchPosition]?.cards
-                                                                          ?.red &&
-                                                                      game?.teams?.bairro?.bench[
-                                                                          benchPosition
-                                                                      ]?.cards?.red
-                                                                          .map((card) => card.minute)
-                                                                          .join(' ')
-                                                                    : ''
-                                                            }
-                                                        />
-                                                        <TextField
-                                                            key={
-                                                                (game?.teams?.bairro?.bench[benchPosition] &&
-                                                                    game?.teams?.bairro?.bench[
-                                                                        benchPosition
-                                                                    ]?.goals?.join(',')) ||
-                                                                `bairro-bench-player-${benchPosition}-goals-key`
-                                                            }
-                                                            name={`bench-bairro-player-goals-${benchPosition}`}
-                                                            type="text"
-                                                            className="w-max"
-                                                            variant="outlined"
-                                                            size="small"
-                                                            label={'Golos'}
-                                                            InputLabelProps={{
-                                                                shrink: true,
-                                                            }}
-                                                            defaultValue={
-                                                                game?.teams?.bairro?.bench[benchPosition]
-                                                                    ? game?.teams?.bairro?.bench[benchPosition]
-                                                                          ?.goals &&
-                                                                      game?.teams?.bairro?.bench[benchPosition]?.goals
-                                                                          .map((card) => card.minute)
-                                                                          .join(' ')
-                                                                    : ''
-                                                            }
-                                                        />
-                                                        <TextField
-                                                            key={
-                                                                (game?.teams?.bairro?.bench[benchPosition] &&
-                                                                    game?.teams?.bairro?.bench[
-                                                                        benchPosition
-                                                                    ]?.subs?.join(',')) ||
-                                                                `bairro-bench-player-${benchPosition}-subs-key`
-                                                            }
-                                                            name={`bench-bairro-player-subs-${benchPosition}`}
-                                                            type="text"
-                                                            className="w-max"
-                                                            variant="outlined"
-                                                            size="small"
-                                                            label={'Entrou'}
-                                                            InputLabelProps={{
-                                                                shrink: true,
-                                                            }}
-                                                            defaultValue={
-                                                                game?.teams?.bairro?.bench[benchPosition]
-                                                                    ? game?.teams?.bairro?.bench[benchPosition]?.subs &&
-                                                                      game?.teams?.bairro?.bench[benchPosition]?.subs
-                                                                          .map((card) => card.minute)
-                                                                          .join(' ')
-                                                                    : ''
-                                                            }
-                                                        />
-                                                    </div>
-                                                )
-                                            })}
+                                                            <Select
+                                                                key={
+                                                                    game?.teams?.bairro?.bench[benchPosition] &&
+                                                                    game?.teams?.bairro?.bench[benchPosition]?.position
+                                                                }
+                                                                placeholder="Posição"
+                                                                className="w-full lg:w-[8.5rem]"
+                                                                size="sm"
+                                                                name={`bench-bairro-player-position-${benchPosition}`}
+                                                                defaultValue={
+                                                                    game?.teams?.bairro?.bench[benchPosition]
+                                                                        ? game?.teams?.bairro?.bench[benchPosition]
+                                                                              ?.position
+                                                                        : ''
+                                                                }
+                                                            >
+                                                                {POSITIONS.map((position) => {
+                                                                    return (
+                                                                        <Option key={position} value={position}>
+                                                                            {position}
+                                                                        </Option>
+                                                                    )
+                                                                })}
+                                                            </Select>
+                                                            <Select
+                                                                key={
+                                                                    game?.teams?.bairro?.bench[benchPosition] &&
+                                                                    game?.teams?.bairro?.bench[benchPosition]?._id
+                                                                }
+                                                                placeholder="Nome"
+                                                                className="w-full"
+                                                                size="sm"
+                                                                name={`bench-bairro-player-name-${benchPosition}`}
+                                                                defaultValue={
+                                                                    game?.teams?.bairro?.bench[benchPosition]
+                                                                        ? game?.teams?.bairro?.bench[benchPosition]?._id
+                                                                        : ''
+                                                                }
+                                                            >
+                                                                {players.map((player) => {
+                                                                    return (
+                                                                        <Option
+                                                                            key={`bench-player-id-${player._id}`}
+                                                                            value={player._id}
+                                                                        >
+                                                                            {player.name}
+                                                                        </Option>
+                                                                    )
+                                                                })}
+                                                            </Select>
+                                                            <TextField
+                                                                key={
+                                                                    (game?.teams?.bairro?.bench[benchPosition] &&
+                                                                        game?.teams?.bairro?.bench[
+                                                                            benchPosition
+                                                                        ]?.cards?.yellow?.join(',')) ||
+                                                                    `bairro-bench-player-${benchPosition}-yellow-key`
+                                                                }
+                                                                name={`bench-bairro-player-yellow-${benchPosition}`}
+                                                                type="text"
+                                                                className="w-full lg:w-max"
+                                                                variant="outlined"
+                                                                size="small"
+                                                                label={'Amarelos'}
+                                                                InputLabelProps={{
+                                                                    shrink: true,
+                                                                }}
+                                                                defaultValue={
+                                                                    game?.teams?.bairro?.bench[benchPosition]
+                                                                        ? game?.teams?.bairro?.bench[benchPosition]
+                                                                              ?.cards?.yellow &&
+                                                                          game?.teams?.bairro?.bench[
+                                                                              benchPosition
+                                                                          ]?.cards?.yellow
+                                                                              .map((card) => card.minute)
+                                                                              .join(' ')
+                                                                        : ''
+                                                                }
+                                                            />
+                                                            <TextField
+                                                                key={
+                                                                    (game?.teams?.bairro?.bench[benchPosition] &&
+                                                                        game?.teams?.bairro?.bench[
+                                                                            benchPosition
+                                                                        ]?.cards?.red?.join(',')) ||
+                                                                    `bairro-bench-player-${benchPosition}-red-key`
+                                                                }
+                                                                name={`bench-bairro-player-red-${benchPosition}`}
+                                                                type="text"
+                                                                className="w-full lg:w-max"
+                                                                variant="outlined"
+                                                                size="small"
+                                                                label={'Vermelho'}
+                                                                InputLabelProps={{
+                                                                    shrink: true,
+                                                                }}
+                                                                defaultValue={
+                                                                    game?.teams?.bairro?.bench[benchPosition]
+                                                                        ? game?.teams?.bairro?.bench[benchPosition]
+                                                                              ?.cards?.red &&
+                                                                          game?.teams?.bairro?.bench[
+                                                                              benchPosition
+                                                                          ]?.cards?.red
+                                                                              .map((card) => card.minute)
+                                                                              .join(' ')
+                                                                        : ''
+                                                                }
+                                                            />
+                                                            <TextField
+                                                                key={
+                                                                    (game?.teams?.bairro?.bench[benchPosition] &&
+                                                                        game?.teams?.bairro?.bench[
+                                                                            benchPosition
+                                                                        ]?.goals?.join(',')) ||
+                                                                    `bairro-bench-player-${benchPosition}-goals-key`
+                                                                }
+                                                                name={`bench-bairro-player-goals-${benchPosition}`}
+                                                                type="text"
+                                                                className="w-full lg:w-max"
+                                                                variant="outlined"
+                                                                size="small"
+                                                                label={'Golos'}
+                                                                InputLabelProps={{
+                                                                    shrink: true,
+                                                                }}
+                                                                defaultValue={
+                                                                    game?.teams?.bairro?.bench[benchPosition]
+                                                                        ? game?.teams?.bairro?.bench[benchPosition]
+                                                                              ?.goals &&
+                                                                          game?.teams?.bairro?.bench[
+                                                                              benchPosition
+                                                                          ]?.goals
+                                                                              .map((card) => card.minute)
+                                                                              .join(' ')
+                                                                        : ''
+                                                                }
+                                                            />
+                                                            <TextField
+                                                                key={
+                                                                    (game?.teams?.bairro?.bench[benchPosition] &&
+                                                                        game?.teams?.bairro?.bench[
+                                                                            benchPosition
+                                                                        ]?.subs?.join(',')) ||
+                                                                    `bairro-bench-player-${benchPosition}-subs-key`
+                                                                }
+                                                                name={`bench-bairro-player-subs-${benchPosition}`}
+                                                                type="text"
+                                                                className="w-full lg:w-max"
+                                                                variant="outlined"
+                                                                size="small"
+                                                                label={'Entrou'}
+                                                                InputLabelProps={{
+                                                                    shrink: true,
+                                                                }}
+                                                                defaultValue={
+                                                                    game?.teams?.bairro?.bench[benchPosition]
+                                                                        ? game?.teams?.bairro?.bench[benchPosition]
+                                                                              ?.subs &&
+                                                                          game?.teams?.bairro?.bench[
+                                                                              benchPosition
+                                                                          ]?.subs
+                                                                              .map((card) => card.minute)
+                                                                              .join(' ')
+                                                                        : ''
+                                                                }
+                                                            />
+                                                        </li>
+                                                    )
+                                                })}
+                                            </ul>
                                         </div>
                                     ) : (
                                         <>
@@ -1026,346 +1053,362 @@ const MatchPage = () => {
                                             <span className="flex items-center gap-x-1 text-sm text-blue-500">
                                                 Titulares
                                             </span>
-                                            {INITIAL_PLAYERS.map((initialPosition) => {
-                                                return (
-                                                    <div
-                                                        key={`initial-opponent-player-${initialPosition}`}
-                                                        className="flex gap-x-4"
-                                                    >
-                                                        <Select
-                                                            placeholder="Posição"
-                                                            className="w-[8.5rem]"
-                                                            size="sm"
-                                                            name={`initial-opponent-player-position-${initialPosition}`}
-                                                            key={
-                                                                game?.teams?.opponent?.initial[initialPosition] &&
-                                                                game?.teams?.opponent?.initial[initialPosition]
-                                                                    ?.position
-                                                            }
-                                                            defaultValue={
-                                                                game?.teams?.opponent?.initial[initialPosition]
-                                                                    ? game?.teams?.opponent?.initial[initialPosition]
-                                                                          ?.position
-                                                                    : ''
-                                                            }
+                                            <ul className="flex flex-col gap-y-12 lg:gap-4">
+                                                {INITIAL_PLAYERS.map((initialPosition) => {
+                                                    return (
+                                                        <li
+                                                            key={`initial-opponent-player-${initialPosition}`}
+                                                            className="flex flex-col lg:flex-row gap-4"
                                                         >
-                                                            {POSITIONS.map((position) => {
-                                                                return (
-                                                                    <Option key={position} value={position}>
-                                                                        {position}
-                                                                    </Option>
-                                                                )
-                                                            })}
-                                                        </Select>
-                                                        <TextField
-                                                            name={`initial-opponent-player-name-${initialPosition}`}
-                                                            type="text"
-                                                            className="w-full"
-                                                            variant="outlined"
-                                                            size="small"
-                                                            label={'Nome'}
-                                                            InputLabelProps={{
-                                                                shrink: true,
-                                                            }}
-                                                            key={
-                                                                game?.teams?.opponent?.initial[initialPosition] &&
-                                                                game?.teams?.opponent?.initial[initialPosition]?.name
-                                                            }
-                                                            defaultValue={
-                                                                game?.teams?.opponent?.initial[initialPosition]
-                                                                    ? game?.teams?.opponent?.initial[initialPosition]
-                                                                          ?.name
-                                                                    : ''
-                                                            }
-                                                        />
-                                                        <TextField
-                                                            name={`initial-opponent-player-yellow-${initialPosition}`}
-                                                            type="text"
-                                                            className="w-max"
-                                                            variant="outlined"
-                                                            size="small"
-                                                            label={'Amarelos'}
-                                                            InputLabelProps={{
-                                                                shrink: true,
-                                                            }}
-                                                            key={
-                                                                (game?.teams?.opponent?.initial[initialPosition] &&
-                                                                    game?.teams?.opponent?.initial[
-                                                                        initialPosition
-                                                                    ]?.cards?.yellow?.join(',')) ||
-                                                                `opponent-initial-player-${initialPosition}-yellow-key`
-                                                            }
-                                                            defaultValue={
-                                                                game?.teams?.opponent?.initial[initialPosition]
-                                                                    ? game?.teams?.opponent?.initial[initialPosition]
-                                                                          ?.cards?.yellow &&
-                                                                      game?.teams?.opponent?.initial[
-                                                                          initialPosition
-                                                                      ]?.cards?.yellow
-                                                                          .map((card) => card.minute)
-                                                                          .join(' ')
-                                                                    : ''
-                                                            }
-                                                        />
-                                                        <TextField
-                                                            name={`initial-opponent-player-red-${initialPosition}`}
-                                                            type="text"
-                                                            className="w-max"
-                                                            variant="outlined"
-                                                            size="small"
-                                                            label={'Vermelho'}
-                                                            InputLabelProps={{
-                                                                shrink: true,
-                                                            }}
-                                                            key={
-                                                                (game?.teams?.opponent?.initial[initialPosition] &&
-                                                                    game?.teams?.opponent?.initial[
-                                                                        initialPosition
-                                                                    ]?.cards?.red?.join(',')) ||
-                                                                `opponent-initial-player-${initialPosition}-red-key`
-                                                            }
-                                                            defaultValue={
-                                                                game?.teams?.opponent?.initial[initialPosition]
-                                                                    ? game?.teams?.opponent?.initial[initialPosition]
-                                                                          ?.cards?.red &&
-                                                                      game?.teams?.opponent?.initial[
-                                                                          initialPosition
-                                                                      ]?.cards?.red
-                                                                          .map((card) => card.minute)
-                                                                          .join(' ')
-                                                                    : ''
-                                                            }
-                                                        />
-                                                        <TextField
-                                                            name={`initial-opponent-player-goals-${initialPosition}`}
-                                                            type="text"
-                                                            className="w-max"
-                                                            variant="outlined"
-                                                            size="small"
-                                                            label={'Golos'}
-                                                            InputLabelProps={{
-                                                                shrink: true,
-                                                            }}
-                                                            key={
-                                                                (game?.teams?.opponent?.initial[initialPosition] &&
-                                                                    game?.teams?.opponent?.initial[
-                                                                        initialPosition
-                                                                    ]?.goals?.join(',')) ||
-                                                                `opponent-initial-player-${initialPosition}-goals-key`
-                                                            }
-                                                            defaultValue={
-                                                                game?.teams?.opponent?.initial[initialPosition]
-                                                                    ? game?.teams?.opponent?.initial[initialPosition]
-                                                                          ?.goals &&
-                                                                      game?.teams?.opponent?.initial[
-                                                                          initialPosition
-                                                                      ]?.goals
-                                                                          .map((card) => card.minute)
-                                                                          .join(' ')
-                                                                    : ''
-                                                            }
-                                                        />
-                                                        <TextField
-                                                            name={`initial-opponent-player-subs-${initialPosition}`}
-                                                            type="text"
-                                                            className="w-max"
-                                                            variant="outlined"
-                                                            size="small"
-                                                            label={'Substituído'}
-                                                            InputLabelProps={{
-                                                                shrink: true,
-                                                            }}
-                                                            key={
-                                                                (game?.teams?.opponent?.initial[initialPosition] &&
-                                                                    game?.teams?.opponent?.initial[
-                                                                        initialPosition
-                                                                    ]?.subs?.join(',')) ||
-                                                                `opponent-initial-player-${initialPosition}-subs-key`
-                                                            }
-                                                            defaultValue={
-                                                                game?.teams?.opponent?.initial[initialPosition]
-                                                                    ? game?.teams?.opponent?.initial[initialPosition]
-                                                                          ?.subs &&
-                                                                      game?.teams?.opponent?.initial[
-                                                                          initialPosition
-                                                                      ]?.subs
-                                                                          .map((card) => card.minute)
-                                                                          .join(' ')
-                                                                    : ''
-                                                            }
-                                                        />
-                                                    </div>
-                                                )
-                                            })}
-
+                                                            <Select
+                                                                placeholder="Posição"
+                                                                className="w-full lg:w-[8.5rem]"
+                                                                size="sm"
+                                                                name={`initial-opponent-player-position-${initialPosition}`}
+                                                                key={
+                                                                    game?.teams?.opponent?.initial[initialPosition] &&
+                                                                    game?.teams?.opponent?.initial[initialPosition]
+                                                                        ?.position
+                                                                }
+                                                                defaultValue={
+                                                                    game?.teams?.opponent?.initial[initialPosition]
+                                                                        ? game?.teams?.opponent?.initial[
+                                                                              initialPosition
+                                                                          ]?.position
+                                                                        : ''
+                                                                }
+                                                            >
+                                                                {POSITIONS.map((position) => {
+                                                                    return (
+                                                                        <Option key={position} value={position}>
+                                                                            {position}
+                                                                        </Option>
+                                                                    )
+                                                                })}
+                                                            </Select>
+                                                            <TextField
+                                                                name={`initial-opponent-player-name-${initialPosition}`}
+                                                                type="text"
+                                                                className="w-full"
+                                                                variant="outlined"
+                                                                size="small"
+                                                                label={'Nome'}
+                                                                InputLabelProps={{
+                                                                    shrink: true,
+                                                                }}
+                                                                key={
+                                                                    game?.teams?.opponent?.initial[initialPosition] &&
+                                                                    game?.teams?.opponent?.initial[initialPosition]
+                                                                        ?.name
+                                                                }
+                                                                defaultValue={
+                                                                    game?.teams?.opponent?.initial[initialPosition]
+                                                                        ? game?.teams?.opponent?.initial[
+                                                                              initialPosition
+                                                                          ]?.name
+                                                                        : ''
+                                                                }
+                                                            />
+                                                            <TextField
+                                                                name={`initial-opponent-player-yellow-${initialPosition}`}
+                                                                type="text"
+                                                                className="w-full lg:w-max"
+                                                                variant="outlined"
+                                                                size="small"
+                                                                label={'Amarelos'}
+                                                                InputLabelProps={{
+                                                                    shrink: true,
+                                                                }}
+                                                                key={
+                                                                    (game?.teams?.opponent?.initial[initialPosition] &&
+                                                                        game?.teams?.opponent?.initial[
+                                                                            initialPosition
+                                                                        ]?.cards?.yellow?.join(',')) ||
+                                                                    `opponent-initial-player-${initialPosition}-yellow-key`
+                                                                }
+                                                                defaultValue={
+                                                                    game?.teams?.opponent?.initial[initialPosition]
+                                                                        ? game?.teams?.opponent?.initial[
+                                                                              initialPosition
+                                                                          ]?.cards?.yellow &&
+                                                                          game?.teams?.opponent?.initial[
+                                                                              initialPosition
+                                                                          ]?.cards?.yellow
+                                                                              .map((card) => card.minute)
+                                                                              .join(' ')
+                                                                        : ''
+                                                                }
+                                                            />
+                                                            <TextField
+                                                                name={`initial-opponent-player-red-${initialPosition}`}
+                                                                type="text"
+                                                                className="w-full lg:w-max"
+                                                                variant="outlined"
+                                                                size="small"
+                                                                label={'Vermelho'}
+                                                                InputLabelProps={{
+                                                                    shrink: true,
+                                                                }}
+                                                                key={
+                                                                    (game?.teams?.opponent?.initial[initialPosition] &&
+                                                                        game?.teams?.opponent?.initial[
+                                                                            initialPosition
+                                                                        ]?.cards?.red?.join(',')) ||
+                                                                    `opponent-initial-player-${initialPosition}-red-key`
+                                                                }
+                                                                defaultValue={
+                                                                    game?.teams?.opponent?.initial[initialPosition]
+                                                                        ? game?.teams?.opponent?.initial[
+                                                                              initialPosition
+                                                                          ]?.cards?.red &&
+                                                                          game?.teams?.opponent?.initial[
+                                                                              initialPosition
+                                                                          ]?.cards?.red
+                                                                              .map((card) => card.minute)
+                                                                              .join(' ')
+                                                                        : ''
+                                                                }
+                                                            />
+                                                            <TextField
+                                                                name={`initial-opponent-player-goals-${initialPosition}`}
+                                                                type="text"
+                                                                className="w-full lg:w-max"
+                                                                variant="outlined"
+                                                                size="small"
+                                                                label={'Golos'}
+                                                                InputLabelProps={{
+                                                                    shrink: true,
+                                                                }}
+                                                                key={
+                                                                    (game?.teams?.opponent?.initial[initialPosition] &&
+                                                                        game?.teams?.opponent?.initial[
+                                                                            initialPosition
+                                                                        ]?.goals?.join(',')) ||
+                                                                    `opponent-initial-player-${initialPosition}-goals-key`
+                                                                }
+                                                                defaultValue={
+                                                                    game?.teams?.opponent?.initial[initialPosition]
+                                                                        ? game?.teams?.opponent?.initial[
+                                                                              initialPosition
+                                                                          ]?.goals &&
+                                                                          game?.teams?.opponent?.initial[
+                                                                              initialPosition
+                                                                          ]?.goals
+                                                                              .map((card) => card.minute)
+                                                                              .join(' ')
+                                                                        : ''
+                                                                }
+                                                            />
+                                                            <TextField
+                                                                name={`initial-opponent-player-subs-${initialPosition}`}
+                                                                type="text"
+                                                                className="w-full lg:w-max"
+                                                                variant="outlined"
+                                                                size="small"
+                                                                label={'Substituído'}
+                                                                InputLabelProps={{
+                                                                    shrink: true,
+                                                                }}
+                                                                key={
+                                                                    (game?.teams?.opponent?.initial[initialPosition] &&
+                                                                        game?.teams?.opponent?.initial[
+                                                                            initialPosition
+                                                                        ]?.subs?.join(',')) ||
+                                                                    `opponent-initial-player-${initialPosition}-subs-key`
+                                                                }
+                                                                defaultValue={
+                                                                    game?.teams?.opponent?.initial[initialPosition]
+                                                                        ? game?.teams?.opponent?.initial[
+                                                                              initialPosition
+                                                                          ]?.subs &&
+                                                                          game?.teams?.opponent?.initial[
+                                                                              initialPosition
+                                                                          ]?.subs
+                                                                              .map((card) => card.minute)
+                                                                              .join(' ')
+                                                                        : ''
+                                                                }
+                                                            />
+                                                        </li>
+                                                    )
+                                                })}
+                                            </ul>
                                             <span className="flex items-center gap-x-1 text-sm text-blue-500 mt-12">
                                                 Suplentes
                                             </span>
-                                            {BENCH_PLAYERS.map((benchPosition) => {
-                                                return (
-                                                    <div
-                                                        key={`bench-opponent-player-${benchPosition}`}
-                                                        className="flex gap-x-4"
-                                                    >
-                                                        <Select
-                                                            placeholder="Posição"
-                                                            className="w-[8.5rem]"
-                                                            size="sm"
-                                                            name={`bench-opponent-player-position-${benchPosition}`}
-                                                            key={
-                                                                game?.teams?.opponent?.bench[benchPosition] &&
-                                                                game?.teams?.opponent?.bench[benchPosition]?.position
-                                                            }
-                                                            defaultValue={
-                                                                game?.teams?.opponent?.bench[benchPosition]
-                                                                    ? game?.teams?.opponent?.bench[benchPosition]
-                                                                          ?.position
-                                                                    : 'SUP'
-                                                            }
+                                            <ul className="flex flex-col gap-y-12 lg:gap-4">
+                                                {BENCH_PLAYERS.map((benchPosition) => {
+                                                    return (
+                                                        <li
+                                                            key={`bench-opponent-player-${benchPosition}`}
+                                                            className="flex flex-col lg:flex-row gap-4"
                                                         >
-                                                            {POSITIONS.map((position) => {
-                                                                return (
-                                                                    <Option key={position} value={position}>
-                                                                        {position}
-                                                                    </Option>
-                                                                )
-                                                            })}
-                                                        </Select>
-                                                        <TextField
-                                                            name={`bench-opponent-player-name-${benchPosition}`}
-                                                            type="text"
-                                                            className="w-full"
-                                                            variant="outlined"
-                                                            size="small"
-                                                            label={'Nome'}
-                                                            InputLabelProps={{
-                                                                shrink: true,
-                                                            }}
-                                                            key={
-                                                                game?.teams?.opponent?.bench[benchPosition] &&
-                                                                game?.teams?.opponent?.bench[benchPosition]?.name
-                                                            }
-                                                            defaultValue={
-                                                                game?.teams?.opponent?.bench[benchPosition]
-                                                                    ? game?.teams?.opponent?.bench[benchPosition]?.name
-                                                                    : ''
-                                                            }
-                                                        />
-                                                        <TextField
-                                                            name={`bench-opponent-player-yellow-${benchPosition}`}
-                                                            type="text"
-                                                            className="w-max"
-                                                            variant="outlined"
-                                                            size="small"
-                                                            label={'Amarelos'}
-                                                            InputLabelProps={{
-                                                                shrink: true,
-                                                            }}
-                                                            key={
-                                                                (game?.teams?.opponent?.bench[benchPosition] &&
-                                                                    game?.teams?.opponent?.bench[
-                                                                        benchPosition
-                                                                    ]?.cards?.yellow?.join(',')) ||
-                                                                `opponent-bench-player-${benchPosition}-yellow-key`
-                                                            }
-                                                            defaultValue={
-                                                                game?.teams?.opponent?.bench[benchPosition]
-                                                                    ? game?.teams?.opponent?.bench[benchPosition]?.cards
-                                                                          ?.yellow &&
-                                                                      game?.teams?.opponent?.bench[
-                                                                          benchPosition
-                                                                      ]?.cards?.yellow
-                                                                          .map((card) => card.minute)
-                                                                          .join(' ')
-                                                                    : ''
-                                                            }
-                                                        />
-                                                        <TextField
-                                                            name={`bench-opponent-player-red-${benchPosition}`}
-                                                            type="text"
-                                                            className="w-max"
-                                                            variant="outlined"
-                                                            size="small"
-                                                            label={'Vermelho'}
-                                                            InputLabelProps={{
-                                                                shrink: true,
-                                                            }}
-                                                            key={
-                                                                (game?.teams?.opponent?.bench[benchPosition] &&
-                                                                    game?.teams?.opponent?.bench[
-                                                                        benchPosition
-                                                                    ]?.cards?.red?.join(',')) ||
-                                                                `opponent-bench-player-${benchPosition}-red-key`
-                                                            }
-                                                            defaultValue={
-                                                                game?.teams?.opponent?.bench[benchPosition]
-                                                                    ? game?.teams?.opponent?.bench[benchPosition]?.cards
-                                                                          ?.red &&
-                                                                      game?.teams?.opponent?.bench[
-                                                                          benchPosition
-                                                                      ]?.cards?.red
-                                                                          .map((card) => card.minute)
-                                                                          .join(' ')
-                                                                    : ''
-                                                            }
-                                                        />
-                                                        <TextField
-                                                            name={`bench-opponent-player-goals-${benchPosition}`}
-                                                            type="text"
-                                                            className="w-max"
-                                                            variant="outlined"
-                                                            size="small"
-                                                            label={'Golos'}
-                                                            InputLabelProps={{
-                                                                shrink: true,
-                                                            }}
-                                                            key={
-                                                                (game?.teams?.opponent?.bench[benchPosition] &&
-                                                                    game?.teams?.opponent?.bench[
-                                                                        benchPosition
-                                                                    ]?.goals?.join(',')) ||
-                                                                `opponent-bench-player-${benchPosition}-goals-key`
-                                                            }
-                                                            defaultValue={
-                                                                game?.teams?.opponent?.bench[benchPosition]
-                                                                    ? game?.teams?.opponent?.bench[benchPosition]
-                                                                          ?.goals &&
-                                                                      game?.teams?.opponent?.bench[benchPosition]?.goals
-                                                                          .map((card) => card.minute)
-                                                                          .join(' ')
-                                                                    : ''
-                                                            }
-                                                        />
-                                                        <TextField
-                                                            name={`bench-opponent-player-subs-${benchPosition}`}
-                                                            type="text"
-                                                            className="w-max"
-                                                            variant="outlined"
-                                                            size="small"
-                                                            label={'Entrou'}
-                                                            InputLabelProps={{
-                                                                shrink: true,
-                                                            }}
-                                                            key={
-                                                                (game?.teams?.opponent?.bench[benchPosition] &&
-                                                                    game?.teams?.opponent?.bench[
-                                                                        benchPosition
-                                                                    ]?.subs?.join(',')) ||
-                                                                `opponent-bench-player-${benchPosition}-subs-key`
-                                                            }
-                                                            defaultValue={
-                                                                game?.teams?.opponent?.bench[benchPosition]
-                                                                    ? game?.teams?.opponent?.bench[benchPosition]
-                                                                          ?.subs &&
-                                                                      game?.teams?.opponent?.bench[benchPosition]?.subs
-                                                                          .map((card) => card.minute)
-                                                                          .join(' ')
-                                                                    : ''
-                                                            }
-                                                        />
-                                                    </div>
-                                                )
-                                            })}
+                                                            <Select
+                                                                placeholder="Posição"
+                                                                className="w-full lg:w-[8.5rem]"
+                                                                size="sm"
+                                                                name={`bench-opponent-player-position-${benchPosition}`}
+                                                                key={
+                                                                    game?.teams?.opponent?.bench[benchPosition] &&
+                                                                    game?.teams?.opponent?.bench[benchPosition]
+                                                                        ?.position
+                                                                }
+                                                                defaultValue={
+                                                                    game?.teams?.opponent?.bench[benchPosition]
+                                                                        ? game?.teams?.opponent?.bench[benchPosition]
+                                                                              ?.position
+                                                                        : 'SUP'
+                                                                }
+                                                            >
+                                                                {POSITIONS.map((position) => {
+                                                                    return (
+                                                                        <Option key={position} value={position}>
+                                                                            {position}
+                                                                        </Option>
+                                                                    )
+                                                                })}
+                                                            </Select>
+                                                            <TextField
+                                                                name={`bench-opponent-player-name-${benchPosition}`}
+                                                                type="text"
+                                                                className="w-full"
+                                                                variant="outlined"
+                                                                size="small"
+                                                                label={'Nome'}
+                                                                InputLabelProps={{
+                                                                    shrink: true,
+                                                                }}
+                                                                key={
+                                                                    game?.teams?.opponent?.bench[benchPosition] &&
+                                                                    game?.teams?.opponent?.bench[benchPosition]?.name
+                                                                }
+                                                                defaultValue={
+                                                                    game?.teams?.opponent?.bench[benchPosition]
+                                                                        ? game?.teams?.opponent?.bench[benchPosition]
+                                                                              ?.name
+                                                                        : ''
+                                                                }
+                                                            />
+                                                            <TextField
+                                                                name={`bench-opponent-player-yellow-${benchPosition}`}
+                                                                type="text"
+                                                                className="w-full lg:w-max"
+                                                                variant="outlined"
+                                                                size="small"
+                                                                label={'Amarelos'}
+                                                                InputLabelProps={{
+                                                                    shrink: true,
+                                                                }}
+                                                                key={
+                                                                    (game?.teams?.opponent?.bench[benchPosition] &&
+                                                                        game?.teams?.opponent?.bench[
+                                                                            benchPosition
+                                                                        ]?.cards?.yellow?.join(',')) ||
+                                                                    `opponent-bench-player-${benchPosition}-yellow-key`
+                                                                }
+                                                                defaultValue={
+                                                                    game?.teams?.opponent?.bench[benchPosition]
+                                                                        ? game?.teams?.opponent?.bench[benchPosition]
+                                                                              ?.cards?.yellow &&
+                                                                          game?.teams?.opponent?.bench[
+                                                                              benchPosition
+                                                                          ]?.cards?.yellow
+                                                                              .map((card) => card.minute)
+                                                                              .join(' ')
+                                                                        : ''
+                                                                }
+                                                            />
+                                                            <TextField
+                                                                name={`bench-opponent-player-red-${benchPosition}`}
+                                                                type="text"
+                                                                className="w-full lg:w-max"
+                                                                variant="outlined"
+                                                                size="small"
+                                                                label={'Vermelho'}
+                                                                InputLabelProps={{
+                                                                    shrink: true,
+                                                                }}
+                                                                key={
+                                                                    (game?.teams?.opponent?.bench[benchPosition] &&
+                                                                        game?.teams?.opponent?.bench[
+                                                                            benchPosition
+                                                                        ]?.cards?.red?.join(',')) ||
+                                                                    `opponent-bench-player-${benchPosition}-red-key`
+                                                                }
+                                                                defaultValue={
+                                                                    game?.teams?.opponent?.bench[benchPosition]
+                                                                        ? game?.teams?.opponent?.bench[benchPosition]
+                                                                              ?.cards?.red &&
+                                                                          game?.teams?.opponent?.bench[
+                                                                              benchPosition
+                                                                          ]?.cards?.red
+                                                                              .map((card) => card.minute)
+                                                                              .join(' ')
+                                                                        : ''
+                                                                }
+                                                            />
+                                                            <TextField
+                                                                name={`bench-opponent-player-goals-${benchPosition}`}
+                                                                type="text"
+                                                                className="w-full lg:w-max"
+                                                                variant="outlined"
+                                                                size="small"
+                                                                label={'Golos'}
+                                                                InputLabelProps={{
+                                                                    shrink: true,
+                                                                }}
+                                                                key={
+                                                                    (game?.teams?.opponent?.bench[benchPosition] &&
+                                                                        game?.teams?.opponent?.bench[
+                                                                            benchPosition
+                                                                        ]?.goals?.join(',')) ||
+                                                                    `opponent-bench-player-${benchPosition}-goals-key`
+                                                                }
+                                                                defaultValue={
+                                                                    game?.teams?.opponent?.bench[benchPosition]
+                                                                        ? game?.teams?.opponent?.bench[benchPosition]
+                                                                              ?.goals &&
+                                                                          game?.teams?.opponent?.bench[
+                                                                              benchPosition
+                                                                          ]?.goals
+                                                                              .map((card) => card.minute)
+                                                                              .join(' ')
+                                                                        : ''
+                                                                }
+                                                            />
+                                                            <TextField
+                                                                name={`bench-opponent-player-subs-${benchPosition}`}
+                                                                type="text"
+                                                                className="w-full lg:w-max"
+                                                                variant="outlined"
+                                                                size="small"
+                                                                label={'Entrou'}
+                                                                InputLabelProps={{
+                                                                    shrink: true,
+                                                                }}
+                                                                key={
+                                                                    (game?.teams?.opponent?.bench[benchPosition] &&
+                                                                        game?.teams?.opponent?.bench[
+                                                                            benchPosition
+                                                                        ]?.subs?.join(',')) ||
+                                                                    `opponent-bench-player-${benchPosition}-subs-key`
+                                                                }
+                                                                defaultValue={
+                                                                    game?.teams?.opponent?.bench[benchPosition]
+                                                                        ? game?.teams?.opponent?.bench[benchPosition]
+                                                                              ?.subs &&
+                                                                          game?.teams?.opponent?.bench[
+                                                                              benchPosition
+                                                                          ]?.subs
+                                                                              .map((card) => card.minute)
+                                                                              .join(' ')
+                                                                        : ''
+                                                                }
+                                                            />
+                                                        </li>
+                                                    )
+                                                })}
+                                            </ul>
                                         </div>
                                     ) : (
                                         <>
