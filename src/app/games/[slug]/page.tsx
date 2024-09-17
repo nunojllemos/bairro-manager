@@ -20,6 +20,7 @@ import {
 } from '@mui/icons-material'
 import Select from '@mui/joy/Select'
 import Option from '@mui/joy/Option'
+import Textarea from '@mui/joy/Textarea'
 import { Button, Divider, TextField, Typography } from '@mui/material'
 import { usePathname } from 'next/navigation'
 import useGames from '@/hooks/useGames'
@@ -39,12 +40,8 @@ const MatchPage = () => {
     const INITIAL_PLAYERS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     const BENCH_PLAYERS = [0, 1, 2, 3, 4, 5, 6, 7, 8]
 
-    const DEFAULT_BAIRRO_TACTIC = '4-4-2'
-
     useEffect(() => {
         setGame(getGame(id))
-        console.log(getGame(id))
-        console.log(game?.teams.bairro.tactic)
     }, [id, getGame, games])
 
     const goalsScored = game?.final_result?.split('-')[0]
@@ -191,6 +188,8 @@ const MatchPage = () => {
             },
             final_result: formData.get('final_result'),
             half_time_result: formData.get('half_time_result'),
+            pre_game: formData.get('pre_game'),
+            post_game: formData.get('post_game'),
         }
 
         try {
@@ -235,13 +234,9 @@ const MatchPage = () => {
                     <InfoOutlined fontSize="inherit" /> Detalhes
                 </span>
             </div>
-            <section className="grid md:grid-cols-2 gap-x-2 lg:gap-x-24 xl:gap-x-64 gap-y-2 w-full">
-                <div className="w-full grid grid-cols-[1fr_auto] gap-x-4">
-                    <span
-                        className={`${
-                            role === 'mister' ? 'hidden lg:block' : ''
-                        } font-semibold flex items-center gap-x-2`}
-                    >
+            <section className="grid md:grid-cols-2 gap-x-2 lg:gap-x-24 xl:gap-x-64 gap-y-6 lg:gap-y-2 w-full">
+                <div className="w-full grid grid-cols-[1fr_1fr] lg:gap-x-4">
+                    <span className={`${role === 'mister' ? 'hidden lg:flex' : ''} font-semibold items-center gap-x-2`}>
                         <CalendarTodayOutlined fontSize="inherit" /> Data:
                     </span>
                     {role === 'mister' ? (
@@ -261,12 +256,8 @@ const MatchPage = () => {
                         <span>{game?.date?.date}</span>
                     )}
                 </div>
-                <div className="w-full grid grid-cols-[1fr_auto] gap-x-4">
-                    <span
-                        className={`${
-                            role === 'mister' ? 'hidden lg:block' : ''
-                        } font-semibold flex items-center gap-x-2`}
-                    >
+                <div className="w-full grid grid-cols-[1fr_1fr] lg:gap-x-4">
+                    <span className={`${role === 'mister' ? 'hidden lg:flex' : ''} font-semibold items-center gap-x-2`}>
                         <ScheduleOutlined fontSize="inherit" /> Horário:
                     </span>
                     {role === 'mister' ? (
@@ -286,12 +277,8 @@ const MatchPage = () => {
                         <span>{game?.date?.start}</span>
                     )}
                 </div>
-                <div className="w-full grid grid-cols-[1fr_auto] gap-x-4">
-                    <span
-                        className={`${
-                            role === 'mister' ? 'hidden lg:block' : ''
-                        } font-semibold flex items-center gap-x-2`}
-                    >
+                <div className="w-full grid grid-cols-[1fr_1fr] lg:gap-x-4">
+                    <span className={`${role === 'mister' ? 'hidden lg:flex' : ''} font-semibold items-center gap-x-2`}>
                         <HourglassFullOutlined fontSize="inherit" /> Resultado:
                     </span>
                     {role === 'mister' ? (
@@ -311,12 +298,8 @@ const MatchPage = () => {
                         <span>{game?.final_result || 'Sem resultado'}</span>
                     )}
                 </div>
-                <div className="w-full grid grid-cols-[1fr_auto] gap-x-4">
-                    <span
-                        className={`${
-                            role === 'mister' ? 'hidden lg:block' : ''
-                        } font-semibold flex items-center gap-x-2`}
-                    >
+                <div className="w-full grid grid-cols-[1fr_1fr] lg:gap-x-4">
+                    <span className={`${role === 'mister' ? 'hidden lg:flex' : ''} font-semibold items-center gap-x-2`}>
                         <HourglassBottomOutlined fontSize="inherit" /> Ao intervalo:
                     </span>
                     {role === 'mister' ? (
@@ -337,11 +320,11 @@ const MatchPage = () => {
                     )}
                 </div>
 
-                <div className="w-full grid grid-cols-[1fr_auto] gap-x-4">
+                <div className="w-full grid grid-cols-[1fr_1fr] lg:gap-x-4">
                     <span className="font-semibold flex items-center gap-x-2">
                         <span className="inline-block w-2 h-3 bg-red-500 rounded-sm mx-1"></span> Vermelhos:
                     </span>
-                    <span>
+                    <span className="text-end">
                         {(game?.teams?.bairro?.initial
                             .map((player) => player?.cards?.red?.length || 0)
                             .reduce((accumulator, current) => accumulator + current, 0) || 0) +
@@ -356,11 +339,11 @@ const MatchPage = () => {
                                 .reduce((accumulator, current) => accumulator + current, 0) || 0)}
                     </span>
                 </div>
-                <div className="w-full grid grid-cols-[1fr_auto] gap-x-4">
+                <div className="w-full grid grid-cols-[1fr_1fr] lg:gap-x-4">
                     <span className="font-semibold flex items-center gap-x-2">
                         <span className="inline-block w-2 h-3 bg-yellow-500 rounded-sm mx-1"></span> Amarelos:
                     </span>
-                    <span>
+                    <span className="text-end">
                         {(game?.teams?.bairro?.initial
                             .map((player) => player?.cards?.yellow?.length || 0)
                             .reduce((accumulator, current) => accumulator + current, 0) || 0) +
@@ -376,8 +359,8 @@ const MatchPage = () => {
                     </span>
                 </div>
 
-                <div className="w-full grid grid-cols-[1fr_auto] gap-x-4">
-                    <span className="font-semibold flex items-center gap-x-2">
+                <div className="w-full grid grid-cols-[1fr_1fr] lg:gap-x-4">
+                    <span className={`${role === 'mister' ? 'hidden lg:flex' : ''} font-semibold items-center gap-x-2`}>
                         <ThermostatOutlined fontSize="inherit" />
                         Temperatura:
                     </span>
@@ -398,8 +381,8 @@ const MatchPage = () => {
                         <span>{game?.weather?.temp || 'Sem dados'}</span>
                     )}
                 </div>
-                <div className="w-full grid grid-cols-[1fr_auto] gap-x-4">
-                    <span className="font-semibold flex items-center gap-x-2">
+                <div className="w-full grid grid-cols-[1fr_1fr] lg:gap-x-4">
+                    <span className={`${role === 'mister' ? 'hidden lg:flex' : ''} font-semibold items-center gap-x-2`}>
                         <CloudOutlined fontSize="inherit" />
                         Estado:
                     </span>
@@ -1613,18 +1596,6 @@ const MatchPage = () => {
                                     )}
                                 </div>
                             </div>
-
-                            {role === 'mister' && (
-                                <div className="mt-12 flex flex-col md:flex-row gap-4 justify-end">
-                                    <Button
-                                        type="submit"
-                                        variant="contained"
-                                        startIcon={<SaveOutlined fontSize="small" />}
-                                    >
-                                        Guardar
-                                    </Button>
-                                </div>
-                            )}
                         </div>
                     </section>
                     <Divider className="!my-12" />
@@ -1634,8 +1605,12 @@ const MatchPage = () => {
                 <span className="flex items-center gap-x-1 text-sm text-blue-500">
                     <ContentPasteOutlined fontSize="inherit" /> Pre jogo
                 </span>
-                <div className="mt-4 py-4 px-6 border border-slate-300 rounded-md">
-                    <p className="text-sm">{game?.pre_game || 'Sem notas a apresentar'}</p>
+                <div className="mt-4 p-0 lg:py-4 lg:px-6 lg:border lg:border-slate-300 rounded-md">
+                    {role === 'mister' ? (
+                        <Textarea key={game?.pre_game} name="pre-game" defaultValue={game?.pre_game} minRows={5} />
+                    ) : (
+                        <p className="text-sm">{game?.pre_game || 'Sem notas a apresentar'}</p>
+                    )}
                 </div>
             </section>
             <Divider className="!my-12" />
@@ -1643,10 +1618,21 @@ const MatchPage = () => {
                 <span className="flex items-center gap-x-1 text-sm text-blue-500">
                     <ContentPasteOutlined fontSize="inherit" /> Pos jogo
                 </span>
-                <div className="mt-4 py-4 px-6 border border-slate-300 rounded-md">
-                    <p className="text-sm">{game?.pos_game || 'Sem notas a apresentar'}</p>
+                <div className="mt-4 p-0 lg:py-4 lg:px-6 lg:border lg:border-slate-300 rounded-md">
+                    {role === 'mister' ? (
+                        <Textarea key={game?.pos_game} name="pos-game" defaultValue={game?.pos_game} minRows={5} />
+                    ) : (
+                        <p className="text-sm">{game?.pos_game || 'Sem notas a apresentar'}</p>
+                    )}
                 </div>
             </section>
+            {role === 'mister' && (
+                <div className="sticky bottom-12 z-[1] mt-12 flex flex-col md:flex-row gap-4 justify-end">
+                    <Button type="submit" variant="contained" startIcon={<SaveOutlined fontSize="small" />}>
+                        Guardar
+                    </Button>
+                </div>
+            )}
         </form>
     )
 }

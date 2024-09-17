@@ -33,11 +33,9 @@ export async function PATCH(data: NextRequest) {
     try {
         const gameDetails = await data.json()
 
-        const { gameId, teams, date, weather, final_result, half_time_result } = await gameDetails
+        const { gameId, teams, date, weather, final_result, half_time_result, pre_game, pos_game } = await gameDetails
 
         await connectDb()
-
-        console.log(final_result, half_time_result)
 
         const filter = { _id: gameId }
         const update = {
@@ -46,6 +44,8 @@ export async function PATCH(data: NextRequest) {
             weather: weather,
             final_result: final_result,
             half_time_result: half_time_result,
+            pre_game: pre_game,
+            pos_game: pos_game,
         }
         const options = { new: true }
 
