@@ -42,7 +42,10 @@ const MatchPage = () => {
 
     useEffect(() => {
         setGame(getGame(id))
-    }, [id, getGame, games])
+
+        console.log(game)
+        console.log(game?.pos_game === '')
+    }, [id, getGame, games, game])
 
     const goalsScored = game?.final_result?.split('-')[0]
     const goalsConceded = game?.final_result?.split('-')[1]
@@ -1607,7 +1610,12 @@ const MatchPage = () => {
                 </span>
                 <div className="mt-4 p-0 lg:py-4 lg:px-6 lg:border lg:border-slate-300 rounded-md">
                     {role === 'mister' ? (
-                        <Textarea key={game?.pre_game} name="pre-game" defaultValue={game?.pre_game} minRows={5} />
+                        <Textarea
+                            key={game?.pre_game}
+                            name="pre-game"
+                            defaultValue={game?.pre_game || 'Sem notas a apresentar'}
+                            minRows={5}
+                        />
                     ) : (
                         <p className="text-sm">{game?.pre_game || 'Sem notas a apresentar'}</p>
                     )}
@@ -1620,7 +1628,12 @@ const MatchPage = () => {
                 </span>
                 <div className="mt-4 p-0 lg:py-4 lg:px-6 lg:border lg:border-slate-300 rounded-md">
                     {role === 'mister' ? (
-                        <Textarea key={game?.pos_game} name="pos-game" defaultValue={game?.pos_game} minRows={5} />
+                        <Textarea
+                            key={game?.pos_game}
+                            name="pos-game"
+                            defaultValue={game?.pos_game || 'Sem notas a apresentar'}
+                            minRows={5}
+                        />
                     ) : (
                         <p className="text-sm">{game?.pos_game || 'Sem notas a apresentar'}</p>
                     )}

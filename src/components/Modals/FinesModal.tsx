@@ -97,7 +97,7 @@ const FinesModal = ({ id, handleClose }: FinesModalProps) => {
                                 variant="outlined"
                                 size="small"
                                 label={'Pago'}
-                                placeholder="Valor atual + pagamento"
+                                placeholder="Somar ao valor atual"
                                 InputLabelProps={{
                                     shrink: true,
                                 }}

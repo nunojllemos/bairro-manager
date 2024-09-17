@@ -169,8 +169,6 @@ export const getGameStatusByResult = (
     const isLoss = goalsConceded > goalsScored
     const hasResult = result !== ''
 
-    console.log(hasResult, isVictory, isDraw, isLoss)
-
     return { isVictory, isDraw, isLoss, hasResult }
 }
 

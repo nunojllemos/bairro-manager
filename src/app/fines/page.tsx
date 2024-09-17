@@ -1,5 +1,5 @@
 'use client'
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, useMemo, useState } from 'react'
 import {
     Accordion,
     AccordionDetails,
@@ -43,6 +43,10 @@ const FinesPage = () => {
 
     const handleEdit = (userId: string) => setPlayerId(userId)
 
+    const totalFinesFromResults = useMemo(() => {
+        return coaches.length * (totalVictories || 0) + players.length * (totalDefeats || 0)
+    }, [coaches, players, totalDefeats, totalVictories])
+
     const handleSearchInputChange = (event: ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target
 
@@ -69,7 +73,7 @@ const FinesPage = () => {
                         aos mais esquecidos:
                         <br />
                         <br />
-                        {/* <ul className="border border-zinc-300 grid md:grid-cols-2 gap-px bg-zinc-300 md:max-w-max">
+                        <ul className="border border-zinc-300 grid md:grid-cols-2 gap-px bg-zinc-300 md:max-w-max">
                             <li className="bg-slate-100 px-4 py-1">Atraso ao treino</li>
                             <li className="bg-slate-100 px-4 py-1 md:text-end font-semibold">1,00€</li>
                             <li className="bg-slate-100 px-4 py-1">Atraso à convocatória</li>
@@ -94,7 +98,7 @@ const FinesPage = () => {
                             <li className="bg-slate-100 px-4 py-1 md:text-end font-semibold">1,00€ / 1,50€ / 2,00€</li>
                             <li className="bg-slate-100 px-4 py-1">Derrota (p/ a equipa técnica)</li>
                             <li className="bg-slate-100 px-4 py-1 md:text-end font-semibold">1,50€ / 2,00€ / 2,50€</li>
-                        </ul> */}
+                        </ul>
                     </Typography>
                 </div>
             </section>
@@ -138,6 +142,8 @@ const FinesPage = () => {
                             .sort((a, b) => a.name.localeCompare(b.name))
                             .map((person, index) => {
                                 const isCoach = Object.keys(person).includes('role')
+                                const totalFines =
+                                    Number(person.fines.total) + ((isCoach ? totalVictories : totalDefeats) || 0)
 
                                 return (
                                     <li key={person.name} className={`${index % 2 === 0 ? 'bg-white' : ''}`}>
@@ -153,39 +159,41 @@ const FinesPage = () => {
                                                 </div>
                                                 <ul className="flex gap-x-6">
                                                     <li className="w-12 lg:w-24 text-center text-sm text-nowrap lg:text-base">
-                                                        {person.fines.total.toLocaleString(
+                                                        {/* {person.fines.total.toLocaleString(
                                                             'pt-PT',
                                                             localeStringOptions
-                                                        )}{' '}
-                                                        &euro;
+                                                        )}{' '} */}
+                                                        {totalFines.toLocaleString('pt-PT', localeStringOptions)} &euro;
                                                     </li>
                                                     <li className="w-12 lg:w-24 text-center text-sm text-nowrap lg:text-base">
                                                         {person.fines.paid.toLocaleString('pt-PT', localeStringOptions)}{' '}
                                                         &euro;
                                                     </li>
-                                                    <li className="w-16 lg:w-24 text-center text-sm text-nowrap lg:text-base text-red-700">
-                                                        {person.fines.total - person.fines.paid === 0 ? (
+                                                    <li className="w-16 lg:w-24 text-center text-sm text-nowrap lg:text-base">
+                                                        {totalFines - person.fines.paid === 0 ? (
                                                             <span className="text-zinc-900">
-                                                                {(
-                                                                    person.fines.total - person.fines.paid
-                                                                ).toLocaleString('pt-PT', localeStringOptions)}{' '}
+                                                                {(totalFines - person.fines.paid).toLocaleString(
+                                                                    'pt-PT',
+                                                                    localeStringOptions
+                                                                )}{' '}
                                                                 &euro;
                                                             </span>
-                                                        ) : person.fines.total - person.fines.paid > 0 ? (
-                                                            <span>
+                                                        ) : totalFines - person.fines.paid > 0 ? (
+                                                            <span className="text-red-700">
                                                                 &minus;{' '}
-                                                                {(
-                                                                    person.fines.total - person.fines.paid
-                                                                ).toLocaleString('pt-PT', localeStringOptions)}{' '}
+                                                                {(totalFines - person.fines.paid).toLocaleString(
+                                                                    'pt-PT',
+                                                                    localeStringOptions
+                                                                )}{' '}
                                                                 &euro;
                                                             </span>
                                                         ) : (
                                                             <span className="text-green-700">
                                                                 &#43;{' '}
-                                                                {(
-                                                                    (person.fines.total - person.fines.paid) *
-                                                                    -1
-                                                                ).toLocaleString('pt-PT', localeStringOptions)}{' '}
+                                                                {((totalFines - person.fines.paid) * -1).toLocaleString(
+                                                                    'pt-PT',
+                                                                    localeStringOptions
+                                                                )}{' '}
                                                                 &euro;
                                                             </span>
                                                         )}
@@ -320,11 +328,23 @@ const FinesPage = () => {
                             <TrendingUpOutlined fontSize="inherit" />
                             <Typography>{totalPaid?.toLocaleString('pt-PT', localeStringOptions)} &euro;</Typography>
                             <Typography className="text-slate-400">/</Typography>
-                            <Typography>{totalValue?.toLocaleString('pt-PT', localeStringOptions)} &euro;</Typography>
+                            <Typography>
+                                {(totalFinesFromResults - (totalPaid || 0) + (totalValue || 0)).toLocaleString(
+                                    'pt-PT',
+                                    localeStringOptions
+                                )}{' '}
+                                &euro;
+                            </Typography>
                         </div>
                         <div className="flex items-center gap-x-2 text-red-500">
                             <TrendingDownOutlined fontSize="inherit" />
-                            <Typography>{totalDebt?.toLocaleString('pt-PT', localeStringOptions)} &euro;</Typography>
+                            <Typography>
+                                {(totalFinesFromResults - (totalPaid || 0) + (totalDebt || 0)).toLocaleString(
+                                    'pt-PT',
+                                    localeStringOptions
+                                )}{' '}
+                                &euro;
+                            </Typography>
                         </div>
                     </div>
                 </section>
