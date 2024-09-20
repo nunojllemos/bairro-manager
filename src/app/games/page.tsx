@@ -27,7 +27,7 @@ import useAuth from '@/hooks/useAuth'
 import GamesModal from '@/components/Modals/GamesModal'
 
 const MatchesPage = () => {
-    const [isModalOpen, setIsModalOpen] = useState(true)
+    const [isModalOpen, setIsModalOpen] = useState(false)
     const { games, gamesResultRegistry } = useGames()
     const { role } = useAuth()
 
@@ -46,9 +46,11 @@ const MatchesPage = () => {
                 </div>
                 <div className="mt-4">
                     <Typography>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Modi et consequatur aperiam, alias
-                        repellat totam! Iure quisquam, sequi possimus nesciunt explicabo reiciendis sunt distinctio,
-                        maiores recusandae repellat libero ut hic.
+                        Registo de resultados para fins de verificar o progresso da equipa e de aplicação das respetivas
+                        multas.
+                        <br />
+                        Clica em &apos;&apos;ver mais&apos;&apos; para acederes a mais detalhes de cada uma das partidas
+                        assim como informações úteis pre-jog e pos-jogo.
                     </Typography>
                 </div>
             </section>
@@ -164,6 +166,7 @@ const MatchesPage = () => {
                 <>
                     <section className="mt-12 flex justify-end">
                         <Button
+                            className="w-full lg:w-auto"
                             onClick={openModal}
                             type="button"
                             variant="contained"
@@ -179,7 +182,7 @@ const MatchesPage = () => {
                         aria-labelledby="modal-modal-title"
                         aria-describedby="modal-modal-description"
                     >
-                        <GamesModal />
+                        <GamesModal handleClose={handleClose} />
                     </Modal>
                 </>
             )}

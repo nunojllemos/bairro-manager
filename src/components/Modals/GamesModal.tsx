@@ -4,7 +4,7 @@ import { Button, FormControlLabel, Radio, RadioGroup, TextField, Typography } fr
 import Textarea from '@mui/joy/Textarea'
 import useGames from '@/hooks/useGames'
 
-const GamesModal = () => {
+const GamesModal = ({ handleClose }: { handleClose: () => void }) => {
     const { setGames } = useGames()
 
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -53,7 +53,7 @@ const GamesModal = () => {
                 </Typography>
             </div>
             <form className="mt-12" onSubmit={handleSubmit}>
-                <div className="mb-8 flex flex-col gap-y-6">
+                <div className="mb-8 flex flex-col gap-y-4 lg:gap-y-6">
                     <div>
                         <RadioGroup
                             aria-labelledby="demo-radio-buttons-group-label"
@@ -76,7 +76,7 @@ const GamesModal = () => {
                             />
                         </RadioGroup>
                     </div>
-                    <div className="flex gap-x-4">
+                    <div className="flex flex-col lg:flex-row gap-4">
                         <TextField
                             required
                             name={'date'}
@@ -102,7 +102,7 @@ const GamesModal = () => {
                             }}
                         />
                     </div>
-                    <div className="flex gap-x-4">
+                    <div className="flex flex-col lg:flex-row gap-4">
                         <TextField
                             required
                             name={'opponent'}
@@ -139,7 +139,7 @@ const GamesModal = () => {
                             }}
                         />
                     </div>
-                    <div className="flex gap-x-4">
+                    <div className="flex flex-col lg:flex-row gap-4">
                         <TextField
                             name={'weather-temp'}
                             type="text"
@@ -180,7 +180,7 @@ const GamesModal = () => {
                 </div>
                 <div className="py-8 flex flex-col md:flex-row gap-4 justify-end sticky -bottom-6 md:-bottom-16 bg-slate-100 z-[3] w-[calc(100%_+_1rem)] pr-1 -ml-2">
                     <Button
-                        onClick={() => {}}
+                        onClick={handleClose}
                         color="error"
                         variant="outlined"
                         startIcon={<CloseOutlined fontSize="small" />}

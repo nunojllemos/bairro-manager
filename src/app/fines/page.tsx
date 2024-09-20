@@ -160,9 +160,8 @@ const FinesPage = () => {
                                             <AccordionSummary className="pr-2" expandIcon={<ExpandMore />}>
                                                 <div>
                                                     <div className="flex flex-col lg:flex-row items-center gap-y-1 lg:gap-x-4 text-xs lg:text-sm w-10 lg:w-auto">
-                                                        {index + 1}
                                                         <Avatar src={person.avatar} />
-                                                        <span className="capitalize text-center lg:text-left">
+                                                        <span className="capitalize text-center lg:text-left text-nowrap text-ellipsis w-[4.5rem] overflow-hidden">
                                                             {person.name}
                                                         </span>
                                                     </div>

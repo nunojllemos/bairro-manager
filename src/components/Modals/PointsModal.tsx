@@ -1,7 +1,6 @@
 import usePlayers from '@/hooks/usePlayers'
-import { Player } from '@/types'
 import { CloseOutlined, EditOutlined, SaveOutlined } from '@mui/icons-material'
-import { Button, TextField, Typography } from '@mui/material'
+import { Button, InputAdornment, TextField, Typography } from '@mui/material'
 import React, { FormEvent } from 'react'
 
 interface PointsModalProps {
@@ -23,7 +22,11 @@ const PointsModal = ({ handleClose }: PointsModalProps) => {
 
                 if (!newPoints) return
 
-                return { _id: player._id, points: newPoints }
+                const points = {
+                    month: Number(newPoints),
+                }
+
+                return { _id: player._id, points }
             })
             .filter((entry) => !!entry)
             .map((entry) => entry)
@@ -57,6 +60,10 @@ const PointsModal = ({ handleClose }: PointsModalProps) => {
             </div>
             <form className="mt-12" onSubmit={handleSubmit}>
                 <ul>
+                    <li className="flex justify-between items-center px-1 py-2 border-b border-b-slate-300">
+                        <span className="text-sm text-blue-500">Nome</span>
+                        <span className="text-sm text-blue-500">Pontos do mês</span>
+                    </li>
                     {players
                         .sort((a, b) => b.points.month - a.points.month)
                         .map((player, index) => {
@@ -69,12 +76,19 @@ const PointsModal = ({ handleClose }: PointsModalProps) => {
                                         <span className="text-sm opacity-50 mr-2">#{index + 1} </span>
                                         <span className=" text-md capitalize leading-none">{player.name}</span>
                                     </div>
-                                    <div className="w-[5rem]">
+                                    <div className="w-[7rem]">
                                         <TextField
                                             type="number"
                                             name={`points-${player._id}`}
                                             size="small"
-                                            placeholder={player.points.month.toString()}
+                                            placeholder="0"
+                                            InputProps={{
+                                                startAdornment: (
+                                                    <InputAdornment className="opacity-40" position="start">
+                                                        {`${player.points.month} + `}
+                                                    </InputAdornment>
+                                                ),
+                                            }}
                                         />
                                     </div>
                                 </li>

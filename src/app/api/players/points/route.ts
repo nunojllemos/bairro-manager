@@ -13,8 +13,7 @@ export async function PATCH(request: NextRequest) {
 
                     const filter = { _id }
                     const update = {
-                        $set: { 'points.month': points },
-                        $inc: { 'points.total': points },
+                        $inc: { 'points.total': points.month, 'points.month': points.month },
                     }
                     const options = { new: true }
 

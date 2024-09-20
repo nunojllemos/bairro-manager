@@ -10,17 +10,6 @@ const DashboardPage = () => {
 
     if (!isAuthenticated) redirect('/login')
 
-    // useEffect(() => {
-    //     const getCoaches = async () => {
-    //         const request = await fetch('/api/coaches')
-    //         const response = await request.json()
-
-    //         console.log(response)
-    //     }
-
-    //     getCoaches()
-    // }, [])
-
     return (
         <section>
             <div className="flex text-4xl lg:text-5xl items-center gap-x-4 text-blue-500">
@@ -28,6 +17,10 @@ const DashboardPage = () => {
                 <Typography variant="inherit" className="font-semibold leading-none">
                     Olá, <span className="capitalize">{user?.username}</span>
                 </Typography>
+            </div>
+
+            <div className="mt-44">
+                <p className="text-2xl text-zinc-700 text-center">🔨 área em construção 🔨</p>
             </div>
         </section>
     )

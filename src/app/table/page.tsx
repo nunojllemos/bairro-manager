@@ -13,23 +13,48 @@ import {
     Typography,
     Modal,
 } from '@mui/material'
-import { EditOutlined, EmojiEventsOutlined, ThumbDownAltOutlined } from '@mui/icons-material'
+import {
+    CloseOutlined,
+    DoneOutline,
+    DoneOutlined,
+    EditOutlined,
+    EmojiEventsOutlined,
+    RestoreOutlined,
+    ThumbDownAltOutlined,
+} from '@mui/icons-material'
 import useAuth from '@/hooks/useAuth'
 import { redirect } from 'next/navigation'
 import usePlayers from '@/hooks/usePlayers'
 import PointsModal from '@/components/Modals/PointsModal'
+import { setConfig } from 'next/config'
+import { set } from 'mongoose'
 
 const TablePage = () => {
     const [sorting, setSorting] = useState<'month' | 'total'>('month')
     const { isAuthenticated, role } = useAuth()
-    const { players } = usePlayers()
+    const { players, setPlayers } = usePlayers()
     const [isModalOpen, setIsModalOpen] = useState(false)
+    const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false)
 
     if (!isAuthenticated) redirect('/login')
 
     const handleClose = () => setIsModalOpen(false)
 
     const openModal = () => setIsModalOpen(true)
+
+    const handleReset = async () => {
+        try {
+            const response = await fetch('api/players/points/restart')
+            const json = await response.json()
+            const { players: updatedPlayers } = await json
+
+            setPlayers(updatedPlayers)
+
+            setIsConfirmationModalOpen(false)
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     return (
         <>
@@ -72,18 +97,20 @@ const TablePage = () => {
                                 <TableCell className="!font-semibold !text-blue-500 !pl-12">Nome</TableCell>
                                 <TableCell align="right" className="!font-semibold !text-blue-500">
                                     <Button variant="text" onClick={() => setSorting('month')}>
-                                        {sorting === 'month' && (
-                                            <span className="w-2 mr-2 block rounded-full aspect-square bg-blue-400 animate-pulse"></span>
-                                        )}
-                                        <span>Mês</span>
+                                        <DoneOutlined
+                                            className={`${sorting === 'month' ? 'opacity-100' : 'opacity-0'}`}
+                                            fontSize="inherit"
+                                        />
+                                        <span className="ml-2">Mês</span>
                                     </Button>
                                 </TableCell>
                                 <TableCell align="right" className="!font-semibold !text-blue-500">
                                     <Button variant="text" onClick={() => setSorting('total')}>
-                                        {sorting === 'total' && (
-                                            <span className="w-2 mr-2 block rounded-full aspect-square bg-blue-400 animate-pulse"></span>
-                                        )}
-                                        <span>Total</span>
+                                        <DoneOutlined
+                                            className={`${sorting === 'total' ? 'opacity-100' : 'opacity-0'}`}
+                                            fontSize="inherit"
+                                        />
+                                        <span className="ml-2">Total</span>
                                     </Button>
                                 </TableCell>
                             </TableRow>
@@ -132,7 +159,16 @@ const TablePage = () => {
             </section>
             {role === 'mister' && (
                 <>
-                    <section className="mt-12 flex justify-end">
+                    <section className="mt-12 flex flex-col lg:flex-row justify-end gap-4">
+                        <Button
+                            onClick={() => setIsConfirmationModalOpen(true)}
+                            type="button"
+                            color="error"
+                            variant="outlined"
+                            startIcon={<RestoreOutlined fontSize="small" />}
+                        >
+                            restart pontuação mensal
+                        </Button>
                         <Button
                             onClick={openModal}
                             type="button"
@@ -142,6 +178,42 @@ const TablePage = () => {
                             Editar
                         </Button>
                     </section>
+                    <Modal
+                        className="flex items-center justify-center"
+                        open={isConfirmationModalOpen}
+                        onClose={() => setIsConfirmationModalOpen(false)}
+                        aria-labelledby="modal-modal-title"
+                        aria-describedby="modal-modal-description"
+                    >
+                        <div className="bg-slate-100 p-6 md:p-16 h-max rounded-md w-[calc(100%_-_2rem)] md:w-[40rem] max-h-[calc(100vh_-_4rem)] overflow-y-auto relative">
+                            <Typography className="text-blue-500" fontSize={22}>
+                                Tem a certeza de que quer reiniciar a pontuação mensal?
+                            </Typography>
+                            <Typography className="mt-2" fontSize={16}>
+                                Esta ação irá zerar <strong>todas</strong> as pontuações de <strong>todos</strong> os
+                                atletas e é uma ação <strong>IRREVERSÍVEL</strong>.
+                            </Typography>
+                            <div className="flex flex-col lg:flex-row justify-end gap-4 mt-16">
+                                <Button
+                                    onClick={() => setIsConfirmationModalOpen(false)}
+                                    type="button"
+                                    variant="outlined"
+                                    color="error"
+                                    startIcon={<CloseOutlined fontSize="small" />}
+                                >
+                                    Cancelar
+                                </Button>
+                                <Button
+                                    onClick={handleReset}
+                                    type="button"
+                                    variant="contained"
+                                    startIcon={<RestoreOutlined fontSize="small" />}
+                                >
+                                    Reset
+                                </Button>
+                            </div>
+                        </div>
+                    </Modal>
                     <Modal
                         className="flex items-center justify-center"
                         open={isModalOpen}
