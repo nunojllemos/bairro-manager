@@ -28,18 +28,19 @@ const useFines = () => {
 
             const totalValueDebt = [...players, ...coaches]
                 .map((person) => {
-                    const isNegativeValue = person.fines.total - person.fines.paid < 0
+                    // const isNegativeValue = person.fines.total - person.fines.paid < 0
 
-                    if (!isNegativeValue) return person.fines.total - person.fines.paid
+                    // if (!isNegativeValue) return person.fines.total - person.fines.paid
 
-                    return 0
+                    // return 0
+                    return person.fines.total
                 })
                 .reduce((total, current) => total + current)
 
             setTotalDebt(totalValueDebt)
 
             if (totalDebt !== null && totalDebt >= 0 && totalPaid) {
-                setTotalValue(totalDebt + totalPaid)
+                setTotalValue(totalDebt - totalPaid)
             } else {
                 setTotalValue(0)
             }

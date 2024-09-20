@@ -1,5 +1,5 @@
 'use client'
-import React, { ChangeEvent, useMemo, useState } from 'react'
+import React, { ChangeEvent, useEffect, useMemo, useState } from 'react'
 import {
     Accordion,
     AccordionDetails,
@@ -52,6 +52,15 @@ const FinesPage = () => {
 
         setSearchValue(value)
     }
+
+    const calcTotalDebtValue = useMemo(() => {
+        console.table({ totalDebt, totalPaid, totalFinesFromResults, totalValue })
+
+        return (totalFinesFromResults + (totalDebt || 0) - (totalPaid || 0)).toLocaleString(
+            'pt-PT',
+            localeStringOptions
+        )
+    }, [totalValue, totalDebt, totalPaid, totalFinesFromResults])
 
     return (
         <>
@@ -151,6 +160,7 @@ const FinesPage = () => {
                                             <AccordionSummary className="pr-2" expandIcon={<ExpandMore />}>
                                                 <div>
                                                     <div className="flex flex-col lg:flex-row items-center gap-y-1 lg:gap-x-4 text-xs lg:text-sm w-10 lg:w-auto">
+                                                        {index + 1}
                                                         <Avatar src={person.avatar} />
                                                         <span className="capitalize text-center lg:text-left">
                                                             {person.name}
@@ -329,7 +339,7 @@ const FinesPage = () => {
                             <Typography>{totalPaid?.toLocaleString('pt-PT', localeStringOptions)} &euro;</Typography>
                             <Typography className="text-slate-400">/</Typography>
                             <Typography>
-                                {(totalFinesFromResults - (totalPaid || 0) + (totalValue || 0)).toLocaleString(
+                                {(totalFinesFromResults + (totalDebt || 0)).toLocaleString(
                                     'pt-PT',
                                     localeStringOptions
                                 )}{' '}
@@ -339,10 +349,7 @@ const FinesPage = () => {
                         <div className="flex items-center gap-x-2 text-red-500">
                             <TrendingDownOutlined fontSize="inherit" />
                             <Typography>
-                                {(totalFinesFromResults - (totalPaid || 0) + (totalDebt || 0)).toLocaleString(
-                                    'pt-PT',
-                                    localeStringOptions
-                                )}{' '}
+                                {calcTotalDebtValue}
                                 &euro;
                             </Typography>
                         </div>
