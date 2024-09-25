@@ -1,9 +1,11 @@
+import connectDB from '@/lib/db'
 import PlayerModel from '@/models/player'
-import { Player } from '@/types'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(request: NextRequest) {
     try {
+        await connectDB()
+
         const update = {
             'points.month': 0,
         }
@@ -11,8 +13,6 @@ export async function GET(request: NextRequest) {
 
         const updatedPlayers = await PlayerModel.updateMany({}, update, options)
         const players = await PlayerModel.find({})
-
-        console.log(updatedPlayers)
 
         return NextResponse.json({ message: 'Points reset', players }, { status: 200 })
     } catch (error) {
