@@ -105,7 +105,7 @@ const FinesPage = () => {
                             <li className="bg-slate-100 px-4 py-1 md:text-end font-semibold">2,50€</li>
                             <li className="bg-slate-100 px-4 py-1">Derrota (p/ os jogadores)</li>
                             <li className="bg-slate-100 px-4 py-1 md:text-end font-semibold">1,00€ / 1,50€ / 2,00€</li>
-                            <li className="bg-slate-100 px-4 py-1">Derrota (p/ a equipa técnica)</li>
+                            <li className="bg-slate-100 px-4 py-1">Vitória (p/ a equipa técnica)</li>
                             <li className="bg-slate-100 px-4 py-1 md:text-end font-semibold">1,50€ / 2,00€ / 2,50€</li>
                         </ul>
                     </Typography>
