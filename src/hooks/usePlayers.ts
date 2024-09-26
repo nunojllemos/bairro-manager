@@ -3,7 +3,7 @@ import { Player } from '@/types'
 import { useContext, useEffect } from 'react'
 
 const usePlayers = () => {
-    const { players, setPlayers } = useContext(PlayersContext)
+    const { players, setPlayers, loadingPlayers } = useContext(PlayersContext)
 
     const getPlayer = (id: string) => players.filter((player) => player._id === id)[0] || null
 
@@ -25,7 +25,7 @@ const usePlayers = () => {
         setPlayers([...fullUpdatedPlayers])
     }
 
-    return { players, setPlayers, getPlayer, updatePlayer, updatePlayers }
+    return { players, setPlayers, getPlayer, updatePlayer, updatePlayers, loadingPlayers }
 }
 
 export default usePlayers

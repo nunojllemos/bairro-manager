@@ -35,7 +35,7 @@ const FinesPage = () => {
     const [isModalOpen, setIsModalOpen] = useState(false)
 
     const { role } = useAuth()
-    const { players } = usePlayers()
+    const { players, loadingPlayers } = usePlayers()
     const { coaches } = useCoaches()
     const { fines, totalPaid, totalDebt, totalValue, totalDefeats, totalVictories } = useFines()
 
@@ -141,7 +141,9 @@ const FinesPage = () => {
                     </div>
                 </div>
                 <ul className="flex flex-col gap-y-4 lg:gap-y-2">
-                    {players &&
+                    {loadingPlayers && <li className="bg-white">Carregando...</li>}
+                    {!loadingPlayers &&
+                    players &&
                     coaches &&
                     [...players, ...coaches].filter((player) =>
                         player.name.toLowerCase().startsWith(searchValue.toLowerCase())
