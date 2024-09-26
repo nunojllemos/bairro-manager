@@ -15,7 +15,6 @@ import {
 } from '@mui/material'
 import {
     CloseOutlined,
-    DoneOutline,
     DoneOutlined,
     EditOutlined,
     EmojiEventsOutlined,
@@ -26,8 +25,6 @@ import useAuth from '@/hooks/useAuth'
 import { redirect } from 'next/navigation'
 import usePlayers from '@/hooks/usePlayers'
 import PointsModal from '@/components/Modals/PointsModal'
-import { setConfig } from 'next/config'
-import { set } from 'mongoose'
 
 const TablePage = () => {
     const [sorting, setSorting] = useState<'month' | 'total'>('month')

@@ -1,9 +1,12 @@
+import connectDB from '@/lib/db'
 import PlayerModel from '@/models/player'
 import { Player } from '@/types'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function PATCH(request: NextRequest) {
     try {
+        await connectDB()
+
         const data = await request.json()
 
         if (data) {
