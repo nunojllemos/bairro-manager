@@ -41,7 +41,12 @@ const TablePage = () => {
 
     const handleReset = async () => {
         try {
-            const response = await fetch('api/players/points/restart')
+            const response = await fetch('api/players/points/restart', {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
             const json = await response.json()
             const { players: updatedPlayers } = await json
 
