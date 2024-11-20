@@ -196,35 +196,57 @@ const groupConsecutiveValues = (array: ('V' | 'E' | 'D' | 'N/A' | undefined)[]) 
 export const calculateFinesByGamesRegistry = (
     gamesRegistry: ('V' | 'E' | 'D' | 'N/A' | undefined)[]
 ): { defeats: number; victories: number } => {
+    console.log(gamesRegistry)
+    console.log(groupConsecutiveValues(gamesRegistry))
     const totalVictories = groupConsecutiveValues(gamesRegistry)
         .map((registry) => {
             if (registry.includes('V')) {
-                if (registry === '1V') return 1.5 as number
-                if (registry === '2V') return 3.5 as number
-                if (registry === '3V') return 6 as number
+                const total = Number(registry.split('D')[0])
 
-                return 6 as number
+                if (total === 1) return 1.5
+
+                if (total === 2) return 3.5
+
+                if (total === 3) return 6
+
+                if (total > 3) {
+                    const subtotal = total - 3
+
+                    return 6 + 2.5 * subtotal
+                }
             }
             return 0
         })
         .reduce((accumulator, currentValue) => {
             return accumulator + currentValue
         }, 0)
+
+    console.log(totalVictories)
 
     const totalDefeats = groupConsecutiveValues(gamesRegistry)
         .map((registry) => {
             if (registry.includes('D')) {
-                if (registry === '1D') return 1 as number
-                if (registry === '2D') return 2.5 as number
-                if (registry === '3D') return 4.5 as number
+                const total = Number(registry.split('D')[0])
 
-                return 4.5 as number
+                if (total === 1) return 1
+
+                if (total === 2) return 2.5
+
+                if (total === 3) return 4.5
+
+                if (total > 3) {
+                    const subtotal = total - 3
+
+                    return 4.5 + 2 * subtotal
+                }
             }
             return 0
         })
         .reduce((accumulator, currentValue) => {
             return accumulator + currentValue
         }, 0)
+
+    console.log(totalDefeats)
 
     return { defeats: totalDefeats, victories: totalVictories }
 }

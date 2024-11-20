@@ -11,13 +11,13 @@ const Contexts = ({ children }: { children: React.ReactNode }) => {
     return (
         <AuthContextProvider>
             <PlayersContextProvider>
-                <EventsContextProvider>
-                    <CoachesContextProvider>
+                <CoachesContextProvider>
+                    <EventsContextProvider>
                         <FinesContextProvider>
                             <GamesContextProvider>{children}</GamesContextProvider>
                         </FinesContextProvider>
-                    </CoachesContextProvider>
-                </EventsContextProvider>
+                    </EventsContextProvider>
+                </CoachesContextProvider>
             </PlayersContextProvider>
         </AuthContextProvider>
     )

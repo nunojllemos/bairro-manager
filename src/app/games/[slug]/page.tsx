@@ -42,10 +42,7 @@ const MatchPage = () => {
 
     useEffect(() => {
         setGame(getGame(id))
-
-        console.log(game)
-        console.log(game?.pos_game === '')
-    }, [id, getGame, games, game])
+    }, [id, getGame])
 
     const goalsScored = game?.final_result?.split('-')[0]
     const goalsConceded = game?.final_result?.split('-')[1]
@@ -239,7 +236,11 @@ const MatchPage = () => {
             </div>
             <section className="grid md:grid-cols-2 gap-x-2 lg:gap-x-24 xl:gap-x-64 gap-y-6 lg:gap-y-2 w-full">
                 <div className="w-full grid grid-cols-[1fr_1fr] lg:gap-x-4">
-                    <span className={`${role === 'mister' ? 'hidden lg:flex' : ''} font-semibold items-center gap-x-2`}>
+                    <span
+                        className={`${
+                            role === 'mister' ? 'hidden lg:flex' : 'flex'
+                        } font-semibold items-center gap-x-2`}
+                    >
                         <CalendarTodayOutlined fontSize="inherit" /> Data:
                     </span>
                     {role === 'mister' ? (
@@ -260,7 +261,11 @@ const MatchPage = () => {
                     )}
                 </div>
                 <div className="w-full grid grid-cols-[1fr_1fr] lg:gap-x-4">
-                    <span className={`${role === 'mister' ? 'hidden lg:flex' : ''} font-semibold items-center gap-x-2`}>
+                    <span
+                        className={`${
+                            role === 'mister' ? 'hidden lg:flex' : 'flex'
+                        } font-semibold items-center gap-x-2`}
+                    >
                         <ScheduleOutlined fontSize="inherit" /> Horário:
                     </span>
                     {role === 'mister' ? (
@@ -281,7 +286,11 @@ const MatchPage = () => {
                     )}
                 </div>
                 <div className="w-full grid grid-cols-[1fr_1fr] lg:gap-x-4">
-                    <span className={`${role === 'mister' ? 'hidden lg:flex' : ''} font-semibold items-center gap-x-2`}>
+                    <span
+                        className={`${
+                            role === 'mister' ? 'hidden lg:flex' : 'flex'
+                        } font-semibold items-center gap-x-2`}
+                    >
                         <HourglassFullOutlined fontSize="inherit" /> Resultado:
                     </span>
                     {role === 'mister' ? (
@@ -302,7 +311,11 @@ const MatchPage = () => {
                     )}
                 </div>
                 <div className="w-full grid grid-cols-[1fr_1fr] lg:gap-x-4">
-                    <span className={`${role === 'mister' ? 'hidden lg:flex' : ''} font-semibold items-center gap-x-2`}>
+                    <span
+                        className={`${
+                            role === 'mister' ? 'hidden lg:flex' : 'flex'
+                        } font-semibold items-center gap-x-2`}
+                    >
                         <HourglassBottomOutlined fontSize="inherit" /> Ao intervalo:
                     </span>
                     {role === 'mister' ? (
@@ -327,7 +340,7 @@ const MatchPage = () => {
                     <span className="font-semibold flex items-center gap-x-2">
                         <span className="inline-block w-2 h-3 bg-red-500 rounded-sm mx-1"></span> Vermelhos:
                     </span>
-                    <span className="text-end">
+                    <span className="text-start">
                         {(game?.teams?.bairro?.initial
                             .map((player) => player?.cards?.red?.length || 0)
                             .reduce((accumulator, current) => accumulator + current, 0) || 0) +
@@ -346,7 +359,7 @@ const MatchPage = () => {
                     <span className="font-semibold flex items-center gap-x-2">
                         <span className="inline-block w-2 h-3 bg-yellow-500 rounded-sm mx-1"></span> Amarelos:
                     </span>
-                    <span className="text-end">
+                    <span className="text-start">
                         {(game?.teams?.bairro?.initial
                             .map((player) => player?.cards?.yellow?.length || 0)
                             .reduce((accumulator, current) => accumulator + current, 0) || 0) +
@@ -363,7 +376,11 @@ const MatchPage = () => {
                 </div>
 
                 <div className="w-full grid grid-cols-[1fr_1fr] lg:gap-x-4">
-                    <span className={`${role === 'mister' ? 'hidden lg:flex' : ''} font-semibold items-center gap-x-2`}>
+                    <span
+                        className={`${
+                            role === 'mister' ? 'hidden lg:flex' : 'flex'
+                        } font-semibold items-center gap-x-2`}
+                    >
                         <ThermostatOutlined fontSize="inherit" />
                         Temperatura:
                     </span>
@@ -385,7 +402,11 @@ const MatchPage = () => {
                     )}
                 </div>
                 <div className="w-full grid grid-cols-[1fr_1fr] lg:gap-x-4">
-                    <span className={`${role === 'mister' ? 'hidden lg:flex' : ''} font-semibold items-center gap-x-2`}>
+                    <span
+                        className={`${
+                            role === 'mister' ? 'hidden lg:flex' : 'flex'
+                        } font-semibold items-center gap-x-2`}
+                    >
                         <CloudOutlined fontSize="inherit" />
                         Estado:
                     </span>
@@ -420,7 +441,7 @@ const MatchPage = () => {
                             <div className="flex flex-col gap-y-2">
                                 <div className="px-1 mb-4 flex items-center gap-x-4">
                                     <span>Bairro Futebol Clube</span>
-                                    &mdash;
+                                    {game?.teams?.bairro.tactic && <>&mdash;</>}
                                     {role === 'mister' ? (
                                         <span>
                                             <Select
@@ -438,7 +459,9 @@ const MatchPage = () => {
                                             </Select>
                                         </span>
                                     ) : (
-                                        <span className="font-semibold text-base">{game?.teams?.bairro.tactic}</span>
+                                        <span className="font-semibold text-base">
+                                            {game?.teams?.bairro.tactic || ''}
+                                        </span>
                                     )}
                                 </div>
 
@@ -825,8 +848,8 @@ const MatchPage = () => {
                                                             className="flex items-center justify-between gap-x-4 py-2 border-b border-b-slate-200 last:border-none"
                                                         >
                                                             <div className="flex items-center gap-x-4">
-                                                                <span className="border border-slate-200 rounded-md w-10 text-center py-1 text-xs">
-                                                                    {player.position}
+                                                                <span className="border border-slate-200 rounded-md w-10 text-center py-1 text-xs text-zinc-500">
+                                                                    {player.position || 'N/A'}
                                                                 </span>
                                                                 <span className="flex items-center gap-x-2">
                                                                     {player._id && getPlayer(player?._id)
@@ -922,8 +945,8 @@ const MatchPage = () => {
                                                             className="flex items-center justify-between gap-x-4 py-2 border-b border-b-slate-200 last:border-none"
                                                         >
                                                             <div className="flex items-center gap-x-4">
-                                                                <span className="border border-slate-200 rounded-md w-10 text-center py-1 text-xs">
-                                                                    {player.position}
+                                                                <span className="border border-slate-200 rounded-md w-10 text-center py-1 text-xs text-zinc-500">
+                                                                    {player.position || 'SUP'}
                                                                 </span>
                                                                 <span className="flex items-center gap-x-2">
                                                                     {player._id && getPlayer(player._id)
@@ -1016,7 +1039,7 @@ const MatchPage = () => {
                             <div className="flex flex-col gap-y-2">
                                 <div className="px-1 mb-4 flex items-center gap-x-4">
                                     <span>{game?.opponent}</span>
-                                    &mdash;
+                                    {game?.teams?.opponent.tactic && <>&mdash;</>}
                                     {role === 'mister' ? (
                                         <span>
                                             <Select name="opponent-tactic" size="sm" defaultValue="4-3-3">
@@ -1029,7 +1052,9 @@ const MatchPage = () => {
                                             </Select>
                                         </span>
                                     ) : (
-                                        <span className="font-semibold text-base">{game?.teams?.opponent.tactic}</span>
+                                        <span className="font-semibold text-base">
+                                            {game?.teams?.opponent.tactic || ''}
+                                        </span>
                                     )}
                                 </div>
 
@@ -1396,7 +1421,10 @@ const MatchPage = () => {
                                                 })}
                                             </ul>
                                         </div>
-                                    ) : (
+                                    ) : [
+                                          ...(game?.teams?.opponent?.initial || []),
+                                          ...(game?.teams?.opponent?.bench || []),
+                                      ].filter((player) => player.name).length > 0 ? (
                                         <>
                                             <span className="flex items-center gap-x-1 text-sm text-blue-500 mb-4">
                                                 Titulares
@@ -1596,6 +1624,8 @@ const MatchPage = () => {
                                                 })}
                                             </ul>
                                         </>
+                                    ) : (
+                                        <div className="p-4 rounded-md bg-slate-200 text-center">Sem dados</div>
                                     )}
                                 </div>
                             </div>

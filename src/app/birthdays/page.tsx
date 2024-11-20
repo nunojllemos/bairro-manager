@@ -14,9 +14,11 @@ import {
 import { CakeOutlined } from '@mui/icons-material'
 import usePlayers from '@/hooks/usePlayers'
 import { getAge, isBirthdayCurrentMonth } from '@/utils'
+import useCoaches from '@/hooks/useCoaches'
 
 const BirthdaysPage = () => {
     const { players } = usePlayers()
+    const { coaches } = useCoaches()
 
     return (
         <>
@@ -51,7 +53,7 @@ const BirthdaysPage = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {players
+                            {[...players, ...coaches]
                                 .sort((a, b) => a.name.localeCompare(b.name))
                                 .map((player, index) => {
                                     console.log(player.name, isBirthdayCurrentMonth(player.dob))

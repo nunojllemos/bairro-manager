@@ -3,6 +3,7 @@ import { Event } from '@/models/events'
 import { EventSourceInput } from '@fullcalendar/core/index.js'
 import { capitalize, OPTIONS } from '@/utils'
 import usePlayers from '@/hooks/usePlayers'
+import useCoaches from '@/hooks/useCoaches'
 
 export type Role = 'fine' | 'mister' | 'cap' | null
 
@@ -28,6 +29,7 @@ const EventsContextProvider = ({ children }: IEventsContextProps) => {
     const [events, setEvents] = useState<Event[]>([])
     const [eventsForCalendar, setEventsForCalendar] = useState<EventSourceInput>([])
     const { players } = usePlayers()
+    const { coaches } = useCoaches()
 
     useEffect(() => {
         const getEvents = async () => {
@@ -48,17 +50,20 @@ const EventsContextProvider = ({ children }: IEventsContextProps) => {
             color: OPTIONS[event.type].color,
         }))
 
-        const mappedAnniversaries = players.map((player) => ({
+        const mappedAnniversaries = [...players, ...coaches].map((player) => ({
             color: OPTIONS.anniversary.color || 'red',
-            title: `${OPTIONS.anniversary.emoji} ${capitalize(player.name)}`,
-            rrule: {
+            title: `${OPTIONS.anniversary.emoji} - Parabéns ${capitalize(player.name)}`,
+            rule: {
                 freq: 'yearly',
-                dtstart: player.dob,
+                start: new Date(player.dob),
             },
         }))
 
+        console.log(mappedAnniversaries)
+        console.log(mappedEvents)
+
         setEventsForCalendar([...mappedAnniversaries, ...mappedEvents])
-    }, [events, players])
+    }, [events, players, coaches])
 
     return (
         <EventsContext.Provider value={{ events, setEvents, eventsForCalendar, setEventsForCalendar }}>

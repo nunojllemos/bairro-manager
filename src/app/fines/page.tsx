@@ -28,6 +28,7 @@ import useFines from '@/hooks/useFines'
 import FinesModal from '@/components/Modals/FinesModal'
 import { localeStringOptions } from '@/utils'
 import useCoaches from '@/hooks/useCoaches'
+import Toast from '@/components/Toast'
 
 const FinesPage = () => {
     const [searchValue, setSearchValue] = useState('')
@@ -54,13 +55,11 @@ const FinesPage = () => {
     }
 
     const calcTotalDebtValue = useMemo(() => {
-        console.table({ totalDebt, totalPaid, totalFinesFromResults, totalValue })
-
         return (totalFinesFromResults + (totalDebt || 0) - (totalPaid || 0)).toLocaleString(
             'pt-PT',
             localeStringOptions
         )
-    }, [totalValue, totalDebt, totalPaid, totalFinesFromResults])
+    }, [totalDebt, totalPaid, totalFinesFromResults])
 
     return (
         <>
