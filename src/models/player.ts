@@ -36,23 +36,23 @@ const FinesSchema = new Schema({
 // Define the main schema for the Player model
 const PlayerSchema: Schema = new Schema(
     {
-        fines: { type: FinesSchema, required: true },
+        fines: { type: FinesSchema, required: false },
         name: { type: String, required: true },
         number: { type: Number, required: true },
         avatar: { type: String },
-        assists: { type: Number, required: true },
+        assists: { type: Number, required: false },
         cards: {
-            yellow: { type: Number, required: true },
-            red: { type: Number, required: true },
+            yellow: { type: Number, required: false },
+            red: { type: Number, required: false },
         },
         dob: { type: String, required: true },
-        goals: { type: Number, required: true },
-        is_captain: { type: Boolean, required: true },
+        goals: { type: Number, required: false },
+        is_captain: { type: Boolean, required: false },
         points: {
-            month: { type: Number, required: true },
-            total: { type: Number, required: true },
+            month: { type: Number, required: false },
+            total: { type: Number, required: false },
         },
-        positions: { type: [String], required: true },
+        positions: { type: [String], required: false },
     },
     { timestamps: true }
 )

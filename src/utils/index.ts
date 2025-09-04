@@ -196,8 +196,6 @@ const groupConsecutiveValues = (array: ('V' | 'E' | 'D' | 'N/A' | undefined)[]) 
 export const calculateFinesByGamesRegistry = (
     gamesRegistry: ('V' | 'E' | 'D' | 'N/A' | undefined)[]
 ): { defeats: number; victories: number } => {
-    console.log(gamesRegistry)
-    console.log(groupConsecutiveValues(gamesRegistry))
     const totalVictories = groupConsecutiveValues(gamesRegistry)
         .map((registry) => {
             if (registry.includes('V')) {
@@ -221,8 +219,6 @@ export const calculateFinesByGamesRegistry = (
             return accumulator + currentValue
         }, 0)
 
-    console.log(totalVictories)
-
     const totalDefeats = groupConsecutiveValues(gamesRegistry)
         .map((registry) => {
             if (registry.includes('D')) {
@@ -245,8 +241,6 @@ export const calculateFinesByGamesRegistry = (
         .reduce((accumulator, currentValue) => {
             return accumulator + currentValue
         }, 0)
-
-    console.log(totalDefeats)
 
     return { defeats: totalDefeats, victories: totalVictories }
 }

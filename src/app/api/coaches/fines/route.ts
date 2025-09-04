@@ -28,8 +28,6 @@ export async function PATCH(request: NextRequest) {
 
         const updatedUser: Coach | null = await CoachModel.findOneAndUpdate(filter, update, options)
 
-        console.log('updatedFinesDetails', updatedFinesDetails)
-
         if (fines.length) {
             const finesData: Partial<IFines>[] | null = await Fines.find({}, ['_id', 'value'], { lean: true })
 

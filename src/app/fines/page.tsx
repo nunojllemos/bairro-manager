@@ -82,26 +82,12 @@ const FinesPage = () => {
                         <br />
                         <br />
                         <ul className="border border-zinc-300 grid md:grid-cols-2 gap-px bg-zinc-300 md:max-w-max">
-                            <li className="bg-slate-100 px-4 py-1">Atraso ao treino</li>
-                            <li className="bg-slate-100 px-4 py-1 md:text-end font-semibold">1,00€</li>
-                            <li className="bg-slate-100 px-4 py-1">Atraso à convocatória</li>
-                            <li className="bg-slate-100 px-4 py-1 md:text-end font-semibold">2,00€</li>
-                            <li className="bg-slate-100 px-4 py-1">Falta injustificada ao treino</li>
-                            <li className="bg-slate-100 px-4 py-1 md:text-end font-semibold">2,50€</li>
-                            <li className="bg-slate-100 px-4 py-1">Falta injustificada ao jogo</li>
-                            <li className="bg-slate-100 px-4 py-1 md:text-end font-semibold">10,00€</li>
-                            <li className="bg-slate-100 px-4 py-1">Telemóvel com som na palestra</li>
-                            <li className="bg-slate-100 px-4 py-1 md:text-end font-semibold">1,00€</li>
-                            <li className="bg-slate-100 px-4 py-1">Expulsão desnecessária</li>
-                            <li className="bg-slate-100 px-4 py-1 md:text-end font-semibold">10,00€</li>
-                            <li className="bg-slate-100 px-4 py-1">Roupa virada ou fora dos cestos</li>
-                            <li className="bg-slate-100 px-4 py-1 md:text-end font-semibold">0,50€ / todos</li>
-                            <li className="bg-slate-100 px-4 py-1">Falta de bolo de aniversário</li>
-                            <li className="bg-slate-100 px-4 py-1 md:text-end font-semibold">30,00€</li>
-                            <li className="bg-slate-100 px-4 py-1">Falta de presença no lanche do jogo</li>
-                            <li className="bg-slate-100 px-4 py-1 md:text-end font-semibold">2,00€</li>
-                            <li className="bg-slate-100 px-4 py-1">Falta de presença no autocarro (ida e volta)</li>
-                            <li className="bg-slate-100 px-4 py-1 md:text-end font-semibold">2,50€</li>
+                            {fines.map((fine) => (
+                                <React.Fragment key={fine._id}>
+                                    <li className="bg-slate-100 px-4 py-1">{fine.name}</li>
+                                    <li className="bg-slate-100 px-4 py-1 md:text-end font-semibold">{fine.value} €</li>
+                                </React.Fragment>
+                            ))}
                             <li className="bg-slate-100 px-4 py-1">Derrota (p/ os jogadores)</li>
                             <li className="bg-slate-100 px-4 py-1 md:text-end font-semibold">1,00€ / 1,50€ / 2,00€</li>
                             <li className="bg-slate-100 px-4 py-1">Vitória (p/ a equipa técnica)</li>

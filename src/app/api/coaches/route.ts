@@ -9,8 +9,6 @@ export async function GET() {
 
         const coaches: Coach[] = await CoachModel.find({}).sort({ name: 1 })
 
-        console.log(coaches)
-
         if (coaches) return NextResponse.json({ coaches }, { status: 200 })
 
         return NextResponse.json({ message: 'Bad request' }, { status: 400 })

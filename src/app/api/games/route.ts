@@ -16,8 +16,6 @@ export async function POST(data: NextRequest) {
     try {
         const gameDetails = await data.json()
 
-        console.log(gameDetails)
-
         await connectDb()
 
         const game = await GameModel.create(gameDetails)

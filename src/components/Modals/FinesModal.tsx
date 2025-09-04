@@ -54,8 +54,6 @@ const FinesModal = ({ id, handleClose }: FinesModalProps) => {
             })
             const newPlayer = await request.json()
 
-            console.log(newPlayer.player)
-
             updatePlayer(newPlayer.player)
         }
 
@@ -68,8 +66,6 @@ const FinesModal = ({ id, handleClose }: FinesModalProps) => {
                 body: JSON.stringify(data),
             })
             const newCoach = await request.json()
-
-            console.log(newCoach.coach)
 
             updateCoach(newCoach.coach)
         }

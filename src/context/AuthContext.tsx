@@ -17,6 +17,7 @@ interface IAuthContext {
     role: Role
     setRole: Dispatch<SetStateAction<Role>>
     isLoadingAuth: boolean
+    isCaptain: boolean
 }
 
 export const AuthContext = createContext<IAuthContext>({
@@ -27,6 +28,7 @@ export const AuthContext = createContext<IAuthContext>({
     user: { username: 'lemos', role: 'cap', session_id: 'asd' },
     setUser: () => console.log(''),
     isLoadingAuth: true,
+    isCaptain: false,
 })
 
 const AuthContextProvider = ({ children }: IAuthContextProps) => {
@@ -34,6 +36,7 @@ const AuthContextProvider = ({ children }: IAuthContextProps) => {
     const [isLoadingAuth, setIsLoadingAuth] = useState(true)
     const [role, setRole] = useState<Role>(null)
     const [user, setUser] = useState<Omit<User, 'password'> | null>(null)
+    const [isCaptain, setIsCaptain] = useState(false)
 
     const setAuthentication = (boolean: boolean) => {
         setIsAuthenticated(boolean)
@@ -52,11 +55,13 @@ const AuthContextProvider = ({ children }: IAuthContextProps) => {
         if (!!usernameCookie) {
             setUser({ username: usernameCookie, role: role, session_id: sessionId || '' })
         }
+
+        setIsCaptain(role === 'cap')
     }, [])
 
     return (
         <AuthContext.Provider
-            value={{ isAuthenticated, setAuthentication, role, setRole, user, setUser, isLoadingAuth }}
+            value={{ isAuthenticated, setAuthentication, role, setRole, user, setUser, isLoadingAuth, isCaptain }}
         >
             {children}
         </AuthContext.Provider>

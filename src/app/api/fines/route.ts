@@ -22,7 +22,6 @@ export async function PATCH(request: NextRequest) {
                 { values: victories },
                 { new: true }
             )
-            console.log(updatedVictories)
         }
 
         if (defeats) {
@@ -31,10 +30,39 @@ export async function PATCH(request: NextRequest) {
                 { values: defeats },
                 { new: true }
             )
-            console.log(updatedDefeats)
         }
 
         return NextResponse.json({ message: 'Fines updated' }, { status: 200 })
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function POST(data: NextRequest) {
+    try {
+        const fineData = await data.json()
+        console.log('🚀 ~ POST ~ playerData:', fineData)
+
+        await connectDb()
+        const fine = await FinesModel.create(fineData)
+
+        return NextResponse.json({ fine }, { status: 200 })
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function DELETE(data: NextRequest) {
+    try {
+        const fineData = await data.json()
+        const _id = fineData._id
+
+        console.log('🚀 ~ POST ~ fineData:', fineData)
+
+        await connectDb()
+        const player = await FinesModel.deleteOne({ _id })
+
+        return NextResponse.json({ player }, { status: 200 })
     } catch (error) {
         console.log(error)
     }

@@ -56,8 +56,6 @@ const BirthdaysPage = () => {
                             {[...players, ...coaches]
                                 .sort((a, b) => a.name.localeCompare(b.name))
                                 .map((player, index) => {
-                                    console.log(player.name, isBirthdayCurrentMonth(player.dob))
-
                                     return (
                                         <TableRow
                                             className={`${

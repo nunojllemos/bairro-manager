@@ -14,6 +14,7 @@ import {
     CloseOutlined,
     EmojiEventsOutlined,
     LogoutOutlined,
+    ManageAccounts,
 } from '@mui/icons-material'
 import { Button, Menu, MenuItem } from '@mui/material'
 import useAuth from '@/hooks/useAuth'
@@ -24,7 +25,7 @@ import useLoading from '@/hooks/useLoading'
 const Header = () => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
     const [isMenuOpen, setIsMenuOpen] = useState(false)
-    const { isAuthenticated, setAuthentication, setRole, user, setUser } = useAuth()
+    const { isAuthenticated, setAuthentication, setRole, user, setUser, role } = useAuth()
     const { setIsLoading } = useLoading()
 
     const open = Boolean(anchorEl)
@@ -45,6 +46,13 @@ const Header = () => {
     }
 
     const navigationLinks = [
+        {
+            name: 'backoffice',
+            url: '/admin',
+            icon: <ManageAccounts fontSize="inherit" />,
+            wip: false,
+            byRole: ['cap'],
+        },
         {
             name: 'dashboard',
             url: '/',
@@ -115,103 +123,108 @@ const Header = () => {
                 >
                     <menu className="flex flex-col gap-y-2 w-full h-full py-16 px-4 lg:w-auto lg:h-auto lg:p-0 lg:flex-row lg:items-center text-blue-500 lg:text-black">
                         {isAuthenticated &&
-                            navigationLinks.map((link) => {
-                                return (
-                                    <li key={link.name} className="py-1 lg:py-2 px-4 lg:border-r lg:border-r-slate-300">
-                                        {link.submenu ? (
-                                            <>
-                                                <Button
-                                                    id="basic-button"
-                                                    className="relative text-inherit !hidden lg:!flex items-center gap-x-1 p-0 leading-normal !text-xl lg:!text-sm !capitalize"
-                                                    onClick={handleClick}
-                                                >
-                                                    {link.icon} {link.name}
-                                                    <div className="hidden lg:block text-slate-700 ml-4">
-                                                        <ExpandMore
-                                                            fontSize="inherit"
-                                                            className={`${open ? 'rotate-180' : ''}`}
-                                                        />
+                            navigationLinks
+                                .filter((link) => (link.byRole ? link.byRole?.includes(role || 'player') : true))
+                                .map((link) => {
+                                    return (
+                                        <li
+                                            key={link.name}
+                                            className="py-1 lg:py-2 px-4 lg:border-r lg:border-r-slate-300"
+                                        >
+                                            {link.submenu ? (
+                                                <>
+                                                    <Button
+                                                        id="basic-button"
+                                                        className="relative text-inherit !hidden lg:!flex items-center gap-x-1 p-0 leading-normal !text-xl lg:!text-sm !capitalize"
+                                                        onClick={handleClick}
+                                                    >
+                                                        {link.icon} {link.name}
+                                                        <div className="hidden lg:block text-slate-700 ml-4">
+                                                            <ExpandMore
+                                                                fontSize="inherit"
+                                                                className={`${open ? 'rotate-180' : ''}`}
+                                                            />
+                                                        </div>
+                                                    </Button>
+                                                    <div className="flex items-center gap-x-4 lg:hidden leading-normal text-xl capitalize">
+                                                        {link.icon} {link.name}
+                                                        <div className="hidden lg:block text-slate-700 ml-4">
+                                                            <ExpandMore
+                                                                fontSize="inherit"
+                                                                className={`${open ? 'rotate-180' : ''}`}
+                                                            />
+                                                        </div>
                                                     </div>
-                                                </Button>
-                                                <div className="flex items-center gap-x-4 lg:hidden leading-normal text-xl capitalize">
-                                                    {link.icon} {link.name}
-                                                    <div className="hidden lg:block text-slate-700 ml-4">
-                                                        <ExpandMore
-                                                            fontSize="inherit"
-                                                            className={`${open ? 'rotate-180' : ''}`}
-                                                        />
-                                                    </div>
-                                                </div>
-                                                <Menu
-                                                    className="hidden lg:block"
-                                                    anchorEl={anchorEl}
-                                                    open={open}
-                                                    onClose={handleClose}
-                                                >
-                                                    {link.submenu.map((subLink) => {
-                                                        return (
-                                                            <MenuItem key={subLink.url} className="!relative">
-                                                                <Link
-                                                                    onClick={() => {
-                                                                        handleClose()
-                                                                        setIsMenuOpen(false)
-                                                                    }}
-                                                                    className={`hover:text-blue-500 transition-colors capitalize text-xl lg:text-sm ${
-                                                                        subLink.soon
-                                                                            ? 'pointer-events-none text-gray-300'
-                                                                            : ''
-                                                                    }`}
-                                                                    href={subLink.url}
-                                                                >
-                                                                    <span className="flex items-center gap-x-1">
-                                                                        {subLink.icon} {subLink.name}
-                                                                    </span>
-                                                                </Link>
-                                                            </MenuItem>
-                                                        )
-                                                    })}
-                                                </Menu>
-                                                <ul className="block lg:hidden pl-8 pt-2 pb-4">
-                                                    {link.submenu.map((subLink) => {
-                                                        return (
-                                                            <MenuItem key={subLink.url}>
-                                                                <Link
-                                                                    onClick={() => {
-                                                                        handleClose()
-                                                                        setIsMenuOpen(false)
-                                                                    }}
-                                                                    className="hover:text-blue-500 transition-colors capitalize text-xl lg:text-sm"
-                                                                    href={subLink.url}
-                                                                >
-                                                                    <span
-                                                                        className={`flex items-center gap-x-4 ${
+                                                    <Menu
+                                                        className="hidden lg:block"
+                                                        anchorEl={anchorEl}
+                                                        open={open}
+                                                        onClose={handleClose}
+                                                    >
+                                                        {link.submenu.map((subLink) => {
+                                                            return (
+                                                                <MenuItem key={subLink.url} className="!relative">
+                                                                    <Link
+                                                                        onClick={() => {
+                                                                            handleClose()
+                                                                            setIsMenuOpen(false)
+                                                                        }}
+                                                                        className={`hover:text-blue-500 transition-colors capitalize text-xl lg:text-sm ${
                                                                             subLink.soon
-                                                                                ? 'text-gray-300 pointer-events-none'
+                                                                                ? 'pointer-events-none text-gray-300'
                                                                                 : ''
                                                                         }`}
+                                                                        href={subLink.url}
                                                                     >
-                                                                        {subLink.icon} {subLink.name}
-                                                                    </span>
-                                                                </Link>
-                                                            </MenuItem>
-                                                        )
-                                                    })}
-                                                </ul>
-                                            </>
-                                        ) : (
-                                            <Link
-                                                onClick={() => setIsMenuOpen(false)}
-                                                className="hover:text-blue-500 transition-colors capitalize text-xl lg:text-sm"
-                                                href={link.url}
-                                            >
-                                                <span className="flex items-center gap-x-4 lg:gap-x-1">
-                                                    {link.icon} {link.name}
-                                                </span>
-                                            </Link>
-                                        )}
-                                    </li>
-                                )
-                            })}
+                                                                        <span className="flex items-center gap-x-1">
+                                                                            {subLink.icon} {subLink.name}
+                                                                        </span>
+                                                                    </Link>
+                                                                </MenuItem>
+                                                            )
+                                                        })}
+                                                    </Menu>
+                                                    <ul className="block lg:hidden pl-8 pt-2 pb-4">
+                                                        {link.submenu.map((subLink) => {
+                                                            return (
+                                                                <MenuItem key={subLink.url}>
+                                                                    <Link
+                                                                        onClick={() => {
+                                                                            handleClose()
+                                                                            setIsMenuOpen(false)
+                                                                        }}
+                                                                        className="hover:text-blue-500 transition-colors capitalize text-xl lg:text-sm"
+                                                                        href={subLink.url}
+                                                                    >
+                                                                        <span
+                                                                            className={`flex items-center gap-x-4 ${
+                                                                                subLink.soon
+                                                                                    ? 'text-gray-300 pointer-events-none'
+                                                                                    : ''
+                                                                            }`}
+                                                                        >
+                                                                            {subLink.icon} {subLink.name}
+                                                                        </span>
+                                                                    </Link>
+                                                                </MenuItem>
+                                                            )
+                                                        })}
+                                                    </ul>
+                                                </>
+                                            ) : (
+                                                <Link
+                                                    onClick={() => setIsMenuOpen(false)}
+                                                    className="hover:text-blue-500 transition-colors capitalize text-xl lg:text-sm"
+                                                    href={link.url}
+                                                >
+                                                    <span className="flex items-center gap-x-4 lg:gap-x-1">
+                                                        {link.icon} {link.name}
+                                                    </span>
+                                                </Link>
+                                            )}
+                                        </li>
+                                    )
+                                })}
                         {!isAuthenticated && (
                             <li className="mx-5 mt-auto mb-8 lg:mb-0 lg:mt-0 lg:ml-4">
                                 <Link href="/login">

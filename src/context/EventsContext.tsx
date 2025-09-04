@@ -59,9 +59,6 @@ const EventsContextProvider = ({ children }: IEventsContextProps) => {
             },
         }))
 
-        console.log(mappedAnniversaries)
-        console.log(mappedEvents)
-
         setEventsForCalendar([...mappedAnniversaries, ...mappedEvents])
     }, [events, players, coaches])
 
