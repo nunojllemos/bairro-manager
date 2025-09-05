@@ -445,11 +445,11 @@ const Admin = () => {
                                         <TextField
                                             required
                                             name={'value'}
-                                            type="number"
+                                            type="text"
                                             variant="outlined"
                                             size="small"
                                             label={'Valor'}
-                                            placeholder="15"
+                                            placeholder="15.5"
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}

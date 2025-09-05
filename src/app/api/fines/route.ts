@@ -41,7 +41,7 @@ export async function PATCH(request: NextRequest) {
 export async function POST(data: NextRequest) {
     try {
         const fineData = await data.json()
-        console.log('🚀 ~ POST ~ playerData:', fineData)
+        console.log('🚀 ~ POST ~ fineData:', fineData)
 
         await connectDb()
         const fine = await FinesModel.create(fineData)
