@@ -29,7 +29,7 @@ import React, { useContext, useState } from 'react'
 type Views = 'players' | 'fines'
 
 const Admin = () => {
-    const [view, setView] = useState<Views>('fines')
+    const [view, setView] = useState<Views>('players')
     const [isPlayersModalOpen, setIsPlayersModalOpen] = useState(false)
     const [isDeletePlayerModalOpen, setIsDeletePlayerModalOpen] = useState(false)
     const [isFinesModalOpen, setIsFinesModalOpen] = useState(false)
@@ -71,8 +71,8 @@ const Admin = () => {
                 },
                 body: JSON.stringify(data),
             })
-            const response = await request.json()
-            console.log(response)
+
+            handleClosePlayersModal()
         } catch (error) {
             console.log(error)
         }

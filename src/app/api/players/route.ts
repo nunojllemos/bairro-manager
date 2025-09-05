@@ -18,10 +18,14 @@ export async function GET() {
 export async function POST(data: NextRequest) {
     try {
         const playerData = await data.json()
-        console.log('🚀 ~ POST ~ playerData:', playerData)
 
         await connectDB()
-        const player = await PlayerModel.create(playerData)
+        const initialFines = {
+            total: 0,
+            paid: 0,
+        }
+        const player = await PlayerModel.create({ ...playerData, fines: initialFines })
+        console.log('🚀 ~ POST ~ player:', player)
 
         return NextResponse.json({ player }, { status: 200 })
     } catch (error) {

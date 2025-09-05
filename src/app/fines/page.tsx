@@ -137,6 +137,7 @@ const FinesPage = () => {
                             .filter((person) => person.name.toLowerCase().startsWith(searchValue.toLowerCase()))
                             .sort((a, b) => a.name.localeCompare(b.name))
                             .map((person, index) => {
+                                console.log(person)
                                 const isCoach = Object.keys(person).includes('role')
                                 const totalFines =
                                     Number(person.fines.total) + ((isCoach ? totalVictories : totalDefeats) || 0)
@@ -147,7 +148,7 @@ const FinesPage = () => {
                                             <AccordionSummary className="pr-2" expandIcon={<ExpandMore />}>
                                                 <div>
                                                     <div className="flex flex-col lg:flex-row items-center gap-y-1 lg:gap-x-4 text-xs lg:text-sm w-10 lg:w-auto">
-                                                        <Avatar src={person.avatar} />
+                                                        <Avatar />
                                                         <span className="capitalize text-center lg:text-left text-nowrap text-ellipsis w-[4.5rem] overflow-hidden">
                                                             {person.name}
                                                         </span>
