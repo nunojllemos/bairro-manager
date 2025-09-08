@@ -162,7 +162,7 @@ const MatchesPage = () => {
                 </section>
             )}
 
-            {role === 'mister' && (
+            {(role === 'mister' || role === 'cap') && (
                 <>
                     <section className="mt-12 flex justify-end">
                         <Button

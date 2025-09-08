@@ -16,6 +16,20 @@ export async function GET() {
     }
 }
 
+export async function POST(data: NextRequest) {
+    try {
+        const eventData = await data.json()
+        console.log('🚀 ~ POST ~ eventData:', eventData)
+
+        // await connectDB()
+        // const event = await EventModel.create(eventData)
+
+        return NextResponse.json({ event }, { status: 200 })
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 export async function PATCH(request: NextRequest) {
     try {
         await connectDB()

@@ -52,7 +52,7 @@ const EventsContextProvider = ({ children }: IEventsContextProps) => {
 
         const mappedAnniversaries = [...players, ...coaches].map((player) => ({
             color: OPTIONS.anniversary.color || 'red',
-            title: `${OPTIONS.anniversary.emoji} - Parabéns ${capitalize(player.name)}`,
+            title: `${OPTIONS.anniversary.emoji} - Parabéns ${capitalize(player?.name)}`,
             rule: {
                 freq: 'yearly',
                 start: new Date(player.dob),

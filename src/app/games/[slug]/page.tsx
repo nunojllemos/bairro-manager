@@ -3,11 +3,10 @@ import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import {
     ArrowBackOutlined,
-    BlockOutlined,
     CalendarTodayOutlined,
-    CloseOutlined,
     CloudOutlined,
     ContentPasteOutlined,
+    DeleteOutline,
     HourglassBottomOutlined,
     HourglassFullOutlined,
     InfoOutlined,
@@ -27,6 +26,7 @@ import useGames from '@/hooks/useGames'
 import { Game } from '@/types'
 import useAuth from '@/hooks/useAuth'
 import usePlayers from '@/hooks/usePlayers'
+import { getGameStatusByResult } from '@/utils'
 
 const MatchPage = () => {
     const [game, setGame] = useState<Game | null>(null)
@@ -47,6 +47,10 @@ const MatchPage = () => {
     const goalsScored = game?.final_result?.split('-')[0]
     const goalsConceded = game?.final_result?.split('-')[1]
     const isDraw = goalsScored === goalsConceded
+    let isVictory = false
+    if (game?.final_result) {
+        isVictory = getGameStatusByResult(game?.final_result, game?.is_home).isVictory
+    }
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
@@ -216,7 +220,7 @@ const MatchPage = () => {
             <div className="flex items-center gap-x-4 pl-2 mt-12 md:mt-20">
                 <span
                     className={`inline-block w-4 h-4 rounded-lg ${
-                        game?.is_home ? 'bg-green-500' : isDraw ? 'bg-yellow-500' : 'bg-red-500'
+                        isVictory ? 'bg-green-500' : isDraw ? 'bg-yellow-500' : 'bg-red-500'
                     }`}
                 ></span>
                 <span className="inline-block text-xs py-1 px-3 rounded-sm border border-slate-300">
@@ -238,12 +242,12 @@ const MatchPage = () => {
                 <div className="w-full grid grid-cols-[1fr_1fr] lg:gap-x-4">
                     <span
                         className={`${
-                            role === 'mister' ? 'hidden lg:flex' : 'flex'
+                            role === 'mister' || role === 'cap' ? 'hidden lg:flex' : 'flex'
                         } font-semibold items-center gap-x-2`}
                     >
                         <CalendarTodayOutlined fontSize="inherit" /> Data:
                     </span>
-                    {role === 'mister' ? (
+                    {role === 'mister' || role === 'cap' ? (
                         <TextField
                             name={'date'}
                             type="date"
@@ -263,12 +267,12 @@ const MatchPage = () => {
                 <div className="w-full grid grid-cols-[1fr_1fr] lg:gap-x-4">
                     <span
                         className={`${
-                            role === 'mister' ? 'hidden lg:flex' : 'flex'
+                            role === 'mister' || role === 'cap' ? 'hidden lg:flex' : 'flex'
                         } font-semibold items-center gap-x-2`}
                     >
                         <ScheduleOutlined fontSize="inherit" /> Horário:
                     </span>
-                    {role === 'mister' ? (
+                    {role === 'mister' || role === 'cap' ? (
                         <TextField
                             name={'start'}
                             type="text"
@@ -288,12 +292,12 @@ const MatchPage = () => {
                 <div className="w-full grid grid-cols-[1fr_1fr] lg:gap-x-4">
                     <span
                         className={`${
-                            role === 'mister' ? 'hidden lg:flex' : 'flex'
+                            role === 'mister' || role === 'cap' ? 'hidden lg:flex' : 'flex'
                         } font-semibold items-center gap-x-2`}
                     >
                         <HourglassFullOutlined fontSize="inherit" /> Resultado:
                     </span>
-                    {role === 'mister' ? (
+                    {role === 'mister' || role === 'cap' ? (
                         <TextField
                             name={'final_result'}
                             type="text"
@@ -313,12 +317,12 @@ const MatchPage = () => {
                 <div className="w-full grid grid-cols-[1fr_1fr] lg:gap-x-4">
                     <span
                         className={`${
-                            role === 'mister' ? 'hidden lg:flex' : 'flex'
+                            role === 'mister' || role === 'cap' ? 'hidden lg:flex' : 'flex'
                         } font-semibold items-center gap-x-2`}
                     >
                         <HourglassBottomOutlined fontSize="inherit" /> Ao intervalo:
                     </span>
-                    {role === 'mister' ? (
+                    {role === 'mister' || role === 'cap' ? (
                         <TextField
                             name={'half_time_result'}
                             type="text"
@@ -378,13 +382,13 @@ const MatchPage = () => {
                 <div className="w-full grid grid-cols-[1fr_1fr] lg:gap-x-4">
                     <span
                         className={`${
-                            role === 'mister' ? 'hidden lg:flex' : 'flex'
+                            role === 'mister' || role === 'cap' ? 'hidden lg:flex' : 'flex'
                         } font-semibold items-center gap-x-2`}
                     >
                         <ThermostatOutlined fontSize="inherit" />
                         Temperatura:
                     </span>
-                    {role === 'mister' ? (
+                    {role === 'mister' || role === 'cap' ? (
                         <TextField
                             name={'weather-temp'}
                             type="text"
@@ -404,13 +408,13 @@ const MatchPage = () => {
                 <div className="w-full grid grid-cols-[1fr_1fr] lg:gap-x-4">
                     <span
                         className={`${
-                            role === 'mister' ? 'hidden lg:flex' : 'flex'
+                            role === 'mister' || role === 'cap' ? 'hidden lg:flex' : 'flex'
                         } font-semibold items-center gap-x-2`}
                     >
                         <CloudOutlined fontSize="inherit" />
                         Estado:
                     </span>
-                    {role === 'mister' ? (
+                    {role === 'mister' || role === 'cap' ? (
                         <TextField
                             name={'weather-condition'}
                             type="text"
@@ -442,7 +446,7 @@ const MatchPage = () => {
                                 <div className="px-1 mb-4 flex items-center gap-x-4">
                                     <span>Bairro Futebol Clube</span>
                                     {game?.teams?.bairro.tactic && <>&mdash;</>}
-                                    {role === 'mister' ? (
+                                    {role === 'mister' || role === 'cap' ? (
                                         <span>
                                             <Select
                                                 key={game?.teams?.bairro.tactic}
@@ -466,7 +470,7 @@ const MatchPage = () => {
                                 </div>
 
                                 <div>
-                                    {role === 'mister' ? (
+                                    {role === 'mister' || role === 'cap' ? (
                                         <div className="flex flex-col gap-y-4">
                                             <span className="flex items-center gap-x-1 text-sm text-blue-500">
                                                 Titulares
@@ -1040,7 +1044,7 @@ const MatchPage = () => {
                                 <div className="px-1 mb-4 flex items-center gap-x-4">
                                     <span>{game?.opponent}</span>
                                     {game?.teams?.opponent.tactic && <>&mdash;</>}
-                                    {role === 'mister' ? (
+                                    {role === 'mister' || role === 'cap' ? (
                                         <span>
                                             <Select name="opponent-tactic" size="sm" defaultValue="4-3-3">
                                                 <Option value="4-4-2">4-4-2</Option>
@@ -1059,7 +1063,7 @@ const MatchPage = () => {
                                 </div>
 
                                 <div>
-                                    {role === 'mister' ? (
+                                    {role === 'mister' || role === 'cap' ? (
                                         <div className="flex flex-col gap-y-4">
                                             <span className="flex items-center gap-x-1 text-sm text-blue-500">
                                                 Titulares
@@ -1639,7 +1643,7 @@ const MatchPage = () => {
                     <ContentPasteOutlined fontSize="inherit" /> Pre jogo
                 </span>
                 <div className="mt-4 p-0 lg:py-4 lg:px-6 lg:border lg:border-slate-300 rounded-md">
-                    {role === 'mister' ? (
+                    {role === 'mister' || role === 'cap' ? (
                         <Textarea
                             key={game?.pre_game}
                             name="pre-game"
@@ -1657,7 +1661,7 @@ const MatchPage = () => {
                     <ContentPasteOutlined fontSize="inherit" /> Pos jogo
                 </span>
                 <div className="mt-4 p-0 lg:py-4 lg:px-6 lg:border lg:border-slate-300 rounded-md">
-                    {role === 'mister' ? (
+                    {role === 'mister' || role === 'cap' ? (
                         <Textarea
                             key={game?.pos_game}
                             name="pos-game"
@@ -1669,8 +1673,16 @@ const MatchPage = () => {
                     )}
                 </div>
             </section>
-            {role === 'mister' && (
+            {(role === 'mister' || role === 'cap') && (
                 <div className="sticky bottom-12 z-[1] mt-12 flex flex-col md:flex-row gap-4 justify-end">
+                    <Button
+                        color="error"
+                        type="submit"
+                        variant="contained"
+                        startIcon={<DeleteOutline fontSize="small" />}
+                    >
+                        Apagar
+                    </Button>
                     <Button type="submit" variant="contained" startIcon={<SaveOutlined fontSize="small" />}>
                         Guardar
                     </Button>

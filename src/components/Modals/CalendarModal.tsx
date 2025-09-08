@@ -190,7 +190,7 @@ const CalendarModal = ({ handleClose }: CalendarModalProps) => {
                                                     {mapEventsToPortuguese().map((type) => (
                                                         <MenuItem
                                                             key={type}
-                                                            value={capitalize(type as string)}
+                                                            value={capitalize((type as string) || '')}
                                                             className="capitalize text-sm"
                                                         >
                                                             {type}

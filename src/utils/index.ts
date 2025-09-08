@@ -126,7 +126,7 @@ export const capitalize = (string: string) => {
     }
 
     const capitalizedWordsArray = multipleWords.map((word) => {
-        const firstLetter = word[0].toUpperCase()
+        const firstLetter = word[0]?.toUpperCase()
         const remainLetters = word.slice(1)
 
         const capitalizedString = `${firstLetter}${remainLetters}`
