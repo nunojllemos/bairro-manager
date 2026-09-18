@@ -142,15 +142,15 @@ const TablePage = () => {
                                                             index + 1 > players.length / 2 ? 'text-red-500' : ''
                                                         }`}
                                                     >
-                                                        {player.name}{' '}
+                                                        {player?.name}{' '}
                                                     </span>
                                                 </div>
                                             </TableCell>
                                             <TableCell align="right" size="small">
-                                                {player.points.month}
+                                                {player.points?.month}
                                             </TableCell>
                                             <TableCell align="right" size="small">
-                                                {player.points.total}
+                                                {player.points?.total}
                                             </TableCell>
                                         </TableRow>
                                     )

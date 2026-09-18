@@ -36,9 +36,12 @@ const MatchPage = () => {
     const { players, getPlayer } = usePlayers()
     const { role } = useAuth()
 
-    const POSITIONS = ['GR', 'DE', 'DD', 'DC', 'MC', 'ME', 'MD', 'MDC', 'MOC', 'EE', 'ED', 'PL', 'SUP']
-    const INITIAL_PLAYERS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-    const BENCH_PLAYERS = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+const POSITIONS = ['GR', 'DE', 'DD', 'DC', 'MC', 'ME', 'MD', 'MDC', 'MOC', 'EE', 'ED', 'PL', 'SUP']
+const INITIAL_PLAYERS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+const BENCH_PLAYERS = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+
+const sumCards = (players: any[] | undefined, color: 'yellow' | 'red') =>
+    (players || []).reduce((total, player) => total + (player?.cards?.[color]?.length || 0), 0)
 
     useEffect(() => {
         setGame(getGame(id))
@@ -345,18 +348,10 @@ const MatchPage = () => {
                         <span className="inline-block w-2 h-3 bg-red-500 rounded-sm mx-1"></span> Vermelhos:
                     </span>
                     <span className="text-start">
-                        {(game?.teams?.bairro?.initial
-                            .map((player) => player?.cards?.red?.length || 0)
-                            .reduce((accumulator, current) => accumulator + current, 0) || 0) +
-                            (game?.teams?.bairro?.bench
-                                .map((player) => player?.cards?.red?.length || 0)
-                                .reduce((accumulator, current) => accumulator + current, 0) || 0) +
-                            (game?.teams?.opponent?.initial
-                                .map((player) => player?.cards?.red?.length || 0)
-                                .reduce((accumulator, current) => accumulator + current, 0) || 0) +
-                            (game?.teams?.opponent?.bench
-                                .map((player) => player?.cards?.red?.length || 0)
-                                .reduce((accumulator, current) => accumulator + current, 0) || 0)}
+                        {sumCards(game?.teams?.bairro?.initial, 'red') +
+                            sumCards(game?.teams?.bairro?.bench, 'red') +
+                            sumCards(game?.teams?.opponent?.initial, 'red') +
+                            sumCards(game?.teams?.opponent?.bench, 'red')}
                     </span>
                 </div>
                 <div className="w-full grid grid-cols-[1fr_1fr] lg:gap-x-4">
@@ -364,18 +359,10 @@ const MatchPage = () => {
                         <span className="inline-block w-2 h-3 bg-yellow-500 rounded-sm mx-1"></span> Amarelos:
                     </span>
                     <span className="text-start">
-                        {(game?.teams?.bairro?.initial
-                            .map((player) => player?.cards?.yellow?.length || 0)
-                            .reduce((accumulator, current) => accumulator + current, 0) || 0) +
-                            (game?.teams?.bairro?.bench
-                                .map((player) => player?.cards?.yellow?.length || 0)
-                                .reduce((accumulator, current) => accumulator + current, 0) || 0) +
-                            (game?.teams?.opponent?.initial
-                                .map((player) => player?.cards?.yellow?.length || 0)
-                                .reduce((accumulator, current) => accumulator + current, 0) || 0) +
-                            (game?.teams?.opponent?.bench
-                                .map((player) => player?.cards?.yellow?.length || 0)
-                                .reduce((accumulator, current) => accumulator + current, 0) || 0)}
+                        {sumCards(game?.teams?.bairro?.initial, 'yellow') +
+                            sumCards(game?.teams?.bairro?.bench, 'yellow') +
+                            sumCards(game?.teams?.opponent?.initial, 'yellow') +
+                            sumCards(game?.teams?.opponent?.bench, 'yellow')}
                     </span>
                 </div>
 
@@ -449,10 +436,10 @@ const MatchPage = () => {
                                     {role === 'mister' || role === 'cap' ? (
                                         <span>
                                             <Select
-                                                key={game?.teams?.bairro.tactic}
+                                                key={game?.teams?.bairro?.tactic}
                                                 name="bairro-tactic"
                                                 size="sm"
-                                                defaultValue={game?.teams?.bairro.tactic}
+                                                defaultValue={game?.teams?.bairro?.tactic}
                                             >
                                                 <Option value="3-4-3">3-4-3</Option>
                                                 <Option value="4-4-2">4-4-2</Option>
@@ -464,7 +451,7 @@ const MatchPage = () => {
                                         </span>
                                     ) : (
                                         <span className="font-semibold text-base">
-                                            {game?.teams?.bairro.tactic || ''}
+                                            {game?.teams?.bairro?.tactic || ''}
                                         </span>
                                     )}
                                 </div>
@@ -845,7 +832,7 @@ const MatchPage = () => {
                                                 Titulares
                                             </span>
                                             <ul>
-                                                {game?.teams?.bairro?.initial.map((player) => {
+                                                {(game?.teams?.bairro?.initial || []).map((player) => {
                                                     return (
                                                         <li
                                                             key={player._id}
@@ -942,7 +929,7 @@ const MatchPage = () => {
                                                 Suplentes
                                             </span>
                                             <ul>
-                                                {game?.teams?.bairro?.bench.map((player, index) => {
+                                                {(game?.teams?.bairro?.bench || []).map((player, index) => {
                                                     return (
                                                         <li
                                                             key={player._id}
@@ -1043,7 +1030,7 @@ const MatchPage = () => {
                             <div className="flex flex-col gap-y-2">
                                 <div className="px-1 mb-4 flex items-center gap-x-4">
                                     <span>{game?.opponent}</span>
-                                    {game?.teams?.opponent.tactic && <>&mdash;</>}
+                                    {game?.teams?.opponent?.tactic && <>&mdash;</>}
                                     {role === 'mister' || role === 'cap' ? (
                                         <span>
                                             <Select name="opponent-tactic" size="sm" defaultValue="4-3-3">
@@ -1057,7 +1044,7 @@ const MatchPage = () => {
                                         </span>
                                     ) : (
                                         <span className="font-semibold text-base">
-                                            {game?.teams?.opponent.tactic || ''}
+                                            {game?.teams?.opponent?.tactic || ''}
                                         </span>
                                     )}
                                 </div>
@@ -1434,7 +1421,7 @@ const MatchPage = () => {
                                                 Titulares
                                             </span>
                                             <ul>
-                                                {game?.teams?.opponent?.initial.map((player) => {
+                                                {(game?.teams?.opponent?.initial || []).map((player) => {
                                                     return (
                                                         <li
                                                             key={player._id}
@@ -1533,7 +1520,7 @@ const MatchPage = () => {
                                                 Suplentes
                                             </span>
                                             <ul>
-                                                {game?.teams?.opponent?.bench.map((player) => {
+                                                {(game?.teams?.opponent?.bench || []).map((player) => {
                                                     return (
                                                         <li
                                                             key={player._id}

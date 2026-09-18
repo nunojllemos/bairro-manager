@@ -18,11 +18,11 @@ export async function PATCH(request: NextRequest) {
         }
 
         const updatedFinesDetails = [
-            ...new Map([...player.fines.details, ...fines].map((item) => [item._id, item])).values(),
+            ...new Map([...(player.fines.details || []), ...fines].map((item) => [item._id, item])).values(),
         ]
 
         const filter = { _id: person_id }
-        const update = { 'fines.details': updatedFinesDetails, 'fines.paid': paid || player.fines.paid }
+        const update = { 'fines.details': updatedFinesDetails, 'fines.paid': Number(paid || 0) + player.fines.paid }
         const options = { new: true }
 
         const updatedUser: Player | null = await PlayerModel.findOneAndUpdate(filter, update, options)
@@ -30,9 +30,9 @@ export async function PATCH(request: NextRequest) {
         if (fines.length) {
             const finesData: Partial<IFines>[] | null = await Fines.find({}, ['_id', 'value'], { lean: true })
 
-            const totalValue = finesData
+            const totalValue = (finesData || [])
                 .map((fine) => {
-                    const total = updatedUser?.fines.details
+                    const total = (updatedUser?.fines.details || [])
                         .map((playerFine) => {
                             if (playerFine._id === (fine._id as any).toHexString()) {
                                 if (fine.value) {
@@ -42,11 +42,11 @@ export async function PATCH(request: NextRequest) {
                             }
                             return 0
                         })
-                        .reduce((total, currentValue) => total + currentValue)
+                        .reduce((total, currentValue) => total + currentValue, 0)
 
                     return total
                 })
-                .reduce((total, current) => (total as number) + (current as number))
+                .reduce((total, current) => (total as number) + (current as number), 0)
 
             const updatedUserTotal: Player | null = await PlayerModel.findOneAndUpdate(
                 filter,

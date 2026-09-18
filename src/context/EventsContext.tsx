@@ -43,21 +43,25 @@ const EventsContextProvider = ({ children }: IEventsContextProps) => {
     }, [])
 
     useEffect(() => {
-        const mappedEvents = events.map((event) => ({
-            title: `${OPTIONS[event.type].emoji} ${event.title}`,
-            start: new Date(`${event.date}T${event.start}`),
-            end: new Date(`${event.date}T${event.end}`),
-            color: OPTIONS[event.type].color,
-        }))
+        const mappedEvents = events
+            .filter((event) => !!event.type && OPTIONS[event.type])
+            .map((event) => ({
+                title: `${OPTIONS[event.type].emoji} ${event.title}`,
+                start: new Date(`${event.date}T${event.start}`),
+                end: new Date(`${event.date}T${event.end}`),
+                color: OPTIONS[event.type].color,
+            }))
 
-        const mappedAnniversaries = [...players, ...coaches].map((player) => ({
-            color: OPTIONS.anniversary.color || 'red',
-            title: `${OPTIONS.anniversary.emoji} - Parabéns ${capitalize(player?.name)}`,
-            rule: {
-                freq: 'yearly',
-                start: new Date(player.dob),
-            },
-        }))
+        const mappedAnniversaries = [...players, ...coaches]
+            .filter((person) => !!person.name && !!person.dob && !Number.isNaN(new Date(person.dob).getTime()))
+            .map((player) => ({
+                color: OPTIONS.anniversary.color || 'red',
+                title: `${OPTIONS.anniversary.emoji} - Parabéns ${capitalize(player.name)}`,
+                rule: {
+                    freq: 'yearly',
+                    start: new Date(player.dob),
+                },
+            }))
 
         setEventsForCalendar([...mappedAnniversaries, ...mappedEvents])
     }, [events, players, coaches])

@@ -13,9 +13,9 @@ const Contexts = ({ children }: { children: React.ReactNode }) => {
             <PlayersContextProvider>
                 <CoachesContextProvider>
                     <EventsContextProvider>
-                        <FinesContextProvider>
-                            <GamesContextProvider>{children}</GamesContextProvider>
-                        </FinesContextProvider>
+                        <GamesContextProvider>
+                            <FinesContextProvider>{children}</FinesContextProvider>
+                        </GamesContextProvider>
                     </EventsContextProvider>
                 </CoachesContextProvider>
             </PlayersContextProvider>

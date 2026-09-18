@@ -25,7 +25,7 @@ export const AuthContext = createContext<IAuthContext>({
     setAuthentication: () => console.log(''),
     role: 'player',
     setRole: () => console.log(''),
-    user: { username: 'lemos', role: 'cap', session_id: 'asd' },
+    user: { username: 'lemos', role: 'cap', sessionId: 'asd' },
     setUser: () => console.log(''),
     isLoadingAuth: true,
     isCaptain: false,
@@ -53,7 +53,7 @@ const AuthContextProvider = ({ children }: IAuthContextProps) => {
         }
 
         if (!!usernameCookie) {
-            setUser({ username: usernameCookie, role: role, session_id: sessionId || '' })
+            setUser({ username: usernameCookie, role: role, sessionId: sessionId || '' })
         }
 
         setIsCaptain(role === 'cap')

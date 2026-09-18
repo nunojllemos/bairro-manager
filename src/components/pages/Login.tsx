@@ -42,7 +42,7 @@ const Login = () => {
                 setIsSubmitting(false)
                 setRole(response.user.role)
                 setUserContext(response.user)
-                setCookie('session-id', response.user.session_id)
+                setCookie('session-id', response.user.sessionId)
                 setCookie('username', response.user.username)
             }
 

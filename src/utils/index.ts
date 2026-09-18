@@ -118,7 +118,7 @@ export const capitalize = (string: string) => {
     const hasMultipleWords = !!multipleWords
 
     if (!hasMultipleWords) {
-        const firstLetter = string[0].toUpperCase()
+        const firstLetter = string[0]?.toUpperCase()
         const remainLetters = string.slice(1)
 
         const capitalizedString = `${firstLetter}${remainLetters}`
@@ -162,12 +162,12 @@ export const getGameStatusByResult = (
     result: string,
     isHome: boolean
 ): { isVictory: boolean; isDraw: boolean; isLoss: boolean; hasResult: boolean } => {
-    const goalsScored = (isHome ? result?.split('-')[0] : result?.split('-')[1]) || 0
-    const goalsConceded = (isHome ? result?.split('-')[1] : result?.split('-')[0]) || 0
-    const isDraw = goalsScored === goalsConceded
-    const isVictory = goalsConceded < goalsScored
-    const isLoss = goalsConceded > goalsScored
-    const hasResult = result !== ''
+    const hasResult = !!result && result !== ''
+    const goalsScored = hasResult ? (isHome ? result?.split('-')[0] : result?.split('-')[1]) : 0
+    const goalsConceded = hasResult ? (isHome ? result?.split('-')[1] : result?.split('-')[0]) : 0
+    const isDraw = hasResult && goalsScored === goalsConceded
+    const isVictory = hasResult && goalsConceded < goalsScored
+    const isLoss = hasResult && goalsConceded > goalsScored
 
     return { isVictory, isDraw, isLoss, hasResult }
 }

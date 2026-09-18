@@ -119,7 +119,7 @@ const FinesModal = ({ id, handleClose }: FinesModalProps) => {
                                             size="small"
                                             label={fine.name}
                                             placeholder={
-                                                person.fines.details
+                                                (person.fines.details || [])
                                                     .filter((playerFine) => fine._id === playerFine._id)[0]
                                                     ?.value.toString() || '0'
                                             }

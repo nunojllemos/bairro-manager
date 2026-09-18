@@ -113,7 +113,7 @@ const CalendarModal = ({ handleClose }: CalendarModalProps) => {
                                                 {new Date(event.date).toLocaleDateString('pt-PT')}
                                             </span>
                                             <span className="text-xs md:text-sm font-medium">
-                                                {OPTIONS[event.type].emoji} {event.title}
+                                                {OPTIONS[event.type]?.emoji} {event.title}
                                             </span>
                                         </div>
                                     </AccordionSummary>

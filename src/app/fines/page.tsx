@@ -222,8 +222,8 @@ const FinesPage = () => {
                                                     {fines &&
                                                         fines.map((fine) => {
                                                             if (
-                                                                !fine.name.includes('Derrota') &&
-                                                                !fine.name.includes('Vitória')
+                                                                !fine.name?.includes('Derrota') &&
+                                                                !fine.name?.includes('Vitória')
                                                             ) {
                                                                 return (
                                                                     <li
@@ -235,7 +235,7 @@ const FinesPage = () => {
                                                                                 {fine.name}
                                                                             </span>
                                                                             <span className="inline-block px-2">
-                                                                                {person.fines.details
+                                                                                {(person.fines.details || [])
                                                                                     .filter(
                                                                                         (detailedFine) =>
                                                                                             detailedFine._id ===
@@ -246,15 +246,13 @@ const FinesPage = () => {
                                                                             </span>
                                                                         </div>
                                                                         <div className="w-16 lg:w-24 text-center">
-                                                                            {(
-                                                                                person.fines.details
-                                                                                    .filter(
-                                                                                        (detailedFine) =>
-                                                                                            detailedFine._id ===
-                                                                                            fine._id
-                                                                                    )
-                                                                                    .map((value) => value)[0]?.value *
-                                                                                    (fine?.value || 1) || 0
+                                                                            {(((person.fines.details || [])
+                                                                                .filter(
+                                                                                    (detailedFine) =>
+                                                                                        detailedFine._id === fine._id
+                                                                                )
+                                                                                .map((value) => value)[0]?.value || 0) *
+                                                                                (fine?.value || 1) || 0
                                                                             ).toLocaleString(
                                                                                 'pt-PT',
                                                                                 localeStringOptions
@@ -265,7 +263,7 @@ const FinesPage = () => {
                                                                 )
                                                             }
 
-                                                            if (isCoach && !fine.name.includes('Derrota')) {
+                                                            if (isCoach && !fine.name?.includes('Derrota')) {
                                                                 return (
                                                                     <li
                                                                         key={fine._id}
@@ -285,7 +283,7 @@ const FinesPage = () => {
                                                                 )
                                                             }
 
-                                                            if (!isCoach && !fine.name.includes('Vitória')) {
+                                                            if (!isCoach && !fine.name?.includes('Vitória')) {
                                                                 return (
                                                                     <li
                                                                         key={fine._id}

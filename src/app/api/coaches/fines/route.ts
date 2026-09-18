@@ -19,11 +19,11 @@ export async function PATCH(request: NextRequest) {
         }
 
         const updatedFinesDetails = [
-            ...new Map([...coach.fines.details, ...fines].map((item) => [item._id, item])).values(),
+            ...new Map([...(coach.fines.details || []), ...fines].map((item) => [item._id, item])).values(),
         ]
 
         const filter = { _id: person_id }
-        const update = { 'fines.details': updatedFinesDetails, 'fines.paid': paid || coach.fines.paid }
+        const update = { 'fines.details': updatedFinesDetails, 'fines.paid': Number(paid || 0) + coach.fines.paid }
         const options = { new: true }
 
         const updatedUser: Coach | null = await CoachModel.findOneAndUpdate(filter, update, options)
@@ -31,9 +31,9 @@ export async function PATCH(request: NextRequest) {
         if (fines.length) {
             const finesData: Partial<IFines>[] | null = await Fines.find({}, ['_id', 'value'], { lean: true })
 
-            const totalValue = finesData
+            const totalValue = (finesData || [])
                 .map((fine) => {
-                    const total = updatedUser?.fines.details
+                    const total = (updatedUser?.fines.details || [])
                         .map((coachFine) => {
                             if (coachFine._id === (fine._id as any).toHexString()) {
                                 if (fine.value) {
@@ -43,11 +43,11 @@ export async function PATCH(request: NextRequest) {
                             }
                             return 0
                         })
-                        .reduce((total, currentValue) => total + currentValue)
+                        .reduce((total, currentValue) => total + currentValue, 0)
 
                     return total
                 })
-                .reduce((total, current) => (total as number) + (current as number))
+                .reduce((total, current) => (total as number) + (current as number), 0)
 
             const updatedUserTotal: Coach | null = await CoachModel.findOneAndUpdate(
                 filter,

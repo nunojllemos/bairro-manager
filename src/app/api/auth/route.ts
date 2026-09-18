@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
             const userData = {
                 username: user.username,
                 role: user.role,
-                sessionId: user.session_id,
+                sessionId: user.sessionId,
             }
 
             return NextResponse.json(
