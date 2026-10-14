@@ -27,6 +27,26 @@ export async function POST(data: NextRequest) {
     }
 }
 
+export async function DELETE(data: NextRequest) {
+    try {
+        const { gameId, all } = await data.json()
+
+        await connectDb()
+
+        if (all) {
+            const games = await GameModel.deleteMany({})
+
+            return NextResponse.json({ message: 'OK', games }, { status: 200 })
+        }
+
+        const game = await GameModel.deleteOne({ _id: gameId })
+
+        return NextResponse.json({ message: 'OK', game }, { status: 200 })
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 export async function PATCH(data: NextRequest) {
     try {
         const gameDetails = await data.json()

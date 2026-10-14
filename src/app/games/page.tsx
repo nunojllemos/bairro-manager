@@ -2,6 +2,7 @@
 import React, { useState } from 'react'
 import {
     AddOutlined,
+    DeleteOutline,
     EditOutlined,
     InfoOutlined,
     Inventory2Outlined,
@@ -28,12 +29,21 @@ import GamesModal from '@/components/Modals/GamesModal'
 
 const MatchesPage = () => {
     const [isModalOpen, setIsModalOpen] = useState(false)
-    const { games, gamesResultRegistry } = useGames()
+    const [isDeleteAllModalOpen, setIsDeleteAllModalOpen] = useState(false)
+    const { games, gamesResultRegistry, deleteAllGames } = useGames()
     const { role } = useAuth()
 
     const handleClose = () => setIsModalOpen(false)
 
     const openModal = () => setIsModalOpen(true)
+
+    const handleCloseDeleteAllModal = () => setIsDeleteAllModalOpen(false)
+
+    const handleDeleteAll = async () => {
+        const deleted = await deleteAllGames()
+
+        if (deleted) setIsDeleteAllModalOpen(false)
+    }
 
     return (
         <>
@@ -164,7 +174,19 @@ const MatchesPage = () => {
 
             {(role === 'mister' || role === 'cap') && (
                 <>
-                    <section className="mt-12 flex justify-end">
+                    <section className="mt-12 flex flex-col md:flex-row gap-4 justify-end">
+                        {games.length > 0 && (
+                            <Button
+                                className="w-full lg:w-auto"
+                                color="error"
+                                onClick={() => setIsDeleteAllModalOpen(true)}
+                                type="button"
+                                variant="contained"
+                                startIcon={<DeleteOutline fontSize="small" />}
+                            >
+                                Apagar todos
+                            </Button>
+                        )}
                         <Button
                             className="w-full lg:w-auto"
                             onClick={openModal}
@@ -183,6 +205,34 @@ const MatchesPage = () => {
                         aria-describedby="modal-modal-description"
                     >
                         <GamesModal handleClose={handleClose} />
+                    </Modal>
+                    <Modal
+                        className="flex items-center justify-center"
+                        open={isDeleteAllModalOpen}
+                        onClose={handleCloseDeleteAllModal}
+                        aria-labelledby="delete-all-modal-title"
+                    >
+                        <div className="bg-slate-100 p-6 md:p-16 h-max rounded-md w-[calc(100%_-_2rem)] md:w-[30rem] max-h-[calc(100vh_-_4rem)] overflow-y-auto relative">
+                            <Typography>
+                                Tens a certeza que queres apagar <span className="font-bold">todos</span> os jogos? Esta
+                                ação não pode ser revertida.
+                            </Typography>
+
+                            <div className="mt-12 flex flex-col md:flex-row gap-4 justify-end">
+                                <Button type="button" variant="contained" onClick={handleCloseDeleteAllModal}>
+                                    Cancelar
+                                </Button>
+                                <Button
+                                    type="button"
+                                    variant="contained"
+                                    color="error"
+                                    startIcon={<DeleteOutline fontSize="small" />}
+                                    onClick={handleDeleteAll}
+                                >
+                                    Apagar todos
+                                </Button>
+                            </div>
+                        </div>
                     </Modal>
                 </>
             )}

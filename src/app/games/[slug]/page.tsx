@@ -20,8 +20,8 @@ import {
 import Select from '@mui/joy/Select'
 import Option from '@mui/joy/Option'
 import Textarea from '@mui/joy/Textarea'
-import { Button, Divider, TextField, Typography } from '@mui/material'
-import { usePathname } from 'next/navigation'
+import { Button, Divider, Modal, TextField, Typography } from '@mui/material'
+import { usePathname, useRouter } from 'next/navigation'
 import useGames from '@/hooks/useGames'
 import { Game } from '@/types'
 import useAuth from '@/hooks/useAuth'
@@ -30,9 +30,11 @@ import { getGameStatusByResult } from '@/utils'
 
 const MatchPage = () => {
     const [game, setGame] = useState<Game | null>(null)
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
     const pathname = usePathname()
+    const router = useRouter()
     const id = pathname.split('/')[2]
-    const { getGame, games } = useGames()
+    const { getGame, games, deleteGame } = useGames()
     const { players, getPlayer } = usePlayers()
     const { role } = useAuth()
 
@@ -211,6 +213,19 @@ const sumCards = (players: any[] | undefined, color: 'yellow' | 'red') =>
             console.log(response)
         } catch (error) {
             console.log(error)
+        }
+    }
+
+    const handleOpenDeleteModal = () => setIsDeleteModalOpen(true)
+
+    const handleCloseDeleteModal = () => setIsDeleteModalOpen(false)
+
+    const handleDelete = async () => {
+        const deleted = await deleteGame(id)
+
+        if (deleted) {
+            setIsDeleteModalOpen(false)
+            router.push('/games')
         }
     }
 
@@ -1664,8 +1679,9 @@ const sumCards = (players: any[] | undefined, color: 'yellow' | 'red') =>
                 <div className="sticky bottom-12 z-[1] mt-12 flex flex-col md:flex-row gap-4 justify-end">
                     <Button
                         color="error"
-                        type="submit"
+                        type="button"
                         variant="contained"
+                        onClick={handleOpenDeleteModal}
                         startIcon={<DeleteOutline fontSize="small" />}
                     >
                         Apagar
@@ -1675,6 +1691,38 @@ const sumCards = (players: any[] | undefined, color: 'yellow' | 'red') =>
                     </Button>
                 </div>
             )}
+            <Modal
+                open={isDeleteModalOpen}
+                onClose={handleCloseDeleteModal}
+                className="flex items-center justify-center"
+            >
+                <div className="bg-slate-100 p-6 md:p-16 h-max rounded-md w-[calc(100%_-_2rem)] md:w-[30rem] max-h-[calc(100vh_-_4rem)] overflow-y-auto relative">
+                    <Typography>
+                        Tens a certeza que queres apagar o jogo com o{' '}
+                        <span className="font-bold">{game?.opponent}</span>?
+                    </Typography>
+
+                    <div className="mt-12 flex flex-col md:flex-row gap-4 justify-end">
+                        <Button
+                            type="button"
+                            variant="contained"
+                            startIcon={<SaveOutlined fontSize="small" />}
+                            onClick={handleCloseDeleteModal}
+                        >
+                            Cancelar
+                        </Button>
+                        <Button
+                            type="button"
+                            variant="contained"
+                            color="error"
+                            startIcon={<DeleteOutline fontSize="small" />}
+                            onClick={handleDelete}
+                        >
+                            Apagar
+                        </Button>
+                    </div>
+                </div>
+            </Modal>
         </form>
     )
 }

@@ -17,6 +17,7 @@ import {
     ExpandMore,
     InfoOutlined,
     Inventory2Outlined,
+    RestartAltOutlined,
     SavingsOutlined,
     SearchOutlined,
     TrendingDownOutlined,
@@ -34,15 +35,24 @@ const FinesPage = () => {
     const [searchValue, setSearchValue] = useState('')
     const [playerId, setPlayerId] = useState('')
     const [isModalOpen, setIsModalOpen] = useState(false)
+    const [isResetModalOpen, setIsResetModalOpen] = useState(false)
 
     const { role } = useAuth()
     const { players, loadingPlayers } = usePlayers()
     const { coaches } = useCoaches()
-    const { fines, totalPaid, totalDebt, totalValue, totalDefeats, totalVictories } = useFines()
+    const { fines, totalPaid, totalDebt, totalValue, totalDefeats, totalVictories, resetAllFines } = useFines()
 
     const handleClose = () => setIsModalOpen(false)
 
     const handleEdit = (userId: string) => setPlayerId(userId)
+
+    const handleCloseResetModal = () => setIsResetModalOpen(false)
+
+    const handleResetAllFines = async () => {
+        const reset = await resetAllFines()
+
+        if (reset) setIsResetModalOpen(false)
+    }
 
     const totalFinesFromResults = useMemo(() => {
         return coaches.length * (totalVictories || 0) + players.length * (totalDefeats || 0)
@@ -339,6 +349,18 @@ const FinesPage = () => {
                             </Typography>
                         </div>
                     </div>
+                    <div className="mt-12 flex justify-end">
+                        <Button
+                            className="w-full lg:w-auto"
+                            color="error"
+                            type="button"
+                            variant="contained"
+                            onClick={() => setIsResetModalOpen(true)}
+                            startIcon={<RestartAltOutlined fontSize="small" />}
+                        >
+                            Zerar multas
+                        </Button>
+                    </div>
                 </section>
             )}
             {role === 'cap' && (
@@ -350,6 +372,40 @@ const FinesPage = () => {
                     aria-describedby="modal-modal-description"
                 >
                     <FinesModal id={playerId} handleClose={handleClose} />
+                </Modal>
+            )}
+            {role === 'cap' && (
+                <Modal
+                    className="flex items-center justify-center"
+                    open={isResetModalOpen}
+                    onClose={handleCloseResetModal}
+                    aria-labelledby="reset-fines-modal-title"
+                >
+                    <div className="bg-slate-100 p-6 md:p-16 h-max rounded-md w-[calc(100%_-_2rem)] md:w-[30rem] max-h-[calc(100vh_-_4rem)] overflow-y-auto relative">
+                        <Typography>
+                            Tens a certeza que queres <span className="font-bold">zerar as multas</span> de todos os
+                            jogadores e treinadores? Esta ação não pode ser revertida.
+                            <br />
+                            <br />
+                            As multas provenientes dos resultados dos jogos são automáticas e só desaparecem ao apagar
+                            o jogo correspondente.
+                        </Typography>
+
+                        <div className="mt-12 flex flex-col md:flex-row gap-4 justify-end">
+                            <Button type="button" variant="contained" onClick={handleCloseResetModal}>
+                                Cancelar
+                            </Button>
+                            <Button
+                                type="button"
+                                variant="contained"
+                                color="error"
+                                startIcon={<RestartAltOutlined fontSize="small" />}
+                                onClick={handleResetAllFines}
+                            >
+                                Zerar multas
+                            </Button>
+                        </div>
+                    </div>
                 </Modal>
             )}
         </>

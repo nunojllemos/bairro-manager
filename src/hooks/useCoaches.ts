@@ -21,7 +21,7 @@ const useCoaches = () => {
         setCoaches(updatedCoaches)
     }
 
-    return { coaches, getCoach, updateCoach }
+    return { coaches, setCoaches, getCoach, updateCoach }
 }
 
 export default useCoaches
